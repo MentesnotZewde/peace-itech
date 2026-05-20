@@ -1,3 +1,7 @@
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+
 const stats = [
   { value: "120+", label: "Projects Completed" },
   { value: "85+", label: "Happy Clients" },
@@ -5,25 +9,127 @@ const stats = [
   { value: "8+", label: "Years Experience" },
 ];
 
+const images = [
+  {
+    src: "/images/company-story-1.png",
+    alt: "Team reviewing digital product strategy on a laptop",
+    className: "lg:mt-0",
+  },
+  {
+    src: "/images/company-story-2.png",
+    alt: "Business team collaborating around a modern workspace",
+    className: "lg:mt-12",
+  },
+  {
+    src: "/images/company-story-3.png",
+    alt: "Technology team working with computers in an office",
+    className: "lg:mt-6",
+  },
+];
+
 export default function StatsSection() {
   return (
-    <section className="px-4 py-6 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl rounded-[2rem] border border-border/70 bg-foreground p-6 text-background shadow-2xl shadow-foreground/10 sm:p-8">
-        {/* Stats use a responsive grid so the same cards work on mobile and desktop. */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
+    <section
+      id="company-journey"
+      className="overflow-hidden bg-background px-4 py-20 transition-colors sm:px-6 sm:py-24 lg:px-8"
+    >
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-12">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
+            Company status
+          </p>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-3 lg:gap-7">
+          {images.map((image, index) => (
+            <div
+              key={image.src}
+              className={`animate-stats-image opacity-0 ${image.className}`}
+              style={{ animationDelay: `${index * 130}ms` }}
+            >
+              <div className="group overflow-hidden rounded-[1.5rem] shadow-2xl shadow-foreground/10 ring-1 ring-border/70 dark:shadow-black/30">
+                <div
+                  role="img"
+                  aria-label={image.alt}
+                  className="aspect-[4/3] w-full bg-cover bg-center transition duration-700 group-hover:scale-105"
+                  style={{ backgroundImage: `url(${image.src})` }}
+                />
+              </div>
+              {index === 0 ? (
+                <Button
+                  asChild
+                  className="mt-5 h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:bg-[#071B8F]"
+                >
+                  <Link href="/about-us#company-journey">
+                    Discover Our Story
+                  </Link>
+                </Button>
+              ) : null}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-16 grid border-y border-border/70 md:grid-cols-4">
+          {stats.map((stat, index) => (
             <div
               key={stat.label}
-              className="rounded-2xl border border-background/10 bg-background/10 p-5"
+              className="animate-stats-reveal border-border/70 py-7 opacity-0 md:border-l md:px-8 md:first:border-l-0"
+              style={{ animationDelay: `${520 + index * 110}ms` }}
             >
-              <p className="text-4xl font-semibold">{stat.value}</p>
-              <p className="mt-2 text-sm text-background/70">{stat.label}</p>
+              <p className="text-4xl font-semibold tracking-normal text-foreground sm:text-5xl">
+                {stat.value}
+              </p>
+              <p className="mt-2 text-sm font-medium text-muted-foreground">
+                {stat.label}
+              </p>
             </div>
           ))}
         </div>
       </div>
+
+      <style>{`
+        @keyframes statsImageEnter {
+          from {
+            opacity: 0;
+            transform: translateY(28px) scale(0.96);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes statsFloat {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-8px);
+          }
+        }
+
+        @keyframes statsReveal {
+          from {
+            opacity: 0;
+            transform: translateY(16px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-stats-image {
+          animation:
+            statsImageEnter 760ms cubic-bezier(0.16, 1, 0.3, 1) both,
+            statsFloat 7s ease-in-out 900ms infinite;
+        }
+
+        .animate-stats-reveal {
+          animation: statsReveal 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+      `}</style>
     </section>
   );
 }
-
-

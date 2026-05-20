@@ -44,9 +44,9 @@ export default function HeroOrbitVisual() {
       <div className="absolute inset-16 rounded-full bg-[#005BFF]/15 blur-2xl" />
 
       {/* Orbit rings rotate at different speeds to create a calm enterprise-tech motion. */}
-      <div className="absolute size-72 rounded-full border border-[#12B7FF]/30 animate-orbit-slow sm:size-80" />
-      <div className="absolute size-56 rounded-full border border-[#005BFF]/30 animate-orbit-medium sm:size-64" />
-      <div className="absolute size-40 rounded-full border border-[#071B8F]/20 animate-orbit-reverse dark:border-[#EAF8FF]/20 sm:size-48" />
+      <div className="absolute size-72 rounded-full border border-[#12B7FF]/30 animate-orbit-ring-1 sm:size-80" />
+      <div className="absolute size-56 rounded-full border border-[#005BFF]/30 animate-orbit-ring-2 sm:size-64" />
+      <div className="absolute size-40 rounded-full border border-[#071B8F]/20 animate-orbit-ring-3 dark:border-[#EAF8FF]/20 sm:size-48" />
 
       <div className="relative z-10 flex size-36 items-center justify-center rounded-full border border-[#12B7FF]/30 bg-background/80 shadow-2xl shadow-[#005BFF]/20 backdrop-blur-xl sm:size-44">
         <div className="absolute inset-3 rounded-full bg-gradient-to-br from-[#EAF8FF]/80 via-[#12B7FF]/20 to-[#005BFF]/20 dark:from-[#07111F] dark:via-[#071B8F]/35 dark:to-[#12B7FF]/20" />
@@ -72,9 +72,12 @@ export default function HeroOrbitVisual() {
             <div
               key={node.label}
               className={`absolute ${node.className} animate-orbit-node`}
-              style={{ animationDelay: `${index * 140}ms` }}
+              style={{
+                "--node-delay": `${1300 + index * 220}ms`,
+                "--spotlight-delay": `${3100 + index * 700}ms`,
+              }}
             >
-              <div className="group flex items-center gap-2 rounded-full border border-[#12B7FF]/20 bg-background/80 px-3 py-2 shadow-xl shadow-[#005BFF]/10 backdrop-blur transition-transform hover:-translate-y-1 hover:border-[#12B7FF]/40">
+              <div className="group flex items-center gap-2 rounded-full border border-[#12B7FF]/20 bg-background/80 px-3 py-2 shadow-xl shadow-[#005BFF]/10 backdrop-blur transition-transform hover:-translate-y-1 hover:border-[#12B7FF]/40 animate-orbit-node-card">
                 <span className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-[#005BFF]/15 to-[#12B7FF]/20 text-[#005BFF] ring-1 ring-[#12B7FF]/25 dark:text-[#12B7FF]">
                   <Icon className="size-4" aria-hidden="true" />
                 </span>

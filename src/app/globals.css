@@ -9,7 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-sora), var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -148,20 +148,74 @@
   .animate-ai-reveal {
     animation: ai-reveal 1.4s ease both;
   }
+  .animate-hero-heading-word {
+    animation: hero-heading-word 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    will-change: opacity, filter, transform;
+  }
+  .hero-heading-accent {
+    background: linear-gradient(110deg, #12b7ff 0%, #7ddcff 55%, #12b7ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 18px 36px rgb(18 183 255 / 16%);
+  }
   .animate-orbit-enter {
     animation: orbit-enter 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .animate-orbit-slow {
-    animation: orbit-spin 28s linear infinite;
+  .animate-orbit-ring-1 {
+    opacity: 0;
+    animation:
+      orbitRingEnter 760ms cubic-bezier(0.16, 1, 0.3, 1) 0ms both,
+      orbitRingSpinSlow 28s linear 760ms infinite,
+      orbitRingLive 5.8s ease-in-out 760ms infinite;
   }
-  .animate-orbit-medium {
-    animation: orbit-spin 18s linear infinite;
+  .animate-orbit-ring-2 {
+    opacity: 0;
+    animation:
+      orbitRingEnter 760ms cubic-bezier(0.16, 1, 0.3, 1) 260ms both,
+      orbitRingSpinSlow 21s linear 1020ms infinite,
+      orbitRingLive 5.2s ease-in-out 1020ms infinite;
   }
-  .animate-orbit-reverse {
-    animation: orbit-spin 22s linear infinite reverse;
+  .animate-orbit-ring-3 {
+    opacity: 0;
+    animation:
+      orbitRingEnter 760ms cubic-bezier(0.16, 1, 0.3, 1) 520ms both,
+      orbitRingSpinReverse 24s linear 1280ms infinite,
+      orbitRingLive 4.8s ease-in-out 1280ms infinite;
   }
   .animate-orbit-node {
-    animation: orbit-node 2.8s ease-in-out infinite;
+    opacity: 0;
+    animation: orbitNodeFadeIn 720ms cubic-bezier(0.16, 1, 0.3, 1)
+      var(--node-delay, 1000ms) both;
+  }
+  .animate-orbit-node-card {
+    transform-origin: center;
+    animation:
+      orbitNodeScaleIn 720ms cubic-bezier(0.16, 1, 0.3, 1)
+        var(--node-delay, 1000ms) both,
+      orbitNodeSpotlight 4200ms ease-in-out var(--spotlight-delay, 2200ms)
+        infinite;
+  }
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(42px) scale(0.985);
+    transition:
+      opacity 760ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--scroll-reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
@@ -212,6 +266,28 @@
   }
 }
 
+@keyframes hero-heading-word {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    filter: blur(12px);
+    transform: translateY(28px) skewY(4deg) scale(0.92);
+    transform-origin: left bottom;
+  }
+  56% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+    transform: translateY(-4px) skewY(0) scale(1.035);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+    transform: translateY(0) skewY(0) scale(1);
+  }
+}
+
 @keyframes orbit-enter {
   from {
     opacity: 0;
@@ -223,7 +299,25 @@
   }
 }
 
-@keyframes orbit-spin {
+@keyframes orbitRingEnter {
+  from {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(0.68) rotate(-24deg);
+  }
+  65% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1.05) rotate(8deg);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes orbitRingSpinSlow {
   from {
     transform: rotate(0deg);
   }
@@ -232,13 +326,64 @@
   }
 }
 
-@keyframes orbit-node {
+@keyframes orbitRingSpinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes orbitRingLive {
   0%,
   100% {
-    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0 rgb(18 183 255 / 0);
   }
   50% {
-    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 0 28px rgb(18 183 255 / 16%);
+  }
+}
+
+@keyframes orbitNodeFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes orbitNodeScaleIn {
+  from {
+    filter: blur(3px);
+    transform: translateY(10px) scale(0.72);
+  }
+  70% {
+    filter: blur(0);
+    transform: translateY(-2px) scale(1.08);
+  }
+  to {
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes orbitNodeSpotlight {
+  0%,
+  72%,
+  100% {
+    border-color: rgb(18 183 255 / 20%);
+    box-shadow: 0 20px 25px -5px rgb(0 91 255 / 10%),
+      0 8px 10px -6px rgb(0 91 255 / 10%);
+    transform: scale(1);
+  }
+  8%,
+  16% {
+    border-color: rgb(18 183 255 / 64%);
+    box-shadow: 0 24px 44px -8px rgb(0 91 255 / 32%),
+      0 0 34px rgb(18 183 255 / 32%);
+    transform: scale(1.09);
   }
 }
 

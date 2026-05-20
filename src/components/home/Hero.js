@@ -13,6 +13,9 @@ const metrics = [
   { value: "24/7", label: "Support mindset", type: "support" },
 ];
 
+const heroHeadingWords =
+  "Modern technology systems for ambitious businesses.".split(" ");
+
 function AnimatedMetric({ metric }) {
   const [displayValue, setDisplayValue] = useState(
     metric.type === "text" ? metric.value : "0"
@@ -63,15 +66,13 @@ function AnimatedMetric({ metric }) {
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-background px-4 py-8 transition-colors sm:px-6 lg:px-8">
-      {/* Decorative glows are absolutely positioned so they add depth without changing layout size. */}
-      <div className="absolute left-1/2 top-0 -z-10 size-[34rem] -translate-x-1/2 rounded-full bg-[#12B7FF]/15 blur-3xl" />
-      <div className="absolute right-0 top-24 -z-10 size-80 rounded-full bg-[#005BFF]/15 blur-3xl" />
+    <section className="relative isolate overflow-hidden bg-background px-4 py-10 transition-colors sm:px-6 sm:py-14 lg:px-8">
+      {/* Full-section background treatment keeps the hero open without adding a card frame. */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-background to-muted/55 dark:from-background dark:via-background dark:to-[#071B8F]/24" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.78),transparent_28%),radial-gradient(circle_at_82%_36%,rgba(18,183,255,0.16),transparent_34%),radial-gradient(circle_at_50%_100%,rgba(234,248,255,0.7),transparent_42%)] dark:bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.04),transparent_28%),radial-gradient(circle_at_82%_36%,rgba(18,183,255,0.16),transparent_34%),radial-gradient(circle_at_50%_100%,rgba(7,27,143,0.26),transparent_42%)]" />
 
       <div className="mx-auto max-w-7xl">
-        <div className="relative overflow-hidden rounded-[2rem] border border-border/70 bg-gradient-to-br from-background via-muted/40 to-[#EAF8FF]/70 p-5 shadow-2xl shadow-foreground/10 dark:from-[#07111F] dark:via-[#07111F] dark:to-[#071B8F]/40 sm:p-8 lg:p-10">
-          {/* This translucent layer creates the soft Stripe/Vercel-style surface. */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(24,183,255,0.22),transparent_35%),radial-gradient(circle_at_bottom_right,rgba(11,77,255,0.18),transparent_32%)]" />
+        <div className="relative py-8 sm:py-10 lg:py-14">
           <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.72fr] lg:items-center">
             <div className="flex max-w-3xl flex-col justify-center">
               <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3 py-1 text-sm font-medium text-muted-foreground shadow-sm backdrop-blur">
@@ -79,8 +80,29 @@ export default function Hero() {
                 Enterprise-grade web, automation, security, and IT solutions
               </div>
 
-              <h1 className="max-w-4xl text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-6xl">
-                Modern technology systems for ambitious businesses.
+              <h1
+                className="font-heading max-w-4xl text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-6xl"
+                aria-label="Modern technology systems for ambitious businesses."
+              >
+                {heroHeadingWords.map((word, index) => {
+                  const isAccentWord = ["technology", "ambitious"].includes(
+                    word
+                  );
+
+                  return (
+                    <span
+                      key={`${word}-${index}`}
+                      className={`animate-hero-heading-word inline-block opacity-0 ${
+                        isAccentWord ? "hero-heading-accent" : ""
+                      }`}
+                      style={{ animationDelay: `${120 + index * 105}ms` }}
+                      aria-hidden="true"
+                    >
+                      {word}
+                      {index < heroHeadingWords.length - 1 ? "\u00A0" : ""}
+                    </span>
+                  );
+                })}
               </h1>
 
               <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
