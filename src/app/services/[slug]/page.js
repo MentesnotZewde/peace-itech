@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import ServicePageTemplate from "@/components/services/ServicePageTemplate";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import PageShell from "@/components/layout/PageShell";
 import { getServiceBySlug, services } from "@/lib/services";
 
 // App Router dynamic route: each object in services becomes /services/[slug].
@@ -37,11 +38,11 @@ export default async function ServicePage({ params }) {
   }
 
   return (
-    <>
+    <PageShell>
       <Navbar />
       <ServicePageTemplate service={service} />
       <Footer />
-    </>
+    </PageShell>
   );
 }
 

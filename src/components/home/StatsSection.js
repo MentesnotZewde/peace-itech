@@ -1,12 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
 const stats = [
-  { value: "120+", label: "Projects Completed" },
-  { value: "85+", label: "Happy Clients" },
-  { value: "6", label: "Countries Served" },
-  { value: "8+", label: "Years Experience" },
+  { value: "120+", target: 120, suffix: "+", label: "Projects Completed" },
+  { value: "85+", target: 85, suffix: "+", label: "Happy Clients" },
+  { value: "6", target: 6, suffix: "", label: "Countries Served" },
+  { value: "8+", target: 8, suffix: "+", label: "Years Experience" },
 ];
 
 const images = [
@@ -27,7 +30,73 @@ const images = [
   },
 ];
 
+function AnimatedStatValue({ stat, index, isVisible }) {
+  const [displayValue, setDisplayValue] = useState(0);
+
+  useEffect(() => {
+    if (!isVisible) {
+      return undefined;
+    }
+
+    let frameId;
+    const duration = 1250 + index * 170;
+    const start = performance.now();
+
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 4);
+      const pulse = Math.sin(progress * Math.PI) * 0.035;
+
+      setDisplayValue(Math.round(stat.target * Math.min(eased + pulse, 1)));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(update);
+      }
+    }
+
+    frameId = requestAnimationFrame(update);
+
+    return () => cancelAnimationFrame(frameId);
+  }, [index, isVisible, stat.target]);
+
+  return (
+    <span className="inline-flex items-baseline">
+      <span className="tabular-nums">{displayValue}</span>
+      {stat.suffix ? (
+        <span className="animate-stat-plus ml-1 bg-gradient-to-br from-[#005BFF] to-[#12B7FF] bg-clip-text text-transparent">
+          {stat.suffix}
+        </span>
+      ) : null}
+    </span>
+  );
+}
+
 export default function StatsSection() {
+  const statsRef = useRef(null);
+  const [isStatsVisible, setIsStatsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = statsRef.current;
+
+    if (!element) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsStatsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.28 }
+    );
+
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       id="company-journey"
@@ -69,15 +138,26 @@ export default function StatsSection() {
           ))}
         </div>
 
-        <div className="mt-16 grid border-y border-border/70 md:grid-cols-4">
+        <div
+          ref={statsRef}
+          className="mt-16 grid overflow-hidden border-y border-border/70 md:grid-cols-4"
+        >
           {stats.map((stat, index) => (
             <div
               key={stat.label}
-              className="animate-stats-reveal border-border/70 py-7 opacity-0 md:border-l md:px-8 md:first:border-l-0"
+              className="animate-stats-reveal group relative border-border/70 py-7 opacity-0 md:border-l md:px-8 md:first:border-l-0"
               style={{ animationDelay: `${520 + index * 110}ms` }}
             >
-              <p className="text-4xl font-semibold tracking-normal text-foreground sm:text-5xl">
-                {stat.value}
+              <div className="pointer-events-none absolute inset-x-4 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-[#12B7FF]/70 to-transparent transition-transform duration-700 group-hover:scale-x-100 md:inset-x-8" />
+              <p
+                className="animate-stat-value text-4xl font-semibold tracking-normal text-foreground sm:text-5xl"
+                aria-label={stat.value}
+              >
+                <AnimatedStatValue
+                  stat={stat}
+                  index={index}
+                  isVisible={isStatsVisible}
+                />
               </p>
               <p className="mt-2 text-sm font-medium text-muted-foreground">
                 {stat.label}
@@ -120,6 +200,31 @@ export default function StatsSection() {
           }
         }
 
+        @keyframes statValueGlow {
+          0%,
+          100% {
+            text-shadow: 0 0 0 rgb(18 183 255 / 0);
+          }
+          45% {
+            text-shadow: 0 0 24px rgb(18 183 255 / 0.22);
+          }
+        }
+
+        @keyframes statPlusPop {
+          0% {
+            opacity: 0;
+            transform: translateY(8px) scale(0.72);
+          }
+          58% {
+            opacity: 1;
+            transform: translateY(-2px) scale(1.16);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
         .animate-stats-image {
           animation:
             statsImageEnter 760ms cubic-bezier(0.16, 1, 0.3, 1) both,
@@ -128,6 +233,15 @@ export default function StatsSection() {
 
         .animate-stats-reveal {
           animation: statsReveal 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .animate-stat-value {
+          animation: statValueGlow 1.35s ease both;
+        }
+
+        .animate-stat-plus {
+          animation: statPlusPop 520ms cubic-bezier(0.16, 1, 0.3, 1) 760ms both;
+          display: inline-block;
         }
       `}</style>
     </section>

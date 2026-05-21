@@ -61,28 +61,29 @@ export default function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-[100] w-full px-3 py-3 transition-colors">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-full border border-border/70 bg-background/85 px-4 shadow-lg shadow-foreground/5 backdrop-blur-2xl transition-colors lg:px-6">
-        <Link
-          href="/"
-          className="group flex min-w-0 items-center gap-3 text-sm font-semibold tracking-normal text-foreground"
-          aria-label="Peace iTech Inc home"
-        >
-          <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden">
-            <Image
-              src="/logo-icon.png"
-              alt="Peace iTech Inc logo"
-              width={56}
-              height={56}
-              className="size-12 scale-125 object-contain transition-transform duration-300 group-hover:scale-[1.35]"
-              priority
-            />
-          </span>
+    <>
+      <header className="fixed left-0 top-0 z-[100] w-full px-3 py-3 transition-colors">
+        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between rounded-full border border-border/70 bg-background/85 px-4 shadow-lg shadow-foreground/5 backdrop-blur-2xl transition-colors lg:px-6">
+          <Link
+            href="/"
+            className="group flex min-w-0 items-center gap-3 text-sm font-semibold tracking-normal text-foreground"
+            aria-label="Peace iTech Inc home"
+          >
+            <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden">
+              <Image
+                src="/logo-icon.png"
+                alt="Peace iTech Inc logo"
+                width={56}
+                height={56}
+                className="size-12 scale-125 object-contain transition-transform duration-300 group-hover:scale-[1.35]"
+                priority
+              />
+            </span>
 
-          <span className="truncate text-base font-semibold">
-            Peace iTech Inc
-          </span>
-        </Link>
+            <span className="truncate text-base font-semibold">
+              Peace iTech Inc
+            </span>
+          </Link>
 
         <div className="hidden items-center gap-1 lg:flex">
           <Link
@@ -354,6 +355,8 @@ export default function Navbar() {
           </div>
         </div>
       ) : null}
-    </header>
+      </header>
+      <div aria-hidden="true" className="h-[5.5rem]" />
+    </>
   );
 }

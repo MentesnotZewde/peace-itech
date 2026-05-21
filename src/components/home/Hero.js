@@ -66,12 +66,8 @@ function AnimatedMetric({ metric }) {
 
 export default function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-background px-4 py-10 transition-colors sm:px-6 sm:py-14 lg:px-8">
-      {/* Full-section background treatment keeps the hero open without adding a card frame. */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-background to-muted/55 dark:from-background dark:via-background dark:to-[#071B8F]/24" />
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.78),transparent_28%),radial-gradient(circle_at_82%_36%,rgba(18,183,255,0.16),transparent_34%),radial-gradient(circle_at_50%_100%,rgba(234,248,255,0.7),transparent_42%)] dark:bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.04),transparent_28%),radial-gradient(circle_at_82%_36%,rgba(18,183,255,0.16),transparent_34%),radial-gradient(circle_at_50%_100%,rgba(7,27,143,0.26),transparent_42%)]" />
-
-      <div className="mx-auto max-w-7xl">
+    <section className="relative isolate overflow-hidden bg-transparent px-4 py-10 transition-colors sm:px-6 sm:py-14 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl">
         <div className="relative py-8 sm:py-10 lg:py-14">
           <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.72fr] lg:items-center">
             <div className="flex max-w-3xl flex-col justify-center">
