@@ -4,6 +4,7 @@ import {
   ArrowRight,
   CheckCircle2,
   CircleDot,
+  Clock3,
   Code2,
   Eye,
   ExternalLink,
@@ -13,13 +14,18 @@ import {
   LockKeyhole,
   MonitorSmartphone,
   PenTool,
+  Rocket,
   SearchCheck,
+  ShieldCheck,
   ShoppingCart,
   Sparkles,
+  UsersRound,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import TechnologiesToolsSection from "@/components/services/TechnologiesToolsSection";
+import WebDevelopmentWorkflowSection from "@/components/services/WebDevelopmentWorkflowSection";
 
 const webFeatureCards = [
   {
@@ -216,7 +222,7 @@ function WebDevelopmentOverview() {
 
 function WebDevelopmentShowcase() {
   return (
-    <section className="relative overflow-hidden bg-muted/30 py-20 transition-colors sm:py-24">
+    <section id="visual-showcase" className="relative scroll-mt-24 overflow-hidden bg-muted/30 py-20 transition-colors sm:py-24">
       <div className="absolute right-0 top-0 -z-10 size-[28rem] rounded-full bg-[#12B7FF]/12 blur-3xl dark:bg-[#005BFF]/12" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -370,12 +376,12 @@ function WebHeroImage() {
     <div className="web-hero-image-enter relative z-10 mx-auto w-full max-w-[64rem] lg:-mr-24 xl:-mr-32">
       <div className="absolute inset-x-8 bottom-4 h-12 rounded-full bg-[#005BFF]/22 blur-2xl dark:bg-[#12B7FF]/24" />
       <Image
-        src="/images/web-development-hero-inspo.png?v=2"
+        src="/images/web-development-hero-inspo.png"
         alt="Responsive website displayed across desktop, tablet, and mobile screens"
         width={1536}
         height={960}
         priority
-        unoptimized
+        quality={85}
         className="relative z-10 h-auto w-full object-contain drop-shadow-[0_28px_50px_rgba(0,91,255,0.18)] dark:drop-shadow-[0_28px_50px_rgba(18,183,255,0.18)]"
         sizes="(min-width: 1280px) 64rem, (min-width: 1024px) 58rem, 100vw"
       />
@@ -420,7 +426,7 @@ function WebDevelopmentHero({ service }) {
                 size="lg"
                 className="h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
               >
-                <Link href="/#contact">
+                <Link href="/contact">
                   Talk to an expert
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
@@ -431,7 +437,7 @@ function WebDevelopmentHero({ service }) {
                 variant="outline"
                 className="h-12 rounded-full bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5"
               >
-                <Link href="/#case-studies">
+                <Link href="/services/web-development#visual-showcase">
                   View our work
                   <Eye className="size-4" aria-hidden="true" />
                 </Link>
@@ -446,6 +452,114 @@ function WebDevelopmentHero({ service }) {
           </div>
         </div>
       </div>
+    </section>
+  );
+}
+
+const webDevelopmentCtaHighlights = [
+  {
+    title: "Expert guidance",
+    description: "Real solutions",
+    icon: UsersRound,
+  },
+  {
+    title: "Clear roadmap",
+    description: "No guesswork",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Practical delivery",
+    description: "Measurable results",
+    icon: Rocket,
+  },
+];
+
+const webDevelopmentCtaTrustPoints = [
+  "No pressure",
+  "Clear advice",
+  "Practical next steps",
+];
+
+function WebDevelopmentFinalCTA() {
+  return (
+    <section className="px-4 py-20 transition-colors sm:px-6 sm:py-24 lg:px-8">
+      <ScrollReveal>
+        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-[#005BFF]/12 bg-white/82 p-6 text-foreground shadow-[0_24px_70px_rgba(0,91,255,0.09)] backdrop-blur-xl dark:border-[#12B7FF]/24 dark:bg-[#06162B] dark:text-white dark:shadow-[0_24px_80px_rgba(0,91,255,0.16)] sm:p-10 lg:p-14">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,183,255,0.08),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(0,91,255,0.08),transparent_36%)] dark:bg-[radial-gradient(circle_at_18%_20%,rgba(18,183,255,0.12),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(0,91,255,0.18),transparent_36%)]" />
+          <div className="animate-float absolute -right-20 -top-24 size-72 rounded-full bg-[#12B7FF]/8 blur-3xl dark:bg-[#12B7FF]/12" />
+          <div className="animate-float absolute -bottom-24 right-16 size-80 rounded-full bg-[#005BFF]/7 blur-3xl dark:bg-[#005BFF]/12" />
+
+          <div className="relative grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
+                Start with clarity
+              </p>
+
+              <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight tracking-normal text-foreground dark:text-white sm:text-5xl">
+                Ready to plan your next
+                <span className="hero-heading-accent block" style={{ textShadow: "none" }}>
+                  web development initiative?
+                </span>
+              </h2>
+              <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground dark:text-white/72 sm:text-lg">
+                Tell us what you want to improve. We&apos;ll help turn it into a clear roadmap, strong interface, and practical delivery plan.
+              </p>
+
+              <div className="mt-9 grid gap-4 sm:grid-cols-3">
+                {webDevelopmentCtaHighlights.map((item, index) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <ScrollReveal key={item.title} delay={120 + index * 120}>
+                      <div className="flex items-center gap-3 border-[#005BFF]/14 sm:border-r sm:pr-4 last:border-r-0 dark:border-white/18">
+                        <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#005BFF]/10 text-[#005BFF] ring-1 ring-[#005BFF]/12 dark:bg-[#005BFF]/35 dark:text-[#12B7FF] dark:ring-[#12B7FF]/18">
+                          <Icon className="size-5" aria-hidden="true" />
+                        </span>
+                        <div>
+                          <p className="text-sm font-semibold text-foreground dark:text-white">{item.title}</p>
+                          <p className="mt-1 text-sm text-muted-foreground dark:text-white/66">{item.description}</p>
+                        </div>
+                      </div>
+                    </ScrollReveal>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-[1.5rem] border border-[#005BFF]/10 bg-white/54 p-5 backdrop-blur-sm dark:border-white/10 dark:bg-[#02102A]/34 lg:border-l lg:border-y-0 lg:border-r-0 lg:bg-transparent lg:pl-12">
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="h-16 w-full rounded-2xl bg-[#07111F] px-6 text-lg font-semibold text-white shadow-[0_18px_54px_rgba(0,91,255,0.18)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#005BFF] hover:shadow-[0_24px_70px_rgba(18,183,255,0.28)] dark:bg-white dark:text-[#07111F] dark:shadow-[0_18px_54px_rgba(18,183,255,0.24)] dark:hover:bg-[#EAF8FF] dark:hover:shadow-[0_24px_70px_rgba(18,183,255,0.34)]"
+              >
+                <Link href="/contact">
+                  Book a consultation
+                  <ArrowRight className="size-6" aria-hidden="true" />
+                </Link>
+              </Button>
+
+              <div className="mt-7 flex items-center justify-center gap-3 text-muted-foreground dark:text-white/72">
+                <Clock3 className="size-5 text-[#12B7FF]" aria-hidden="true" />
+                <span className="text-sm sm:text-base">Response within 24 hours</span>
+              </div>
+
+              <div className="my-8 h-px bg-gradient-to-r from-transparent via-[#12B7FF]/32 to-transparent" />
+
+              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-[auto_auto_auto] xl:justify-center">
+                {webDevelopmentCtaTrustPoints.map((point, index) => (
+                  <ScrollReveal key={point} delay={260 + index * 120}>
+                    <div className="flex items-center justify-center gap-2 whitespace-nowrap text-sm text-muted-foreground dark:text-white/76 lg:justify-start xl:justify-center">
+                      <CheckCircle2 className="size-4 text-[#12B7FF]" aria-hidden="true" />
+                      <span>{point}</span>
+                    </div>
+                  </ScrollReveal>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
     </section>
   );
 }
@@ -744,59 +858,41 @@ export default function ServicePageTemplate({ service }) {
         <VisualShowcase service={service} />
       )}
 
-      <section className="py-20 transition-colors sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[2rem] border border-border/70 bg-background p-6 shadow-xl shadow-foreground/5 sm:p-8">
-            <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+      <TechnologiesToolsSection />
+
+      {service.slug === "web-development" ? (
+        <WebDevelopmentWorkflowSection />
+      ) : (
+        <WorkflowSection service={service} />
+      )}
+
+      {service.slug === "web-development" ? (
+        <WebDevelopmentFinalCTA />
+      ) : (
+        <section className="px-4 py-20 transition-colors sm:px-6 sm:py-24 lg:px-8">
+          <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-foreground p-8 text-background shadow-2xl shadow-foreground/10 sm:p-10">
+            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
-                  Technologies and tools
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-background/60">
+                  Start with clarity
                 </p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground sm:text-4xl">
-                  A modern stack selected for the job.
+                <h2 className="mt-3 max-w-3xl text-3xl font-semibold sm:text-5xl">
+                  Ready to plan a {service.title.toLowerCase()} initiative?
                 </h2>
+                <p className="mt-5 max-w-2xl text-sm leading-6 text-background/70">
+                  Tell us what you want to improve. We will help turn it into a clear roadmap, strong interface, and practical delivery plan.
+                </p>
               </div>
-              {/* Component organization: this tool cloud is shared by all services but populated from service data. */}
-              <div className="flex flex-wrap gap-3">
-                {service.technologies.map((technology) => (
-                  <span
-                    key={technology}
-                    className="rounded-full border border-border bg-muted/50 px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-background"
-                  >
-                    {technology}
-                  </span>
-                ))}
-              </div>
+              <Button asChild size="lg" variant="secondary" className="h-12 rounded-full px-6">
+                <Link href="/#contact">
+                  Book a consultation
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </Button>
             </div>
           </div>
-        </div>
-      </section>
-
-      <WorkflowSection service={service} />
-
-      <section className="px-4 py-20 transition-colors sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-foreground p-8 text-background shadow-2xl shadow-foreground/10 sm:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-background/60">
-                Start with clarity
-              </p>
-              <h2 className="mt-3 max-w-3xl text-3xl font-semibold sm:text-5xl">
-                Ready to plan a {service.title.toLowerCase()} initiative?
-              </h2>
-              <p className="mt-5 max-w-2xl text-sm leading-6 text-background/70">
-                Tell us what you want to improve. We will help turn it into a clear roadmap, strong interface, and practical delivery plan.
-              </p>
-            </div>
-            <Button asChild size="lg" variant="secondary" className="h-12 rounded-full px-6">
-              <Link href="/#contact">
-                Book a consultation
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
   );
 }

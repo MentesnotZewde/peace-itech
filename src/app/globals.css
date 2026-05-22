@@ -302,6 +302,80 @@
   .interactive-hero-background--subtle .interactive-hero-background__glow {
     opacity: 0.42;
   }
+  .page-loader {
+    background:
+      radial-gradient(circle at 50% 42%, rgb(18 183 255 / 10%), transparent 34%),
+      radial-gradient(circle at 18% 18%, rgb(0 91 255 / 6%), transparent 28%),
+      linear-gradient(135deg, #ffffff, #f8fbff 52%, #eef8ff);
+  }
+  .page-loader__network.interactive-hero-background {
+    animation-duration: 520ms;
+    background: transparent;
+    opacity: 0.62;
+  }
+  .page-loader__network .interactive-hero-background__canvas {
+    opacity: 0.44;
+  }
+  .page-loader__network .interactive-hero-background__glow {
+    opacity: 0.24;
+  }
+  .page-loader__aura {
+    background:
+      radial-gradient(circle, rgb(18 183 255 / 12%), rgb(0 91 255 / 6%) 36%, transparent 68%);
+    filter: blur(10px);
+    opacity: 0;
+    animation: page-loader-aura 1120ms ease-out both;
+  }
+  .page-loader__mark {
+    filter: drop-shadow(0 28px 44px rgb(0 91 255 / 14%));
+  }
+  .page-loader__logo-shell {
+    animation: page-loader-logo-enter 820ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
+  }
+  .page-loader__logo {
+    filter: drop-shadow(0 16px 26px rgb(0 91 255 / 18%));
+  }
+  .page-loader__logo-glow {
+    background:
+      radial-gradient(circle, rgb(18 183 255 / 22%), rgb(0 91 255 / 12%) 42%, transparent 70%);
+    filter: blur(11px);
+    animation: page-loader-glow 980ms ease-in-out both;
+  }
+  .page-loader__orbit {
+    opacity: 0;
+    transform-origin: center;
+  }
+  .page-loader__orbit--outer {
+    border: 1px solid rgb(0 91 255 / 24%);
+    border-left-color: transparent;
+    border-bottom-color: rgb(18 183 255 / 62%);
+    box-shadow: 0 0 28px rgb(18 183 255 / 12%);
+    animation:
+      page-loader-orbit-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both,
+      page-loader-spin 2.8s linear 120ms infinite;
+  }
+  .page-loader__orbit--inner {
+    border: 1px solid rgb(18 183 255 / 22%);
+    border-top-color: transparent;
+    border-right-color: rgb(0 91 255 / 44%);
+    animation:
+      page-loader-orbit-enter 560ms cubic-bezier(0.16, 1, 0.3, 1) 210ms both,
+      page-loader-spin-reverse 3.4s linear 210ms infinite;
+  }
+  .page-loader__node {
+    background: #12b7ff;
+    box-shadow: 0 0 18px rgb(18 183 255 / 58%);
+    opacity: 0;
+    animation: page-loader-node 1000ms ease-in-out var(--loader-node-delay, 260ms) infinite;
+  }
+  .page-loader__node--two {
+    --loader-node-delay: 420ms;
+    background: #005bff;
+  }
+  .page-loader__node--three {
+    --loader-node-delay: 560ms;
+    background: #21d3c3;
+  }
   .dark .interactive-hero-background--subtle.interactive-hero-background {
     background:
       radial-gradient(circle at 15% 12%, rgb(18 183 255 / 5%), transparent 34%),
@@ -313,6 +387,45 @@
   }
   .dark .interactive-hero-background--subtle .interactive-hero-background__glow {
     opacity: 0.34;
+  }
+  .dark .page-loader {
+    background:
+      radial-gradient(circle at 50% 44%, rgb(18 183 255 / 15%), transparent 32%),
+      radial-gradient(circle at 18% 16%, rgb(0 91 255 / 12%), transparent 30%),
+      radial-gradient(circle at 82% 82%, rgb(33 211 195 / 8%), transparent 30%),
+      linear-gradient(135deg, #020817, #07111f 54%, #03101f);
+  }
+  .dark .page-loader__network.interactive-hero-background {
+    background: transparent;
+    opacity: 0.74;
+  }
+  .dark .page-loader__network .interactive-hero-background__canvas {
+    opacity: 0.56;
+  }
+  .dark .page-loader__network .interactive-hero-background__glow {
+    opacity: 0.34;
+  }
+  .dark .page-loader__aura {
+    background:
+      radial-gradient(circle, rgb(18 183 255 / 20%), rgb(0 91 255 / 10%) 38%, transparent 70%);
+  }
+  .dark .page-loader__logo {
+    filter: drop-shadow(0 20px 30px rgb(18 183 255 / 22%));
+  }
+  .dark .page-loader__logo-glow {
+    background:
+      radial-gradient(circle, rgb(18 183 255 / 30%), rgb(0 91 255 / 18%) 42%, transparent 72%);
+  }
+  .dark .page-loader__orbit--outer {
+    border-color: rgb(18 183 255 / 28%);
+    border-left-color: transparent;
+    border-bottom-color: rgb(18 183 255 / 78%);
+    box-shadow: 0 0 34px rgb(18 183 255 / 18%);
+  }
+  .dark .page-loader__orbit--inner {
+    border-color: rgb(234 248 255 / 16%);
+    border-top-color: transparent;
+    border-right-color: rgb(18 183 255 / 48%);
   }
   .global-network-shell section {
     background-color: transparent;
@@ -342,6 +455,21 @@
   .interactive-hero-background {
     animation: none;
     opacity: 1;
+  }
+  .page-loader__network.interactive-hero-background {
+    opacity: 0.5;
+  }
+  .page-loader__aura,
+  .page-loader__logo-shell,
+  .page-loader__logo-glow,
+  .page-loader__orbit,
+  .page-loader__node {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .page-loader__aura {
+    transform: translate(-50%, -50%);
   }
   .interactive-hero-background--subtle {
     opacity: 0.92;
@@ -380,6 +508,93 @@
   }
   to {
     opacity: 0.92;
+  }
+}
+
+@keyframes page-loader-logo-enter {
+  from {
+    filter: blur(8px);
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  70% {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1.025);
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes page-loader-orbit-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.76) rotate(-18deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes page-loader-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes page-loader-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes page-loader-glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  45% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.78;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes page-loader-aura {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.84);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.76;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes page-loader-node {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: scale(0.72);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.14);
   }
 }
 
