@@ -7,6 +7,8 @@ const CONNECTION_DISTANCE = 178;
 const CURSOR_RADIUS = 240;
 const MAX_DOT_COUNT = 78;
 const MIN_DOT_COUNT = 36;
+const COMPACT_MAX_DOT_COUNT = 30;
+const COMPACT_MIN_DOT_COUNT = 18;
 
 export default function InteractiveHeroBackground({ className = "fixed" }) {
   const canvasRef = useRef(null);
@@ -21,6 +23,7 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
     const context = canvas.getContext("2d");
     const pointer = { active: false, x: 0, y: 0, vx: 0, vy: 0 };
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compactScreen = window.matchMedia("(max-width: 1023px)");
     const dots = [];
     let animationFrame;
     let width = 0;
@@ -48,10 +51,11 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
     }
 
     function syncDots() {
+      const isCompact = compactScreen.matches;
       const nextCount = clamp(
-        Math.round((width * height) / 17500),
-        MIN_DOT_COUNT,
-        MAX_DOT_COUNT
+        Math.round((width * height) / (isCompact ? 26000 : 17500)),
+        isCompact ? COMPACT_MIN_DOT_COUNT : MIN_DOT_COUNT,
+        isCompact ? COMPACT_MAX_DOT_COUNT : MAX_DOT_COUNT
       );
 
       while (dots.length < nextCount) {
@@ -63,7 +67,7 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
     }
 
     function resizeCanvas() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, compactScreen.matches ? 1.35 : 2);
       const parentBounds = canvas.parentElement?.getBoundingClientRect();
 
       bounds = parentBounds || {
@@ -83,6 +87,10 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
     }
 
     function handlePointerMove(event) {
+      if (compactScreen.matches) {
+        return;
+      }
+
       bounds = canvas.parentElement?.getBoundingClientRect() || bounds;
       const nextX = event.clientX - bounds.left;
       const nextY = event.clientY - bounds.top;
@@ -93,7 +101,7 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
       pointer.x = nextX;
       pointer.y = nextY;
 
-      if (reducedMotion.matches) {
+      if (reducedMotion.matches || compactScreen.matches) {
         draw(performance.now());
       }
     }
@@ -176,14 +184,14 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
       drawCursorGlow(darkMode);
 
       dots.forEach((dot, index) => {
-        if (!reducedMotion.matches) {
+        if (!reducedMotion.matches && !compactScreen.matches) {
           const drift = Math.sin(time * 0.00035 + dot.phase) * 0.08;
           dot.x += dot.vx + drift;
           dot.y += dot.vy + Math.cos(time * 0.00028 + dot.phase) * 0.08;
           dot.phase += 0.008;
         }
 
-        if (pointer.active) {
+        if (pointer.active && !compactScreen.matches) {
           const pointerDistance = Math.hypot(dot.x - pointer.x, dot.y - pointer.y);
 
           if (pointerDistance < CURSOR_RADIUS) {
@@ -232,7 +240,7 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
       pointer.vx *= 0.86;
       pointer.vy *= 0.86;
 
-      if (!reducedMotion.matches) {
+      if (!reducedMotion.matches && !compactScreen.matches) {
         animationFrame = requestAnimationFrame(draw);
       }
     }
@@ -240,12 +248,14 @@ export default function InteractiveHeroBackground({ className = "fixed" }) {
     resizeCanvas();
     animationFrame = requestAnimationFrame(draw);
     window.addEventListener("resize", resizeCanvas);
+    compactScreen.addEventListener("change", resizeCanvas);
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
     window.addEventListener("pointerleave", handlePointerLeave);
 
     return () => {
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resizeCanvas);
+      compactScreen.removeEventListener("change", resizeCanvas);
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", handlePointerLeave);
     };

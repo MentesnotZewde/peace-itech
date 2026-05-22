@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -117,11 +118,13 @@ export default function StatsSection() {
               style={{ animationDelay: `${index * 130}ms` }}
             >
               <div className="group overflow-hidden rounded-[1.5rem] shadow-2xl shadow-foreground/10 ring-1 ring-border/70 dark:shadow-black/30">
-                <div
-                  role="img"
-                  aria-label={image.alt}
-                  className="aspect-[4/3] w-full bg-cover bg-center transition duration-700 group-hover:scale-105"
-                  style={{ backgroundImage: `url(${image.src})` }}
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={900}
+                  height={675}
+                  className="aspect-[4/3] w-full object-cover object-center transition duration-700 group-hover:scale-105"
+                  sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 />
               </div>
               {index === 0 ? (
@@ -242,6 +245,12 @@ export default function StatsSection() {
         .animate-stat-plus {
           animation: statPlusPop 520ms cubic-bezier(0.16, 1, 0.3, 1) 760ms both;
           display: inline-block;
+        }
+
+        @media (max-width: 1023px) {
+          .animate-stats-image {
+            animation: statsImageEnter 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+          }
         }
       `}</style>
     </section>

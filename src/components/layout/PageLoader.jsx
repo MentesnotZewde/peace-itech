@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 
 import InteractiveHeroBackground from "@/components/home/InteractiveHeroBackground";
 
-const EXIT_DELAY = 1120;
-const REMOVE_DELAY = 360;
+const EXIT_DELAY = 620;
+const REMOVE_DELAY = 260;
 
 export default function PageLoader() {
   const [isExiting, setIsExiting] = useState(false);

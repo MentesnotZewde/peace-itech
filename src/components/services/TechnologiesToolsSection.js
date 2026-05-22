@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const tools = [
@@ -23,6 +24,22 @@ const tools = [
 
 const topRow = tools.slice(0, 7);
 const bottomRow = tools.slice(7);
+
+function useCompactMotion() {
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsCompact(query.matches);
+
+    update();
+    query.addEventListener("change", update);
+
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return isCompact;
+}
 
 const sectionReveal = {
   hidden: { opacity: 0, y: 38 },
@@ -64,7 +81,21 @@ function LogoCard({ tool }) {
   );
 }
 
-function LogoCarousel({ items, reverse = false }) {
+function StaticLogoGrid({ items }) {
+  return (
+    <div className="grid grid-cols-2 justify-items-center gap-3 sm:grid-cols-3">
+      {items.map((tool) => (
+        <LogoCard key={tool.name} tool={tool} />
+      ))}
+    </div>
+  );
+}
+
+function LogoCarousel({ items, reverse = false, isCompact = false }) {
+  if (isCompact) {
+    return <StaticLogoGrid items={items} />;
+  }
+
   const repeatedItems = [...items, ...items, ...items];
 
   return (
@@ -93,6 +124,8 @@ function LogoCarousel({ items, reverse = false }) {
 }
 
 export default function TechnologiesToolsSection() {
+  const isCompact = useCompactMotion();
+
   return (
     <motion.section
       className="relative isolate overflow-hidden py-20 transition-colors sm:py-24"
@@ -130,8 +163,8 @@ export default function TechnologiesToolsSection() {
           </div>
 
           <motion.div className="mt-14 space-y-4" variants={headingReveal}>
-            <LogoCarousel items={topRow} />
-            <LogoCarousel items={bottomRow} reverse />
+            <LogoCarousel items={topRow} isCompact={isCompact} />
+            <LogoCarousel items={bottomRow} reverse isCompact={isCompact} />
           </motion.div>
         </div>
       </div>

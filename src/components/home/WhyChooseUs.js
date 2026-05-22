@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   Cpu,
   Lightbulb,
@@ -77,14 +78,14 @@ export default function WhyChooseUs() {
                 className={`animate-why-photo absolute overflow-hidden rounded-[1.5rem] shadow-2xl shadow-foreground/10 ring-1 ring-border/70 dark:shadow-black/30 ${photo.className}`}
                 style={{ animationDelay: `${300 + index * 140}ms` }}
               >
-                <div
-                  role="img"
-                  aria-label={photo.alt}
-                  className="aspect-[4/5] w-full bg-cover"
-                  style={{
-                    backgroundImage: `url(${photo.src})`,
-                    backgroundPosition: photo.position,
-                  }}
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={640}
+                  height={800}
+                  className="aspect-[4/5] w-full object-cover"
+                  style={{ objectPosition: photo.position }}
+                  sizes="(min-width: 1024px) 24vw, 48vw"
                 />
               </div>
             ))}

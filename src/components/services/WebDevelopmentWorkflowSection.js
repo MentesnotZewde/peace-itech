@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Code2, Headphones, PenLine, Rocket, Search } from "lucide-react";
 import {
   motion,
@@ -79,13 +79,28 @@ const itemVariants = {
 export default function WebDevelopmentWorkflowSection() {
   const sectionRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
+  const [isCompact, setIsCompact] = useState(false);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start 70%", "end 28%"],
   });
   const lineScale = useTransform(scrollYProgress, [0.06, 0.92], [0, 1]);
 
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsCompact(query.matches);
+
+    update();
+    query.addEventListener("change", update);
+
+    return () => query.removeEventListener("change", update);
+  }, []);
+
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (isCompact) {
+      return;
+    }
+
     const nextStep = Math.min(
       workflowSteps.length - 1,
       Math.max(0, Math.floor(latest * workflowSteps.length)),
