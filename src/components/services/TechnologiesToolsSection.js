@@ -5,7 +5,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const tools = [
+const defaultTools = [
   { name: "React", logo: "https://cdn.simpleicons.org/react/61DAFB" },
   { name: "Next.js", logo: "/images/Next.jpg" },
   { name: "Tailwind CSS", logo: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
@@ -21,9 +21,6 @@ const tools = [
   { name: "Vercel", logo: "/images/Vercel-Logo.png" },
   { name: "WordPress", logo: "https://cdn.simpleicons.org/wordpress/21759B" },
 ];
-
-const topRow = tools.slice(0, 7);
-const bottomRow = tools.slice(7);
 
 function useCompactMotion() {
   const [isCompact, setIsCompact] = useState(false);
@@ -123,8 +120,17 @@ function LogoCarousel({ items, reverse = false, isCompact = false }) {
   );
 }
 
-export default function TechnologiesToolsSection() {
+export default function TechnologiesToolsSection({
+  tools = defaultTools,
+  eyebrow = "Technologies & Tools",
+  title = "Modern tools behind",
+  accentTitle = "reliable digital systems.",
+  description = "We use trusted technologies to design, build, automate, and support scalable business solutions.",
+}) {
   const isCompact = useCompactMotion();
+  const splitIndex = Math.ceil(tools.length / 2);
+  const topRow = tools.slice(0, splitIndex);
+  const bottomRow = tools.slice(splitIndex);
 
   return (
     <motion.section
@@ -143,22 +149,22 @@ export default function TechnologiesToolsSection() {
               variants={headingReveal}
               className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]"
             >
-              Technologies & Tools
+              {eyebrow}
             </motion.p>
             <motion.h2
               variants={headingReveal}
               className="mt-3 pb-1 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl"
             >
-              Modern tools behind
+              {title}
               <span className="hero-heading-accent block" style={{ textShadow: "none" }}>
-                reliable digital systems.
+                {accentTitle}
               </span>
             </motion.h2>
             <motion.p
               variants={headingReveal}
               className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground"
             >
-              We use trusted technologies to design, build, automate, and support scalable business solutions.
+              {description}
             </motion.p>
           </div>
 

@@ -26,7 +26,7 @@ import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import TechnologiesToolsSection from "@/components/services/TechnologiesToolsSection";
 import WebDevelopmentWorkflowSection from "@/components/services/WebDevelopmentWorkflowSection";
-
+import BusinessAutomationPage from "@/components/services/BusinessAutomationPage";
 const webFeatureCards = [
   {
     title: "Responsive",
@@ -61,19 +61,22 @@ const webOverviewCards = [
   {
     number: "01",
     title: "Responsive Business Websites",
-    description: "Beautiful websites that work smoothly on desktop, tablet, and mobile.",
+    description:
+      "Beautiful websites that work smoothly on desktop, tablet, and mobile.",
     icon: MonitorSmartphone,
   },
   {
     number: "02",
     title: "SaaS & Web Applications",
-    description: "Custom dashboards, portals, booking systems, and business tools.",
+    description:
+      "Custom dashboards, portals, booking systems, and business tools.",
     icon: Layers3,
   },
   {
     number: "03",
     title: "Ecommerce Storefronts",
-    description: "Clean online stores designed for products, payments, and customer trust.",
+    description:
+      "Clean online stores designed for products, payments, and customer trust.",
     icon: ShoppingCart,
   },
 ];
@@ -113,7 +116,25 @@ const webShowcaseProjects = [
     description:
       "A multilingual logistics website focused on fast, reliable delivery, 24/7 support, and business delivery solutions.",
     image: "/images/H2H Express Delivery.png",
-    href: "https://h2h-express-delivery.vercel.app/am",
+    href: "https://handtohandexpress.com/en",
+  },
+  {
+    number: "05",
+    title: "4 Kilo Butcher",
+    category: "Local Butcher and Eatery in Canada, Toronto",
+    description:
+      "A premium website for 4 Kilo Butcher, showcasing authentic Ethiopian cuisine with a responsive, multilingual design.",
+    image: "/images/4_kilo_butcher.png",
+    href: "https://4-kilo-butcher.vercel.app/en",
+  },
+  {
+    number: "06",
+    title: "Greenfox Foreign Agency",
+    category: "Foreign Employment Agency Website",
+    description:
+      "A responsive website for Greenfox Foreign Employment Agency, designed to simplify overseas recruitment and enhance the client experience.",
+    image: "/images/greenfox_2.png",
+    href: "https://www.greenfoxagency.com/en",
   },
 ];
 
@@ -134,8 +155,12 @@ function WebFeatureRail() {
                 <Icon className="size-4" aria-hidden="true" />
               </span>
               <div>
-                <p className="text-sm font-semibold leading-5 text-foreground">{card.title}</p>
-                <p className="mt-0.5 text-sm leading-5 text-muted-foreground">{card.subtitle}</p>
+                <p className="text-sm font-semibold leading-5 text-foreground">
+                  {card.title}
+                </p>
+                <p className="mt-0.5 text-sm leading-5 text-muted-foreground">
+                  {card.subtitle}
+                </p>
               </div>
             </div>
           </div>
@@ -158,10 +183,14 @@ function WebDevelopmentOverview() {
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl">
               Websites built for
-              <span className="hero-heading-accent block">business growth.</span>
+              <span className="hero-heading-accent block">
+                business growth.
+              </span>
             </h2>
             <p className="mt-5 text-base leading-7 text-muted-foreground">
-              We design and build responsive, fast, and easy-to-manage websites that help businesses look professional, earn trust, and convert visitors into customers.
+              We design and build responsive, fast, and easy-to-manage websites
+              that help businesses look professional, earn trust, and convert
+              visitors into customers.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-x-5 gap-y-4">
@@ -173,10 +202,15 @@ function WebDevelopmentOverview() {
                     key={item.label}
                     className="flex items-center gap-2 text-sm font-semibold text-muted-foreground"
                   >
-                    <Icon className="size-4 text-[#005BFF] dark:text-[#12B7FF]" aria-hidden="true" />
+                    <Icon
+                      className="size-4 text-[#005BFF] dark:text-[#12B7FF]"
+                      aria-hidden="true"
+                    />
                     <span>{item.label}</span>
                     {index < webOverviewTrustItems.length - 1 ? (
-                      <span className="text-[#12B7FF]/60" aria-hidden="true">•</span>
+                      <span className="text-[#12B7FF]/60" aria-hidden="true">
+                        •
+                      </span>
                     ) : null}
                   </div>
                 );
@@ -196,7 +230,10 @@ function WebDevelopmentOverview() {
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#12B7FF]/45 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                   <div className="flex items-start justify-between gap-4">
                     <span className="flex size-20 items-center justify-center rounded-full bg-gradient-to-br from-[#005BFF]/7 via-[#12B7FF]/8 to-transparent text-[#005BFF] ring-1 ring-[#005BFF]/12 transition-transform duration-300 group-hover:scale-105 dark:from-[#12B7FF]/12 dark:via-[#005BFF]/10 dark:text-[#12B7FF] dark:ring-[#12B7FF]/16">
-                      <Icon className="size-9 stroke-[1.7]" aria-hidden="true" />
+                      <Icon
+                        className="size-9 stroke-[1.7]"
+                        aria-hidden="true"
+                      />
                     </span>
                     <span className="rounded-lg bg-[#EAF8FF] px-2.5 py-1 text-sm font-bold text-[#005BFF] shadow-sm ring-1 ring-[#005BFF]/8 dark:bg-[#12B7FF]/12 dark:text-[#12B7FF] dark:ring-[#12B7FF]/14">
                       {card.number}
@@ -222,7 +259,10 @@ function WebDevelopmentOverview() {
 
 function WebDevelopmentShowcase() {
   return (
-    <section id="visual-showcase" className="relative scroll-mt-24 overflow-hidden bg-muted/30 py-20 transition-colors sm:py-24">
+    <section
+      id="visual-showcase"
+      className="relative scroll-mt-24 overflow-hidden bg-muted/30 py-20 transition-colors sm:py-24"
+    >
       <div className="absolute right-0 top-0 -z-10 size-[28rem] rounded-full bg-[#12B7FF]/12 blur-3xl dark:bg-[#005BFF]/12" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -233,20 +273,20 @@ function WebDevelopmentShowcase() {
             </p>
             <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-normal text-foreground sm:text-5xl">
               Web experiences that look
-              <span className="hero-heading-accent block">premium and work hard.</span>
+              <span className="hero-heading-accent block">
+                premium and work hard.
+              </span>
             </h2>
             <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">
-              A selection of real websites and digital platforms we have designed and developed for clients.
+              A selection of real websites and digital platforms we have
+              designed and developed for clients.
             </p>
           </div>
         </ScrollReveal>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {webShowcaseProjects.map((project, index) => (
-            <ScrollReveal
-              key={project.title}
-              delay={120 + index * 120}
-            >
+            <ScrollReveal key={project.title} delay={120 + index * 120}>
               <Link
                 href={project.href}
                 target="_blank"
@@ -258,7 +298,9 @@ function WebDevelopmentShowcase() {
                     {project.number}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="truncate text-lg font-semibold text-foreground">{project.title}</h3>
+                    <h3 className="truncate text-lg font-semibold text-foreground">
+                      {project.title}
+                    </h3>
                   </div>
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-xl text-[#005BFF] transition-colors group-hover:bg-[#EAF8FF] dark:text-[#12B7FF] dark:group-hover:bg-[#12B7FF]/12">
                     <ExternalLink className="size-5" aria-hidden="true" />
@@ -291,7 +333,12 @@ function WebDevelopmentShowcase() {
 
         <ScrollReveal delay={220}>
           <div className="mt-12 flex justify-center">
-            <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#12B7FF]/10">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 rounded-full bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#12B7FF]/10"
+            >
               <Link href="/#case-studies">
                 See more projects
                 <ArrowRight className="size-4" aria-hidden="true" />
@@ -303,7 +350,6 @@ function WebDevelopmentShowcase() {
     </section>
   );
 }
-
 function WebFeatureConnectors() {
   return (
     <svg
@@ -318,7 +364,13 @@ function WebFeatureConnectors() {
           <stop offset="52%" stopColor="#12B7FF" stopOpacity="0.42" />
           <stop offset="100%" stopColor="#005BFF" stopOpacity="0.08" />
         </linearGradient>
-        <filter id="webConnectorGlow" x="-20%" y="-80%" width="140%" height="260%">
+        <filter
+          id="webConnectorGlow"
+          x="-20%"
+          y="-80%"
+          width="140%"
+          height="260%"
+        >
           <feGaussianBlur stdDeviation="2.4" result="blur" />
           <feMerge>
             <feMergeNode in="blur" />
@@ -417,7 +469,9 @@ function WebDevelopmentHero({ service }) {
               </span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
-              We build fast, secure, and scalable websites that help businesses grow online. From custom websites to web applications, we turn ideas into digital experiences that engage and convert.
+              We build fast, secure, and scalable websites that help businesses
+              grow online. From custom websites to web applications, we turn
+              ideas into digital experiences that engage and convert.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -497,12 +551,16 @@ function WebDevelopmentFinalCTA() {
 
               <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight tracking-normal text-foreground dark:text-white sm:text-5xl">
                 Ready to plan your next
-                <span className="hero-heading-accent block" style={{ textShadow: "none" }}>
+                <span
+                  className="hero-heading-accent block"
+                  style={{ textShadow: "none" }}
+                >
                   web development initiative?
                 </span>
               </h2>
               <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground dark:text-white/72 sm:text-lg">
-                Tell us what you want to improve. We&apos;ll help turn it into a clear roadmap, strong interface, and practical delivery plan.
+                Tell us what you want to improve. We&apos;ll help turn it into a
+                clear roadmap, strong interface, and practical delivery plan.
               </p>
 
               <div className="mt-9 grid gap-4 sm:grid-cols-3">
@@ -516,8 +574,12 @@ function WebDevelopmentFinalCTA() {
                           <Icon className="size-5" aria-hidden="true" />
                         </span>
                         <div>
-                          <p className="text-sm font-semibold text-foreground dark:text-white">{item.title}</p>
-                          <p className="mt-1 text-sm text-muted-foreground dark:text-white/66">{item.description}</p>
+                          <p className="text-sm font-semibold text-foreground dark:text-white">
+                            {item.title}
+                          </p>
+                          <p className="mt-1 text-sm text-muted-foreground dark:text-white/66">
+                            {item.description}
+                          </p>
                         </div>
                       </div>
                     </ScrollReveal>
@@ -541,7 +603,9 @@ function WebDevelopmentFinalCTA() {
 
               <div className="mt-7 flex items-center justify-center gap-3 text-muted-foreground dark:text-white/72">
                 <Clock3 className="size-5 text-[#12B7FF]" aria-hidden="true" />
-                <span className="text-sm sm:text-base">Response within 24 hours</span>
+                <span className="text-sm sm:text-base">
+                  Response within 24 hours
+                </span>
               </div>
 
               <div className="my-8 h-px bg-gradient-to-r from-transparent via-[#12B7FF]/32 to-transparent" />
@@ -550,7 +614,10 @@ function WebDevelopmentFinalCTA() {
                 {webDevelopmentCtaTrustPoints.map((point, index) => (
                   <ScrollReveal key={point} delay={260 + index * 120}>
                     <div className="flex items-center justify-center gap-2 whitespace-nowrap text-sm text-muted-foreground dark:text-white/76 lg:justify-start xl:justify-center">
-                      <CheckCircle2 className="size-4 text-[#12B7FF]" aria-hidden="true" />
+                      <CheckCircle2
+                        className="size-4 text-[#12B7FF]"
+                        aria-hidden="true"
+                      />
                       <span>{point}</span>
                     </div>
                   </ScrollReveal>
@@ -570,7 +637,9 @@ function DashboardPreview({ service }) {
   return (
     <div className="relative animate-float">
       <div className="absolute -right-3 top-10 hidden rounded-2xl border border-border/70 bg-background/90 p-4 shadow-xl shadow-foreground/10 backdrop-blur md:block">
-        <p className="text-2xl font-semibold text-foreground">{service.dashboardMetric}</p>
+        <p className="text-2xl font-semibold text-foreground">
+          {service.dashboardMetric}
+        </p>
         <p className="mt-1 max-w-32 text-xs leading-5 text-muted-foreground">
           {service.dashboardLabel}
         </p>
@@ -591,10 +660,18 @@ function DashboardPreview({ service }) {
         <div className="grid gap-4 md:grid-cols-[0.85fr_1.15fr]">
           <div className="space-y-3">
             {service.outcomes.map((outcome) => (
-              <div key={outcome} className="rounded-2xl border border-border bg-muted/40 p-4">
+              <div
+                key={outcome}
+                className="rounded-2xl border border-border bg-muted/40 p-4"
+              >
                 <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-semibold text-foreground">{outcome}</p>
-                  <CheckCircle2 className="size-4 shrink-0 text-[#005BFF]" aria-hidden="true" />
+                  <p className="text-sm font-semibold text-foreground">
+                    {outcome}
+                  </p>
+                  <CheckCircle2
+                    className="size-4 shrink-0 text-[#005BFF]"
+                    aria-hidden="true"
+                  />
                 </div>
                 <div className="mt-4 h-2 rounded-full bg-background">
                   <div className="h-2 w-4/5 rounded-full bg-gradient-to-r from-[#005BFF] to-[#12B7FF]" />
@@ -626,7 +703,8 @@ function DashboardPreview({ service }) {
                 <p className="text-sm font-medium">Integrated delivery layer</p>
               </div>
               <p className="mt-2 text-sm leading-6 text-background/70">
-                Strategy, design, engineering, launch, and support connected in one workflow.
+                Strategy, design, engineering, launch, and support connected in
+                one workflow.
               </p>
             </div>
           </div>
@@ -658,8 +736,12 @@ function VisualShowcase({ service }) {
             >
               <div className="absolute inset-0 bg-background/60 backdrop-blur-[1px]" />
               <div className="relative">
-                <p className="text-sm font-semibold text-muted-foreground">0{index + 1}</p>
-                <h3 className="mt-3 text-xl font-semibold text-foreground">{item}</h3>
+                <p className="text-sm font-semibold text-muted-foreground">
+                  0{index + 1}
+                </p>
+                <h3 className="mt-3 text-xl font-semibold text-foreground">
+                  {item}
+                </h3>
               </div>
               <div className="relative mt-8 rounded-2xl border border-border/70 bg-background/80 p-4 shadow-xl">
                 <div className="mb-5 flex items-center justify-between">
@@ -668,7 +750,10 @@ function VisualShowcase({ service }) {
                     <span className="size-3 rounded-full bg-[#12B7FF]" />
                     <span className="size-3 rounded-full bg-[#12B7FF]" />
                   </div>
-                  <MonitorSmartphone className="size-4 text-muted-foreground" aria-hidden="true" />
+                  <MonitorSmartphone
+                    className="size-4 text-muted-foreground"
+                    aria-hidden="true"
+                  />
                 </div>
                 <div className="grid gap-3">
                   {[0, 1, 2].map((line) => (
@@ -703,9 +788,14 @@ function VisualShowcase({ service }) {
                     <p className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                       Project surface
                     </p>
-                    <h3 className="mt-3 text-xl font-semibold text-foreground">{item}</h3>
+                    <h3 className="mt-3 text-xl font-semibold text-foreground">
+                      {item}
+                    </h3>
                   </div>
-                  <Sparkles className="size-5 shrink-0 text-[#005BFF]" aria-hidden="true" />
+                  <Sparkles
+                    className="size-5 shrink-0 text-[#005BFF]"
+                    aria-hidden="true"
+                  />
                 </div>
                 <div className="mt-6 grid grid-cols-[1fr_0.45fr] gap-3">
                   <div className="rounded-2xl border border-border bg-muted/40 p-4">
@@ -736,7 +826,8 @@ function WorkflowSection({ service }) {
             A clear process from idea to managed improvement.
           </h2>
           <p className="mt-5 text-base leading-7 text-muted-foreground">
-            We keep every phase visible, so business owners, teams, and technical stakeholders know what is happening and why it matters.
+            We keep every phase visible, so business owners, teams, and
+            technical stakeholders know what is happening and why it matters.
           </p>
         </div>
 
@@ -744,24 +835,38 @@ function WorkflowSection({ service }) {
           {/* Section structure: top row shows the service-specific workflow, bottom cards explain delivery steps. */}
           <div className="grid gap-3 sm:grid-cols-4">
             {service.workflowVisual.map((step, index) => (
-              <div key={step} className="rounded-2xl bg-muted/50 p-4 text-center">
-                <CircleDot className="mx-auto size-5 text-[#005BFF]" aria-hidden="true" />
-                <p className="mt-3 text-sm font-semibold text-foreground">{step}</p>
-                <p className="mt-1 text-xs text-muted-foreground">Step {index + 1}</p>
+              <div
+                key={step}
+                className="rounded-2xl bg-muted/50 p-4 text-center"
+              >
+                <CircleDot
+                  className="mx-auto size-5 text-[#005BFF]"
+                  aria-hidden="true"
+                />
+                <p className="mt-3 text-sm font-semibold text-foreground">
+                  {step}
+                </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Step {index + 1}
+                </p>
               </div>
             ))}
           </div>
 
           <div className="mt-5 grid gap-4">
             {service.process.map((step, index) => (
-              <div key={step} className="flex gap-4 rounded-2xl border border-border/70 bg-background p-5">
+              <div
+                key={step}
+                className="flex gap-4 rounded-2xl border border-border/70 bg-background p-5"
+              >
                 <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground text-sm font-semibold text-background">
                   {index + 1}
                 </span>
                 <div>
                   <h3 className="font-semibold text-foreground">{step}</h3>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    We document decisions, align the work with business value, and keep the build practical for real operations.
+                    We document decisions, align the work with business value,
+                    and keep the build practical for real operations.
                   </p>
                 </div>
               </div>
@@ -776,6 +881,10 @@ function WorkflowSection({ service }) {
 export default function ServicePageTemplate({ service }) {
   const Icon = service.icon;
 
+  if (service.slug === "business-automation") {
+    return <BusinessAutomationPage />;
+  }
+
   return (
     <main className="flex-1">
       {service.slug === "web-development" ? (
@@ -787,7 +896,9 @@ export default function ServicePageTemplate({ service }) {
 
           <div className="mx-auto max-w-7xl">
             {/* Reusable layout: every service page uses the same premium shell while service data changes the content. */}
-            <div className={`grid gap-10 rounded-[2rem] border border-border/70 bg-gradient-to-br ${service.accent} p-5 shadow-2xl shadow-foreground/10 sm:p-8 lg:grid-cols-[0.92fr_1.08fr] lg:p-10`}>
+            <div
+              className={`grid gap-10 rounded-[2rem] border border-border/70 bg-gradient-to-br ${service.accent} p-5 shadow-2xl shadow-foreground/10 sm:p-8 lg:grid-cols-[0.92fr_1.08fr] lg:p-10`}
+            >
               <div className="flex flex-col justify-center rounded-[1.5rem] bg-background/70 p-6 backdrop-blur sm:p-8">
                 <div className="mb-6 flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#005BFF]/15 to-[#12B7FF]/15 text-[#005BFF] ring-1 ring-[#005BFF]/20">
                   <Icon className="size-7" aria-hidden="true" />
@@ -808,7 +919,12 @@ export default function ServicePageTemplate({ service }) {
                       <ArrowRight className="size-4" aria-hidden="true" />
                     </Link>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-background/70 px-6">
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="h-12 rounded-full bg-background/70 px-6"
+                  >
                     <Link href="/#case-studies">View work</Link>
                   </Button>
                 </div>
@@ -839,11 +955,20 @@ export default function ServicePageTemplate({ service }) {
 
             <div className="grid gap-4 sm:grid-cols-3">
               {service.outcomes.map((outcome) => (
-                <div key={outcome} className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#005BFF]/10">
-                  <CheckCircle2 className="size-5 text-[#005BFF]" aria-hidden="true" />
-                  <p className="mt-5 text-sm font-semibold text-foreground">{outcome}</p>
+                <div
+                  key={outcome}
+                  className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#005BFF]/10"
+                >
+                  <CheckCircle2
+                    className="size-5 text-[#005BFF]"
+                    aria-hidden="true"
+                  />
+                  <p className="mt-5 text-sm font-semibold text-foreground">
+                    {outcome}
+                  </p>
                   <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    Designed with clear ownership, clean interfaces, and maintainable systems.
+                    Designed with clear ownership, clean interfaces, and
+                    maintainable systems.
                   </p>
                 </div>
               ))}
@@ -880,10 +1005,16 @@ export default function ServicePageTemplate({ service }) {
                   Ready to plan a {service.title.toLowerCase()} initiative?
                 </h2>
                 <p className="mt-5 max-w-2xl text-sm leading-6 text-background/70">
-                  Tell us what you want to improve. We will help turn it into a clear roadmap, strong interface, and practical delivery plan.
+                  Tell us what you want to improve. We will help turn it into a
+                  clear roadmap, strong interface, and practical delivery plan.
                 </p>
               </div>
-              <Button asChild size="lg" variant="secondary" className="h-12 rounded-full px-6">
+              <Button
+                asChild
+                size="lg"
+                variant="secondary"
+                className="h-12 rounded-full px-6"
+              >
                 <Link href="/#contact">
                   Book a consultation
                   <ArrowRight className="size-4" aria-hidden="true" />
@@ -896,5 +1027,3 @@ export default function ServicePageTemplate({ service }) {
     </main>
   );
 }
-
-

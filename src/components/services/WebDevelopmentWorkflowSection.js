@@ -9,6 +9,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
+import WebDevelopmentPricingSection from "@/components/pricing/Webdevpricing";
 
 const workflowSteps = [
   {
@@ -119,7 +120,6 @@ export default function WebDevelopmentWorkflowSection() {
     >
       <div className="absolute left-0 top-24 -z-10 h-80 w-80 rounded-full bg-[#12B7FF]/10 blur-3xl dark:bg-[#005BFF]/12" />
       <div className="absolute right-0 top-1/3 -z-10 h-96 w-96 rounded-full bg-[#005BFF]/8 blur-3xl dark:bg-[#12B7FF]/8" />
-
       <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.15fr] lg:items-start lg:px-8">
         <motion.div variants={itemVariants} className="lg:sticky lg:top-24">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
@@ -231,6 +231,7 @@ export default function WebDevelopmentWorkflowSection() {
           </div>
         </motion.div>
       </div>
+      <WebDevelopmentPricingSection />
     </motion.section>
   );
 }
