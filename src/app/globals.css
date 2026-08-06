@@ -159,6 +159,21 @@
     color: transparent;
     text-shadow: 0 18px 36px rgb(18 183 255 / 16%);
   }
+  .business-automation-copy {
+    animation: business-automation-copy-enter 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .business-automation-visual {
+    animation: business-automation-visual-enter 860ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  }
+  .business-automation-app-card {
+    animation: business-automation-app-card-enter 620ms cubic-bezier(0.16, 1, 0.3, 1)
+      var(--icon-delay, 180ms) both;
+    height: clamp(2.35rem, 5.4vw, 3.35rem);
+    left: var(--icon-x);
+    top: var(--icon-y);
+    transform: translate(-50%, -50%);
+    width: clamp(2.35rem, 5.4vw, 3.35rem);
+  }
   .animate-orbit-enter {
     animation: orbit-enter 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
@@ -480,11 +495,19 @@
   .web-feature-connectors,
   .web-connector-line,
   .web-connector-spine,
-  .web-connector-dot {
+  .web-connector-dot,
+  .business-automation-copy,
+  .business-automation-visual,
+  .business-automation-app-card {
     animation: none;
     opacity: 1;
+  }
+  .business-automation-copy,
+  .business-automation-visual {
     transform: none;
-    stroke-dashoffset: 0;
+  }
+  .business-automation-app-card {
+    transform: translate(-50%, -50%);
   }
   .scroll-reveal {
     opacity: 1;
@@ -522,6 +545,12 @@
     animation: web-feature-card-enter-compact 520ms cubic-bezier(0.16, 1, 0.3, 1)
       var(--card-delay, 320ms) both;
   }
+  .business-automation-hero {
+    min-height: auto;
+  }
+  .business-automation-visual {
+    min-height: auto;
+  }
   .scroll-reveal {
     transform: translateY(24px);
     transition-duration: 520ms;
@@ -546,6 +575,50 @@
   }
   to {
     opacity: 0.92;
+  }
+}
+
+@keyframes business-automation-copy-enter {
+  from {
+    filter: blur(7px);
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes business-automation-visual-enter {
+  from {
+    filter: blur(8px);
+    opacity: 0;
+    transform: translateX(22px) scale(0.97);
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes business-automation-app-card-enter {
+  from {
+    filter: blur(4px);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.72);
+  }
+  70% {
+    filter: blur(0);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 

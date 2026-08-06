@@ -7,6 +7,7 @@ import {
   Headphones,
   ShieldCheck,
   Sparkles,
+  UsersRound,
   Workflow,
 } from "lucide-react";
 
@@ -98,22 +99,114 @@ const automationTools = [
   { name: "Power Automate Management", logo: "/images/Power Automate.png" },
 ];
 
+const heroAppIcons = [
+  {
+    label: "Workflow365",
+    logo: "/images/365.png",
+    logoAlt: "Workflow365 logo",
+    x: 21,
+    y: 12,
+  },
+  {
+    label: "Email automation",
+    logo: "/images/Exchange_online.png",
+    logoAlt: "Exchange Online logo",
+    x: 34,
+    y: 10,
+  },
+  {
+    label: "Approval automation",
+    icon: CheckCircle2,
+    x: 44,
+    y: 22,
+  },
+  {
+    label: "Google Apps Script",
+    logo: "/images/Google_Apps_Script.png",
+    logoAlt: "Google Apps Script logo",
+    x: 14,
+    y: 29,
+  },
+  {
+    label: "Excel Online",
+    logo: "/images/Excel Online.png",
+    logoAlt: "Excel Online logo",
+    x: 31,
+    y: 37,
+  },
+  {
+    label: "Power Automate",
+    logo: "/images/Power Automate.png",
+    logoAlt: "Power Automate logo",
+    x: 18,
+    y: 48,
+  },
+  {
+    label: "Teams notification",
+    icon: UsersRound,
+    x: 41,
+    y: 50,
+  },
+];
+
+function BusinessAutomationHeroVisual() {
+  return (
+    <div className="business-automation-visual relative mx-auto w-full max-w-[48rem]">
+      <div className="absolute inset-x-8 bottom-4 h-12 rounded-full bg-[#005BFF]/22 blur-2xl dark:bg-[#12B7FF]/24" />
+      <Image
+        src="/images/automation-hero-v3.png"
+        alt="Business automation hub connecting workflow tools and team notifications"
+        width={1536}
+        height={864}
+        priority
+        quality={90}
+        className="relative z-10 h-auto w-full object-contain drop-shadow-[0_28px_50px_rgba(0,91,255,0.18)] dark:drop-shadow-[0_28px_50px_rgba(18,183,255,0.18)]"
+        sizes="(min-width: 1280px) 48rem, (min-width: 1024px) 58vw, 100vw"
+      />
+      {heroAppIcons.map(({ label, logo, logoAlt, icon: Icon, x, y }, index) => (
+        <span
+          key={label}
+          className="business-automation-app-card absolute z-30 flex items-center justify-center rounded-xl border border-[#12B7FF]/22 bg-white/88 shadow-[0_0_18px_rgba(18,183,255,0.22)] backdrop-blur-md dark:bg-white/92"
+          style={{
+            "--icon-x": `${x}%`,
+            "--icon-y": `${y}%`,
+            "--icon-delay": `${180 + index * 90}ms`,
+          }}
+          aria-label={label}
+          role="img"
+        >
+          {logo ? (
+            <Image
+              src={logo}
+              alt={logoAlt}
+              width={34}
+              height={34}
+              className="size-7 object-contain sm:size-8"
+            />
+          ) : (
+            <Icon className="size-7 text-[#005BFF] sm:size-8" aria-hidden="true" />
+          )}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function BusinessAutomationPage() {
   return (
     <main className="flex-1">
-      <section className="relative isolate overflow-hidden px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-        <div className="absolute left-[8%] top-12 -z-10 size-72 rounded-full bg-[#12B7FF]/12 blur-3xl dark:bg-[#005BFF]/16" />
-        <div className="absolute bottom-0 right-[5%] -z-10 size-96 rounded-full bg-[#005BFF]/10 blur-3xl dark:bg-[#12B7FF]/10" />
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.94fr_1.06fr] lg:items-center">
+      <section className="business-automation-hero relative isolate overflow-hidden bg-transparent px-4 py-12 transition-colors sm:px-6 sm:py-16 lg:px-8 lg:py-20">
+        <div className="absolute inset-0 z-[1] bg-gradient-to-b from-background/18 via-background/4 to-background/82 dark:from-background/20 dark:via-background/5 dark:to-background/88" />
+        <div className="relative z-10 mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
           <ScrollReveal>
-            <div className="max-w-2xl">
-              <h1 className="mt-6 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-[3.35rem]">
+            <div className="business-automation-copy max-w-3xl">
+              <h1 className="font-heading text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-[3.35rem]">
                 Transforming Professional Services with
                 <span className="hero-heading-accent inline ml-2">
                   Smart Automation.
                 </span>
               </h1>
-              <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
+              <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
                 The best automation does not make your business feel robotic. It
                 removes the repetitive follow-ups, scattered updates, and manual
                 admin that keep good people from doing their best work.
@@ -122,7 +215,7 @@ export default function BusinessAutomationPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F]"
+                  className="h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
                 >
                   <Link href="/contact">
                     Explore your workflow{" "}
@@ -142,7 +235,8 @@ export default function BusinessAutomationPage() {
           </ScrollReveal>
 
           <ScrollReveal delay={150}>
-            <div className="relative rounded-[2rem] border border-[#005BFF]/12 bg-white/80 p-5 shadow-[0_24px_70px_rgba(0,91,255,0.12)] backdrop-blur-xl dark:border-[#12B7FF]/18 dark:bg-[#0B1830]/80 dark:shadow-black/30 sm:p-7">
+            <BusinessAutomationHeroVisual />
+            <div className="hidden">
               <div className="flex items-center justify-between border-b border-border/70 pb-5">
                 <div className="flex items-center gap-3">
                   <span className="flex size-11 items-center justify-center rounded-2xl bg-[#12B7FF]/12 text-[#005BFF] dark:text-[#12B7FF]">
