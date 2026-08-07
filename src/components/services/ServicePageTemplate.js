@@ -27,6 +27,10 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 import TechnologiesToolsSection from "@/components/services/TechnologiesToolsSection";
 import WebDevelopmentWorkflowSection from "@/components/services/WebDevelopmentWorkflowSection";
 import BusinessAutomationPage from "@/components/services/BusinessAutomationPage";
+import DigitalMarketingPage from "@/components/services/DigitalMarketingPage";
+import ErpSystemsPage from "@/components/services/ErpSystemsPage";
+import CybersecurityPage from "@/components/services/CybersecurityPage";
+import ItSupportPage from "@/components/services/ItSupportPage";
 const webFeatureCards = [
   {
     title: "Responsive",
@@ -883,6 +887,22 @@ export default function ServicePageTemplate({ service }) {
 
   if (service.slug === "business-automation") {
     return <BusinessAutomationPage />;
+  }
+
+  if (service.slug === "digital-marketing") {
+    return <DigitalMarketingPage service={service} />;
+  }
+
+  if (service.slug === "erp-systems") {
+    return <ErpSystemsPage service={service} />;
+  }
+
+  if (service.slug === "cybersecurity") {
+    return <CybersecurityPage service={service} />;
+  }
+
+  if (service.slug === "it-support") {
+    return <ItSupportPage service={service} />;
   }
 
   return (

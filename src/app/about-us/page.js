@@ -1,4 +1,4 @@
-import AboutPageContent from "@/components/company/AboutPageContent";
+import AboutUsPageContent from "@/components/company/AboutUsPage";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import PageShell from "@/components/layout/PageShell";
@@ -13,7 +13,7 @@ export default function AboutUsPage() {
   return (
     <PageShell>
       <Navbar />
-      <AboutPageContent />
+      <AboutUsPageContent />
       <Footer />
     </PageShell>
   );

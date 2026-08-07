@@ -1,145 +1,196 @@
 "use client";
 
-import { Search } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, CalendarDays, Newspaper, TrendingUp } from "lucide-react";
 import { useState } from "react";
 
+import ScrollReveal from "@/components/ui/ScrollReveal";
 import { mediaPosts } from "@/lib/media";
 
-const categories = ["All", "News", "Company Updates", "Events", "Technology Insights", "AI", "Blogs"];
-const years = ["All", "2026", "2025"];
+const categories = ["All", "News", "Events", "Company Updates", "Insights"];
+
+const postImages = [
+  "/images/about us banner.png",
+  "/images/company-story-3.png",
+  "/images/digital-marketing hero.png",
+  "/images/contact banner.png",
+  "/images/automation-hero-v3.png",
+  "/images/company-story-2.png",
+];
+
+const normalizedCategory = (category) => {
+  if (["Technology Insights", "AI", "Blogs"].includes(category)) {
+    return "Insights";
+  }
+
+  return category;
+};
+
+const posts = mediaPosts.map((post, index) => ({
+  ...post,
+  displayCategory: normalizedCategory(post.category),
+  image: postImages[index % postImages.length],
+}));
+
+const mediaStats = [
+  { value: "24+", label: "Published insights" },
+  { value: "6", label: "Service topics" },
+  { value: "2", label: "Market regions" },
+];
 
 export default function MediaCenterContent() {
-  const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
-  const [year, setYear] = useState("All");
 
-  const featuredPosts = mediaPosts.filter((post) => post.featured);
-
-  // Search/filter logic stays local because this is a small static media center.
-  const filteredPosts = mediaPosts.filter((post) => {
-    const matchesQuery = `${post.title} ${post.summary}`
-      .toLowerCase()
-      .includes(query.toLowerCase());
-    const matchesCategory = category === "All" || post.category === category;
-    const matchesYear = year === "All" || post.year === year;
-
-    return matchesQuery && matchesCategory && matchesYear;
-  });
+  const visiblePosts =
+    category === "All"
+      ? posts
+      : posts.filter((post) => post.displayCategory === category);
+  const mainPosts = visiblePosts.slice(0, 3);
+  const latestPosts = posts.slice(0, 3);
 
   return (
     <main className="flex-1">
-      <section className="relative overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-        <div className="absolute right-0 top-0 -z-10 size-[32rem] rounded-full bg-[#12B7FF]/15 blur-3xl" />
-        <div className="mx-auto max-w-7xl rounded-[2rem] border border-border/70 bg-gradient-to-br from-background via-muted/40 to-[#EAF8FF]/60 p-6 shadow-2xl shadow-foreground/10 dark:to-[#07111F]/40 sm:p-8 lg:p-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
-            Media Center
-          </p>
-          <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-6xl">
-            Stay informed with Peace iTech insights, news, and events.
-          </h1>
-          <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-            Explore company updates, technology insights, AI ideas,
-            cybersecurity guidance, and event coverage from our team.
-          </p>
-        </div>
-      </section>
+      <section className="px-4 py-16 transition-colors sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <ScrollReveal className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
+              Media Center
+            </p>
+            <h1 className="mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+              Stay informed with Peace iTech insights, news, and events.
+            </h1>
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+              Explore company updates, practical technology ideas, event notes,
+              and growth stories from our team.
+            </p>
+          </ScrollReveal>
 
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-5 lg:grid-cols-2">
-            {featuredPosts.map((post) => (
-              <article
-                key={post.title}
-                className="group overflow-hidden rounded-[1.5rem] border border-border/70 bg-card shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#12B7FF]/10"
-              >
-                <div className="h-48 bg-gradient-to-br from-[#005BFF]/20 via-[#12B7FF]/20 to-[#12B7FF]/20 p-5">
-                  <div className="h-full rounded-2xl border border-background/50 bg-background/45 backdrop-blur" />
-                </div>
-                <div className="p-6">
-                  <div className="flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                    <span>{post.category}</span>
-                    <span>{post.date}</span>
-                  </div>
-                  <h2 className="mt-4 text-2xl font-semibold text-foreground">
-                    {post.title}
+          <ScrollReveal delay={0.06}>
+            <div className="mx-auto mt-8 flex max-w-3xl flex-wrap justify-center gap-3">
+              {categories.map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setCategory(item)}
+                  className={`h-10 rounded-[0.65rem] px-7 text-sm font-semibold transition ${
+                    category === item
+                      ? "bg-[#005BFF] text-white shadow-[0_14px_30px_rgba(0,91,255,0.22)]"
+                      : "bg-white/78 text-foreground shadow-[0_10px_28px_rgba(0,91,255,0.05)] hover:bg-[#005BFF]/8 dark:bg-[#0B1830]/72 dark:hover:bg-[#12B7FF]/10"
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </ScrollReveal>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_19rem]">
+            <div className="grid gap-5 md:grid-cols-3">
+              {mainPosts.map((post, index) => (
+                <ScrollReveal key={post.title} delay={index * 0.05}>
+                  <article className="group overflow-hidden rounded-[0.85rem] border border-[#005BFF]/12 bg-white/88 shadow-[0_16px_42px_rgba(0,91,255,0.07)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-[#005BFF]/32 hover:shadow-[0_24px_58px_rgba(0,91,255,0.13)] dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/74 dark:hover:border-[#12B7FF]/34">
+                    <div className="relative h-44 overflow-hidden">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(min-width: 1024px) 25vw, 90vw"
+                        className="object-cover transition duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,23,0.02),rgba(2,8,23,0.22))]" />
+                    </div>
+                    <div className="p-5">
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#005BFF] dark:text-[#12B7FF]">
+                        {post.displayCategory}
+                      </p>
+                      <h2 className="mt-3 min-h-[3.25rem] text-base font-semibold leading-7 text-foreground">
+                        {post.title}
+                      </h2>
+                      <div className="mt-4 flex items-center justify-between gap-4">
+                        <p className="text-sm text-muted-foreground">
+                          {post.date}
+                        </p>
+                        <button
+                          type="button"
+                          aria-label={`Read ${post.title}`}
+                          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#005BFF]/24 text-[#005BFF] transition hover:bg-[#005BFF] hover:text-white dark:border-[#12B7FF]/28 dark:text-[#12B7FF]"
+                        >
+                          <ArrowRight className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </div>
+                  </article>
+                </ScrollReveal>
+              ))}
+            </div>
+
+            <ScrollReveal delay={0.12}>
+              <aside className="rounded-[0.85rem] border border-[#005BFF]/10 bg-white/88 p-5 shadow-[0_18px_48px_rgba(0,91,255,0.08)] backdrop-blur-xl dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/74">
+                <div className="mb-5 flex items-center gap-3">
+                  <span className="h-7 w-1 rounded-full bg-[#005BFF] dark:bg-[#12B7FF]" />
+                  <h2 className="text-lg font-semibold text-foreground">
+                    Latest Updates
                   </h2>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {post.summary}
-                  </p>
                 </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-muted/30 py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-[1.5rem] border border-border/70 bg-background p-4 shadow-sm">
-            {/* Responsive filter bar: stacks on mobile, becomes a toolbar on desktop. */}
-            <div className="grid gap-3 lg:grid-cols-[1fr_auto_auto] lg:items-center">
-              <label className="relative block">
-                <Search
-                  className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
-                  aria-hidden="true"
-                />
-                <input
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search media center"
-                  className="h-12 w-full rounded-full border border-border bg-muted/40 pl-11 pr-4 text-sm outline-none transition-shadow focus:ring-3 focus:ring-ring/30"
-                />
-              </label>
-              <select
-                value={category}
-                onChange={(event) => setCategory(event.target.value)}
-                className="h-12 rounded-full border border-border bg-muted/40 px-4 text-sm outline-none focus:ring-3 focus:ring-ring/30"
-              >
-                {categories.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-              <select
-                value={year}
-                onChange={(event) => setYear(event.target.value)}
-                className="h-12 rounded-full border border-border bg-muted/40 px-4 text-sm outline-none focus:ring-3 focus:ring-ring/30"
-              >
-                {years.map((item) => (
-                  <option key={item}>{item}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {filteredPosts.map((post) => (
-              <article
-                key={post.title}
-                className="rounded-2xl border border-border/70 bg-card p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#005BFF]/10"
-              >
-                <div className="flex items-center justify-between gap-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                  <span>{post.category}</span>
-                  <span>{post.date}</span>
+                <div className="space-y-4">
+                  {latestPosts.map((post) => (
+                    <article key={post.title} className="flex gap-3">
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[0.45rem]">
+                        <Image
+                          src={post.image}
+                          alt=""
+                          fill
+                          sizes="4rem"
+                          className="object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-foreground">
+                          {post.title}
+                        </h3>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          {post.date}
+                        </p>
+                      </div>
+                    </article>
+                  ))}
                 </div>
-                <h3 className="mt-5 text-xl font-semibold text-foreground">
-                  {post.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                  {post.summary}
-                </p>
-              </article>
-            ))}
+                <button
+                  type="button"
+                  className="mt-6 flex h-11 w-full items-center justify-center gap-2 rounded-[0.65rem] bg-[#005BFF] text-sm font-semibold text-white shadow-[0_14px_30px_rgba(0,91,255,0.22)] transition hover:bg-[#004FE0]"
+                >
+                  View All News
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </aside>
+            </ScrollReveal>
           </div>
 
-          {filteredPosts.length === 0 ? (
-            <div className="mt-10 rounded-2xl border border-border/70 bg-background p-8 text-center text-sm text-muted-foreground">
-              No posts match the current filters.
+          <ScrollReveal delay={0.14}>
+            <div className="mt-8 grid gap-4 rounded-[1rem] border border-[#005BFF]/10 bg-white/76 p-4 shadow-[0_16px_44px_rgba(0,91,255,0.06)] backdrop-blur-xl dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/68 sm:grid-cols-3">
+              {mediaStats.map((stat, index) => {
+                const Icon = [Newspaper, CalendarDays, TrendingUp][index];
+
+                return (
+                  <div key={stat.label} className="flex items-center gap-4 p-3">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#005BFF]/9 text-[#005BFF] dark:bg-[#12B7FF]/10 dark:text-[#12B7FF]">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="text-2xl font-semibold text-foreground">
+                        {stat.value}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {stat.label}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          ) : null}
+          </ScrollReveal>
         </div>
       </section>
     </main>
   );
 }
-
-

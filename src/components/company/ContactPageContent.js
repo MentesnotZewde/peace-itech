@@ -1,325 +1,300 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  BriefcaseBusiness,
-  ChevronDown,
+  Building2,
   Clock,
-  Globe2,
-  Headphones,
-  LifeBuoy,
+  Home,
+  LockKeyhole,
   Mail,
-  MapPin,
   MessageCircle,
+  MapPin,
+  Phone,
   Send,
-  ShieldCheck,
-  Sparkles,
-  Users,
+  User,
 } from "lucide-react";
-import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import ScrollReveal from "@/components/ui/ScrollReveal";
 
-const contactMethods = [
-  { title: "Email Support", detail: "hello@peaceitech.com", icon: Mail },
-  { title: "Business Inquiries", detail: "Strategy, proposals, and partnerships", icon: BriefcaseBusiness },
-  { title: "Technical Support", detail: "Helpdesk, troubleshooting, and systems care", icon: Headphones },
-  { title: "WhatsApp", detail: "Fast project and support conversations", icon: MessageCircle },
-  { title: "Office Locations", detail: "Canada and Ethiopia presence", icon: MapPin },
-  { title: "Social Media", detail: "Updates, insights, and company news", icon: Globe2 },
+const contactDetails = [
+  {
+    title: "Email Us",
+    primary: "info@peaceitech.com",
+    detail: "We reply to new inquiries within one business day.",
+    icon: Mail,
+  },
+  {
+    title: "Call Us",
+    primary: "+1 (416) 555-0198",
+    detail: "Monday to Friday, 9:00 AM - 6:00 PM EST.",
+    icon: Phone,
+  },
+  {
+    title: "Business Hours",
+    primary: "Monday - Friday",
+    detail: "Canada and Ethiopia project support available.",
+    icon: Clock,
+  },
+  {
+    title: "Response Time",
+    primary: "Within 1 business day",
+    detail: "We will help you choose the right next step.",
+    icon: MessageCircle,
+  },
 ];
 
-const reasons = [
-  { title: "Fast response", icon: Clock },
-  { title: "Scalable solutions", icon: Sparkles },
-  { title: "Expert support", icon: LifeBuoy },
-  { title: "Secure systems", icon: ShieldCheck },
-  { title: "Customer-first approach", icon: Users },
+const fields = [
+  { label: "Full Name", type: "text", icon: User },
+  { label: "Email Address", type: "email", icon: Mail },
+  { label: "Phone Number", type: "tel", icon: Phone },
+  { label: "Office", type: "text", icon: Building2 },
 ];
 
-const faqs = [
+const offices = [
   {
-    question: "How quickly will Peace iTech Inc respond?",
-    answer:
-      "Most new business inquiries receive an initial response within one business day, with urgent support handled according to the agreed support channel.",
+    title: "Canada Office",
+    flag: "/images/canada_flag.png",
+    location: "Toronto, Ontario, Canada",
+    phone: "+1 (416) 555-0198",
+    email: "canada@peaceitech.com",
+    address: "100 King Street West, Suite 5700, Toronto, ON M5X 1C7, Canada",
+    hours: "Mon - Fri: 9:00 AM - 6:00 PM (EST)",
+    mapSrc:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2885.222957290138!2d-79.3142905!3d43.685128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89d4cd21d5fddf1d%3A0xb333bf515a38b2d2!2sWado%20Tax%20Services!5e0!3m2!1sen!2set!4v1786128513364!5m2!1sen!2set",
   },
   {
-    question: "Can you support businesses in both Canada and Ethiopia?",
-    answer:
-      "Yes. Peace iTech Inc is structured for remote-first delivery and supports organizations connected to Canada, Ethiopia, and international markets.",
-  },
-  {
-    question: "What should I include in my project message?",
-    answer:
-      "Share your business goal, current challenge, preferred service, timeline, and any systems your team already uses.",
-  },
-  {
-    question: "Do you offer ongoing support after launch?",
-    answer:
-      "Yes. We can support websites, ERP systems, automations, cybersecurity improvements, marketing systems, and IT operations after delivery.",
+    title: "Ethiopia Office",
+    flag: "/images/ethio_flag.png",
+    location: "Addis Ababa, Ethiopia",
+    phone: "+251 11 123 4567",
+    email: "ethiopia@peaceitech.com",
+    address: "Bole Road, Edna Mall Building, 5th Floor, Addis Ababa, Ethiopia",
+    hours: "Mon - Fri: 9:00 AM - 6:00 PM (EAT)",
+    mapSrc:
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3940.770523871153!2d38.7912883!3d8.9932514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b850070bdd3ed%3A0x41e19890a166badc!2sSelam%20City%20Mall%20%231%20%7C%20Bole!5e0!3m2!1sen!2sus!4v1786128705615!5m2!1sen!2sus",
   },
 ];
 
 export default function ContactPageContent() {
-  const [openFaq, setOpenFaq] = useState(0);
-
   return (
     <main className="flex-1">
-      <section className="relative overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-        <div className="absolute left-1/2 top-0 -z-10 size-[36rem] -translate-x-1/2 rounded-full bg-[#12B7FF]/15 blur-3xl" />
-        <div className="absolute right-0 top-28 -z-10 size-80 rounded-full bg-[#12B7FF]/15 blur-3xl" />
-
-        <div className="mx-auto max-w-7xl">
-          {/* Page structure: contact starts with a strong promise and a visual communication dashboard. */}
-          <div className="grid gap-10 rounded-[2rem] border border-border/70 bg-gradient-to-br from-background via-muted/40 to-[#EAF8FF]/60 p-5 shadow-2xl shadow-foreground/10 dark:to-[#07111F]/40 sm:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:p-10">
-            <div className="flex flex-col justify-center rounded-[1.5rem] bg-background/70 p-6 backdrop-blur sm:p-8">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
-                Contact Peace iTech Inc
-              </p>
-              <h1 className="mt-4 max-w-4xl text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-6xl">
-                Let&apos;s build something amazing together.
-              </h1>
-              <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                Start a conversation about websites, ERP systems, automation, cybersecurity, marketing, or support. We will help you shape the right next step.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="h-12 rounded-full px-6">
-                  <a href="#contact-form">
-                    Send a message
-                    <ArrowRight className="size-4" aria-hidden="true" />
-                  </a>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="h-12 rounded-full bg-background/70 px-6">
-                  <Link href="/about-us">Learn about us</Link>
-                </Button>
-              </div>
+      <section className="relative isolate -mt-[5.5rem] min-h-[22rem] overflow-hidden sm:min-h-[24rem] lg:min-h-[26rem]">
+        <Image
+          src="/images/contact banner.png"
+          alt="Business consultants reviewing a project tablet"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-[#020817]/58" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,8,23,0.88),rgba(2,8,23,0.54)_46%,rgba(0,91,255,0.18))]" />
+        <div className="relative mx-auto flex min-h-[22rem] max-w-7xl items-center px-4 pb-10 pt-[8rem] sm:min-h-[24rem] sm:px-6 lg:min-h-[26rem] lg:px-8">
+          <ScrollReveal className="max-w-2xl">
+            <div className="mb-6 flex items-center gap-3 text-sm font-medium text-white/78">
+              <Link
+                href="/"
+                aria-label="Home"
+                className="text-[#12B7FF] transition hover:text-white"
+              >
+                <Home className="h-4 w-4" />
+              </Link>
+              <span>/</span>
+              <span>Contact Us</span>
             </div>
-
-            <div className="relative animate-float">
-              <div className="rounded-[1.5rem] border border-border/70 bg-background/85 p-4 shadow-2xl shadow-foreground/10 backdrop-blur">
-                <div className="mb-5 flex items-center justify-between border-b border-border/70 pb-4">
-                  <div className="flex gap-2">
-                    <span className="size-3 rounded-full bg-red-400" />
-                    <span className="size-3 rounded-full bg-[#12B7FF]" />
-                    <span className="size-3 rounded-full bg-[#12B7FF]" />
-                  </div>
-                  <span className="text-xs font-medium text-muted-foreground">
-                    Communication Hub
-                  </span>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {["Project inquiry", "Support request", "Partnership", "Technical review"].map((item) => (
-                    <div key={item} className="rounded-2xl border border-border bg-muted/40 p-4">
-                      <Send className="size-5 text-[#005BFF]" aria-hidden="true" />
-                      <p className="mt-4 text-sm font-semibold text-foreground">{item}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-5 rounded-2xl bg-foreground p-5 text-background">
-                  <p className="text-sm text-background/70">Response workflow</p>
-                  <div className="mt-5 grid grid-cols-4 gap-2">
-                    {["Receive", "Review", "Plan", "Reply"].map((step) => (
-                      <div key={step} className="rounded-xl bg-background/10 p-3 text-center text-xs font-semibold">
-                        {step}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
-              Contact methods
+            <h1 className="text-4xl font-semibold leading-tight tracking-normal text-white sm:text-5xl lg:text-6xl">
+              Contact Us
+            </h1>
+            <p className="mt-5 max-w-xl text-base leading-7 text-white/88 sm:text-lg">
+              Let&apos;s talk about how Peace iTech Inc can support your
+              business across Canada, Ethiopia, and beyond.
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl">
-              Choose the best way to reach our team.
-            </h2>
-          </div>
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {contactMethods.map((method) => {
-              const Icon = method.icon;
-              return (
-                <div key={method.title} className="rounded-[1.5rem] border border-border/70 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#005BFF]/10">
-                  <Icon className="size-6 text-[#005BFF]" aria-hidden="true" />
-                  <h3 className="mt-5 text-xl font-semibold text-foreground">{method.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{method.detail}</p>
-                </div>
-              );
-            })}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      <section id="contact-form" className="bg-muted/30 py-20 sm:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.78fr_1.22fr] lg:px-8">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
-              Start a project
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl">
-              Tell us what you want to build, fix, automate, or secure.
-            </h2>
-            <p className="mt-5 text-base leading-7 text-muted-foreground">
-              This form is styled as a premium enterprise intake experience. Connect it to an API route or CRM when you are ready to process submissions.
-            </p>
-          </div>
-
-          <form className="rounded-[1.5rem] border border-border/70 bg-background p-5 shadow-2xl shadow-foreground/10 sm:p-6">
-            {/* Form logic: labels stay visible above inputs so the layout remains accessible and easy for beginners to follow. */}
-            <div className="grid gap-5 sm:grid-cols-2">
-              {[
-                { label: "Name", type: "text", placeholder: "Your full name" },
-                { label: "Company", type: "text", placeholder: "Company name" },
-                { label: "Email", type: "email", placeholder: "you@company.com" },
-              ].map((field) => (
-                <label key={field.label} className="grid gap-2">
-                  <span className="text-sm font-semibold text-foreground">{field.label}</span>
-                  <input
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    className="h-12 rounded-2xl border border-border bg-muted/40 px-4 text-sm outline-none transition-shadow focus:ring-3 focus:ring-ring/30"
-                  />
-                </label>
-              ))}
-              <label className="grid gap-2">
-                <span className="text-sm font-semibold text-foreground">Service Needed</span>
-                <select className="h-12 rounded-2xl border border-border bg-muted/40 px-4 text-sm outline-none transition-shadow focus:ring-3 focus:ring-ring/30">
-                  <option>Web Development</option>
-                  <option>ERP Systems</option>
-                  <option>Business Automation</option>
-                  <option>Cybersecurity</option>
-                  <option>Digital Marketing</option>
-                  <option>IT Support</option>
-                </select>
-              </label>
-            </div>
-            <label className="mt-5 grid gap-2">
-              <span className="text-sm font-semibold text-foreground">Message</span>
-              <textarea
-                rows={6}
-                placeholder="Share your goals, current challenge, timeline, and preferred service."
-                className="resize-none rounded-2xl border border-border bg-muted/40 px-4 py-3 text-sm outline-none transition-shadow focus:ring-3 focus:ring-ring/30"
-              />
-            </label>
-            <Button type="submit" size="lg" className="mt-6 h-12 rounded-full px-6">
-              Send message
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Button>
-          </form>
-        </div>
-      </section>
-
-      <section className="py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-5 lg:grid-cols-2">
-            {[
-              { country: "Canada Office", detail: "Business development, strategy, partnerships, and client success." },
-              { country: "Ethiopia Office", detail: "Technology delivery, automation, support, and implementation collaboration." },
-            ].map((office) => (
-              <div key={office.country} className="rounded-[1.5rem] border border-border/70 bg-card p-6 shadow-sm">
-                <div className="mb-6 flex items-center gap-3">
-                  <MapPin className="size-6 text-[#005BFF]" aria-hidden="true" />
-                  <h3 className="text-2xl font-semibold text-foreground">{office.country}</h3>
-                </div>
-                {/* Map-style visual uses pure Tailwind blocks so no external map asset is required. */}
-                <div className="rounded-2xl bg-gradient-to-br from-[#005BFF]/15 to-[#12B7FF]/15 p-4">
-                  <div className="grid h-44 grid-cols-4 gap-2">
-                    {[0, 1, 2, 3, 4, 5, 6, 7].map((block) => (
-                      <span key={block} className="rounded-xl bg-background/70" />
-                    ))}
-                  </div>
-                </div>
-                <p className="mt-5 text-sm leading-6 text-muted-foreground">{office.detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-muted/30 py-20 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
-              Why work with us
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl">
-              Built for teams that need dependable technology partners.
-            </h2>
-          </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {reasons.map((reason) => {
-              const Icon = reason.icon;
-              return (
-                <div key={reason.title} className="rounded-2xl border border-border/70 bg-background p-5 shadow-sm">
-                  <Icon className="size-5 text-[#005BFF]" aria-hidden="true" />
-                  <p className="mt-4 text-sm font-semibold text-foreground">{reason.title}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 sm:py-24">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.78fr_1.22fr] lg:px-8">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
-              Quick help
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl">
-              Answers before the first call.
-            </h2>
-          </div>
-          <div className="grid gap-3">
-            {faqs.map((faq, index) => (
-              <div key={faq.question} className="rounded-2xl border border-border/70 bg-card p-4 shadow-sm">
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between gap-4 text-left"
-                  onClick={() => setOpenFaq(openFaq === index ? -1 : index)}
-                >
-                  <span className="font-semibold text-foreground">{faq.question}</span>
-                  <ChevronDown className={`size-5 shrink-0 transition-transform ${openFaq === index ? "rotate-180" : ""}`} aria-hidden="true" />
-                </button>
-                {/* Component logic: the FAQ expands by switching max-height and opacity. */}
-                <div className={`overflow-hidden transition-all duration-300 ${openFaq === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"}`}>
-                  <p className="pt-4 text-sm leading-6 text-muted-foreground">{faq.answer}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="px-4 py-20 sm:px-6 sm:py-24 lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[2rem] bg-foreground p-8 text-background shadow-2xl shadow-foreground/10 sm:p-10">
-          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-background/60">
-                Ready when you are
-              </p>
-              <h2 className="mt-3 max-w-3xl text-3xl font-semibold sm:text-5xl">
-                Let Peace iTech Inc help you move from idea to execution.
+      <section className="px-4 py-14 transition-colors sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1.18fr_0.82fr]">
+          <ScrollReveal>
+            <form className="rounded-[1rem] border border-[#005BFF]/12 bg-white/86 p-6 shadow-[0_20px_58px_rgba(0,91,255,0.08)] backdrop-blur-xl dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/74 sm:p-8">
+              <h2 className="text-2xl font-semibold tracking-normal text-foreground">
+                Send us a message
               </h2>
-            </div>
-            <Button asChild size="lg" variant="secondary" className="h-12 rounded-full px-6">
-              <a href="#contact-form">
-                Start your project
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </a>
-            </Button>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
+                We&apos;d love to hear from you. Fill out the form and our
+                team will get back to you shortly.
+              </p>
+
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {fields.map((field) => {
+                  const Icon = field.icon;
+
+                  return (
+                    <label key={field.label} className="relative block">
+                      <Icon className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                      <input
+                        type={field.type}
+                        placeholder={field.label}
+                        className="h-13 w-full rounded-[0.65rem] border border-[#005BFF]/12 bg-background/70 px-12 text-sm text-foreground outline-none transition focus:border-[#005BFF]/42 focus:ring-3 focus:ring-[#005BFF]/12 dark:border-[#12B7FF]/16 dark:bg-[#07142A]/72 dark:focus:border-[#12B7FF]/42"
+                      />
+                    </label>
+                  );
+                })}
+              </div>
+
+              <label className="relative mt-4 block">
+                <MessageCircle className="pointer-events-none absolute left-4 top-4 h-5 w-5 text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder="Subject"
+                  className="h-13 w-full rounded-[0.65rem] border border-[#005BFF]/12 bg-background/70 px-12 text-sm text-foreground outline-none transition focus:border-[#005BFF]/42 focus:ring-3 focus:ring-[#005BFF]/12 dark:border-[#12B7FF]/16 dark:bg-[#07142A]/72 dark:focus:border-[#12B7FF]/42"
+                />
+              </label>
+
+              <label className="relative mt-4 block">
+                <MessageCircle className="pointer-events-none absolute left-4 top-4 h-5 w-5 text-muted-foreground" />
+                <textarea
+                  rows={5}
+                  placeholder="Message"
+                  className="w-full resize-none rounded-[0.65rem] border border-[#005BFF]/12 bg-background/70 px-12 py-4 text-sm text-foreground outline-none transition focus:border-[#005BFF]/42 focus:ring-3 focus:ring-[#005BFF]/12 dark:border-[#12B7FF]/16 dark:bg-[#07142A]/72 dark:focus:border-[#12B7FF]/42"
+                />
+              </label>
+
+              <Button
+                type="submit"
+                className="mt-5 h-12 w-full rounded-[0.65rem] bg-[#005BFF] text-sm font-semibold text-white shadow-[0_16px_34px_rgba(0,91,255,0.22)] hover:bg-[#004FE0]"
+              >
+                <Send className="h-4 w-4" />
+                Send Message
+              </Button>
+
+              <p className="mt-4 flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                <LockKeyhole className="h-4 w-4" />
+                Your information is secure and will never be shared.
+              </p>
+            </form>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.08}>
+            <aside className="h-full rounded-[1rem] border border-[#005BFF]/10 bg-[#F8FBFF]/86 p-6 shadow-[0_20px_58px_rgba(0,91,255,0.07)] backdrop-blur-xl dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/74 sm:p-8">
+              <h2 className="text-2xl font-semibold tracking-normal text-foreground">
+                Get in touch
+              </h2>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
+                Reach out to us using any of the options below.
+              </p>
+
+              <div className="mt-7 divide-y divide-[#005BFF]/10 dark:divide-[#12B7FF]/14">
+                {contactDetails.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <div key={item.title} className="flex gap-4 py-5 first:pt-0 last:pb-0">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#005BFF] text-white shadow-[0_14px_30px_rgba(0,91,255,0.22)]">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold text-[#005BFF] dark:text-[#12B7FF]">
+                          {item.title}
+                        </h3>
+                        <p className="mt-1 text-sm font-semibold text-foreground">
+                          {item.primary}
+                        </p>
+                        <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                          {item.detail}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </aside>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="px-4 pb-16 transition-colors sm:px-6 sm:pb-20 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <ScrollReveal className="text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
+              Our Offices
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl">
+              We&apos;re in Canada and Ethiopia
+            </h2>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+              Two offices. One commitment to your success.
+            </p>
+          </ScrollReveal>
+
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            {offices.map((office, index) => (
+              <ScrollReveal key={office.title} delay={index * 0.06}>
+                <article className="overflow-hidden rounded-[1rem] border border-[#005BFF]/12 bg-white/86 shadow-[0_18px_48px_rgba(0,91,255,0.08)] backdrop-blur-xl dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/74">
+                  <div className="grid md:grid-cols-[0.9fr_1.1fr]">
+                    <div className="relative min-h-[17rem] overflow-hidden bg-[#EAF3FF] dark:bg-[#07142A]">
+                      <iframe
+                        src={office.mapSrc}
+                        title={`${office.title} map`}
+                        className="absolute inset-0 h-full w-full"
+                        style={{ border: 0 }}
+                        allowFullScreen
+                        loading="lazy"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,91,255,0.08),rgba(2,8,23,0.04))]" />
+                      <div className="pointer-events-none absolute left-1/2 top-8 flex h-16 w-16 -translate-x-1/2 items-center justify-center rounded-full bg-white text-[#005BFF] shadow-[0_18px_38px_rgba(0,91,255,0.18)] dark:bg-[#0B1830] dark:text-[#12B7FF]">
+                        <MapPin className="h-8 w-8" />
+                      </div>
+                    </div>
+
+                    <div className="p-6 sm:p-7">
+                      <div className="flex items-center gap-3">
+                        <h3 className="text-2xl font-semibold tracking-normal text-foreground">
+                          {office.title}
+                        </h3>
+                        <span className="inline-flex h-7 w-10 items-center justify-center overflow-hidden rounded-[0.35rem] border border-[#005BFF]/12 bg-white shadow-sm dark:border-[#12B7FF]/18">
+                          <Image
+                            src={office.flag}
+                            alt={`${office.title} flag`}
+                            width={40}
+                            height={28}
+                            className="h-full w-full object-cover"
+                          />
+                        </span>
+                      </div>
+
+                      <div className="mt-5 grid gap-4 text-sm">
+                        {[
+                          { icon: MapPin, value: office.location },
+                          { icon: Phone, value: office.phone },
+                          { icon: Mail, value: office.email },
+                          { icon: MapPin, value: office.address },
+                          { icon: Clock, value: office.hours },
+                        ].map((item) => {
+                          const Icon = item.icon;
+
+                          return (
+                            <div key={item.value} className="flex gap-3">
+                              <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#005BFF] dark:text-[#12B7FF]" />
+                              <span className="leading-6 text-muted-foreground">
+                                {item.value}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
     </main>
   );
 }
-
-

@@ -10,7 +10,6 @@ import { services } from "@/lib/services";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Case Studies", href: "/#case-studies" },
   { label: "Media Center", href: "/media-center" },
   { label: "About Us", href: "/about-us" },
   { label: "Contact", href: "/contact" },
@@ -167,24 +166,6 @@ export default function Navbar() {
                     );
                   })}
                 </div>
-
-                <div className="mt-3 rounded-2xl bg-foreground p-4 text-background">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="text-sm font-semibold">
-                        Enterprise delivery model
-                      </p>
-                      <p className="mt-1 text-xs text-background/70">
-                        Strategy, design, engineering, security, launch, and
-                        support in one partner.
-                      </p>
-                    </div>
-                    <ArrowRight
-                      className="size-5 shrink-0"
-                      aria-hidden="true"
-                    />
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -306,8 +287,8 @@ export default function Navbar() {
                         <span className="block font-medium text-foreground">
                           {service.title}
                         </span>
-                        <span className="mt-1 block text-xs leading-5 text-muted-foreground">
-                          {service.eyebrow}
+                        <span className="mt-1 line-clamp-2 block text-xs leading-5 text-muted-foreground">
+                          {service.description}
                         </span>
                       </span>
                     </Link>
