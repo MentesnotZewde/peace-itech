@@ -37,19 +37,19 @@ const photos = [
   {
     src: "/images/minte_1.png",
     alt: "Technology team planning a digital system",
-    className: "right-[4%] top-0 w-[48%] rotate-2",
+    className: "right-[4%] top-0 w-[46%] rotate-2",
     position: "center center",
   },
   {
     src: "/images/muste_2.png",
     alt: "Team collaborating on business operations",
-    className: "left-[2%] top-[28%] w-[46%] -rotate-3",
+    className: "left-[2%] top-[24%] w-[44%] -rotate-3",
     position: "center center",
   },
   {
     src: "/images/melke_3.png",
     alt: "Modern business technology workspace",
-    className: "bottom-0 right-[8%] w-[48%] rotate-1",
+    className: "bottom-0 right-[8%] w-[46%] rotate-1",
     position: "center center",
   },
 ];
@@ -63,14 +63,14 @@ export default function WhyChooseUs() {
   return (
     <section
       id="about"
-      className="overflow-hidden bg-background py-20 transition-colors sm:py-24"
+      className="overflow-hidden bg-background py-16 transition-colors sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div className="relative min-h-[38rem] sm:min-h-[43rem] lg:min-h-[44rem]">
-            <div className="animate-why-frame absolute left-[18%] top-10 h-64 w-52 rounded-[2rem] bg-[#12B7FF]/10 shadow-2xl shadow-[#005BFF]/10 ring-1 ring-[#12B7FF]/20 backdrop-blur dark:bg-[#12B7FF]/8" />
-            <div className="animate-why-frame absolute right-[8%] top-[24%] h-72 w-56 rounded-[2rem] bg-[#005BFF]/10 shadow-2xl shadow-[#12B7FF]/10 ring-1 ring-[#005BFF]/20 backdrop-blur [animation-delay:120ms] dark:bg-[#005BFF]/10" />
-            <div className="animate-why-frame absolute bottom-10 left-[18%] h-64 w-60 rounded-[2rem] bg-[#071B8F]/10 shadow-2xl shadow-[#071B8F]/10 ring-1 ring-[#071B8F]/15 backdrop-blur [animation-delay:240ms] dark:bg-white/5" />
+          <div className="relative mx-auto min-h-[27rem] max-w-xl sm:min-h-[34rem] lg:mx-0 lg:min-h-[44rem] lg:max-w-none">
+            <div className="animate-why-frame absolute left-[18%] top-8 h-44 w-36 rounded-[1.5rem] bg-[#12B7FF]/10 shadow-2xl shadow-[#005BFF]/10 ring-1 ring-[#12B7FF]/20 backdrop-blur dark:bg-[#12B7FF]/8 sm:h-56 sm:w-44 lg:top-10 lg:h-64 lg:w-52 lg:rounded-[2rem]" />
+            <div className="animate-why-frame absolute right-[8%] top-[24%] h-48 w-40 rounded-[1.5rem] bg-[#005BFF]/10 shadow-2xl shadow-[#12B7FF]/10 ring-1 ring-[#005BFF]/20 backdrop-blur [animation-delay:120ms] dark:bg-[#005BFF]/10 sm:h-64 sm:w-52 lg:h-72 lg:w-56 lg:rounded-[2rem]" />
+            <div className="animate-why-frame absolute bottom-8 left-[18%] h-44 w-44 rounded-[1.5rem] bg-[#071B8F]/10 shadow-2xl shadow-[#071B8F]/10 ring-1 ring-[#071B8F]/15 backdrop-blur [animation-delay:240ms] dark:bg-white/5 sm:h-56 sm:w-56 lg:bottom-10 lg:h-64 lg:w-60 lg:rounded-[2rem]" />
 
             {photos.map((photo, index) => (
               <div

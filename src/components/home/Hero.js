@@ -124,7 +124,7 @@ export default function Hero() {
                   asChild
                   className="h-12 rounded-full bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5"
                 >
-                  <Link href="#case-studies">Explore case studies</Link>
+                  <Link href="#services">Explore services</Link>
                 </Button>
               </div>
 

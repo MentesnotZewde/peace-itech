@@ -123,9 +123,22 @@
   }
   body {
     @apply bg-background text-foreground transition-colors duration-300;
+    overflow-x: clip;
   }
   html {
     @apply scroll-smooth font-sans;
+  }
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+  h1,
+  h2,
+  h3,
+  p {
+    overflow-wrap: anywhere;
   }
 }
 

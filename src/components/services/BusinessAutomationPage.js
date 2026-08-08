@@ -24,7 +24,6 @@ const automationMoments = [
     logo: "/images/365.png",
     logoAlt: "Microsoft 365 logo",
   },
-  ,
   {
     title: "Google Apps Script",
     description:

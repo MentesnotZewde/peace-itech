@@ -343,7 +343,7 @@ function WebDevelopmentShowcase() {
               variant="outline"
               className="h-12 rounded-full bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#12B7FF]/10"
             >
-              <Link href="/#case-studies">
+              <Link href="/media-center">
                 See more projects
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
@@ -429,7 +429,7 @@ function WebFeatureConnectors() {
 
 function WebHeroImage() {
   return (
-    <div className="web-hero-image-enter relative z-10 mx-auto w-full max-w-[64rem] lg:-mr-24 xl:-mr-32">
+    <div className="web-hero-image-enter relative z-10 mx-auto w-full max-w-[58rem]">
       <div className="absolute inset-x-8 bottom-4 h-12 rounded-full bg-[#005BFF]/22 blur-2xl dark:bg-[#12B7FF]/24" />
       <Image
         src="/images/web-development-hero-inspo.png"
@@ -945,7 +945,7 @@ export default function ServicePageTemplate({ service }) {
                     variant="outline"
                     className="h-12 rounded-full bg-background/70 px-6"
                   >
-                    <Link href="/#case-studies">View work</Link>
+                    <Link href="/media-center">View work</Link>
                   </Button>
                 </div>
               </div>

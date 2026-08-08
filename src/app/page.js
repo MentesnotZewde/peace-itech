@@ -1,6 +1,8 @@
+import FaqSection from "@/components/home/FaqSection";
 import Hero from "@/components/home/Hero";
 import ServicesSection from "@/components/home/ServicesSection";
 import StatsSection from "@/components/home/StatsSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
 import TrustedTeams from "@/components/home/TrustedTeams";
 import WhyChooseUs from "@/components/home/WhyChooseUs";
 import Footer from "@/components/layout/Footer";
@@ -28,6 +30,12 @@ export default function Home() {
           </ScrollReveal>
           <ScrollReveal delay={120}>
             <WhyChooseUs />
+          </ScrollReveal>
+          <ScrollReveal delay={120}>
+            <TestimonialsSection />
+          </ScrollReveal>
+          <ScrollReveal delay={120}>
+            <FaqSection />
           </ScrollReveal>
         </main>
         <Footer />

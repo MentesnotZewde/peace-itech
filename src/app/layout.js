@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Sora } from "next/font/google";
+import AssistantWidget from "@/components/ai-assistant/AssistantWidget";
 import PageLoader from "@/components/layout/PageLoader";
 
 const sora = Sora({
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
       <body className={`${sora.variable} min-h-full flex flex-col`}>
         <PageLoader />
         {children}
+        <AssistantWidget />
       </body>
     </html>
   );

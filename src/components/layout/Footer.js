@@ -8,7 +8,6 @@ import { services } from "@/lib/services";
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/#services" },
-  { label: "Case Studies", href: "/#case-studies" },
   { label: "Media Center", href: "/media-center" },
   { label: "About Us", href: "/about-us" },
   { label: "Contact", href: "/contact" },
@@ -152,7 +151,7 @@ export default function Footer() {
                 secure digital growth.
               </p>
               {/* Simple newsletter UI: the form is visual until a backend/API route is added. */}
-              <form className="mt-5 flex gap-2 rounded-full border border-border bg-muted/40 p-1">
+              <form className="mt-5 flex flex-col gap-2 rounded-2xl border border-border bg-muted/40 p-1 sm:flex-row sm:rounded-full">
                 <label className="sr-only" htmlFor="footer-email">
                   Email address
                 </label>

@@ -1,0 +1,22 @@
+const buckets = new Map();
+
+export function checkRateLimit(key, { limit = 12, windowMs = 60_000 } = {}) {
+  const now = Date.now();
+  const bucket = buckets.get(key);
+
+  if (!bucket || bucket.resetAt <= now) {
+    buckets.set(key, { count: 1, resetAt: now + windowMs });
+    return { allowed: true, remaining: limit - 1 };
+  }
+
+  if (bucket.count >= limit) {
+    return {
+      allowed: false,
+      remaining: 0,
+      retryAfter: Math.ceil((bucket.resetAt - now) / 1000),
+    };
+  }
+
+  bucket.count += 1;
+  return { allowed: true, remaining: limit - bucket.count };
+}

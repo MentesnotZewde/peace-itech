@@ -262,7 +262,7 @@ const itSupportCtaTrustPoints = [
 export default function ItSupportPage() {
   return (
     <main className="flex-1">
-      <section className="relative isolate -mt-[5.5rem] flex min-h-[44rem] items-center justify-center overflow-hidden px-4 pb-16 pt-[10rem] text-center text-white sm:min-h-[48rem] sm:px-6 lg:min-h-[50rem] lg:px-8">
+      <section className="relative isolate -mt-[5.5rem] flex min-h-[34rem] items-center justify-center overflow-hidden px-4 pb-12 pt-[9rem] text-center text-white sm:min-h-[38rem] sm:px-6 lg:min-h-[42rem] lg:px-8">
         <Image
           src="/images/it_support_hero.png"
           alt="IT support technician repairing a desktop computer workstation"
@@ -481,7 +481,7 @@ export default function ItSupportPage() {
 
                 return (
                   <ScrollReveal key={step.title} delay={120 + index * 90}>
-                    <article className="group relative flex h-full min-h-80 flex-col items-center rounded-[1.5rem] border border-[#005BFF]/10 bg-white/82 p-6 text-center shadow-[0_18px_44px_rgba(0,91,255,0.08)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#12B7FF]/35 hover:bg-white hover:shadow-[0_26px_64px_rgba(18,183,255,0.14)] dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/72 dark:hover:border-[#12B7FF]/35 dark:hover:shadow-[#12B7FF]/12">
+                  <article className="group relative flex h-full min-h-64 flex-col items-center rounded-[1.5rem] border border-[#005BFF]/10 bg-white/82 p-5 text-center shadow-[0_18px_44px_rgba(0,91,255,0.08)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#12B7FF]/35 hover:bg-white hover:shadow-[0_26px_64px_rgba(18,183,255,0.14)] dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/72 dark:hover:border-[#12B7FF]/35 dark:hover:shadow-[#12B7FF]/12 sm:p-6 lg:min-h-72">
                       <span className="flex size-12 items-center justify-center rounded-full bg-[#005BFF] text-sm font-bold text-white shadow-[0_12px_28px_rgba(0,91,255,0.24)]">
                         0{index + 1}
                       </span>

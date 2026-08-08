@@ -138,7 +138,7 @@ export default function ContactPageContent() {
                       <input
                         type={field.type}
                         placeholder={field.label}
-                        className="h-13 w-full rounded-[0.65rem] border border-[#005BFF]/12 bg-background/70 px-12 text-sm text-foreground outline-none transition focus:border-[#005BFF]/42 focus:ring-3 focus:ring-[#005BFF]/12 dark:border-[#12B7FF]/16 dark:bg-[#07142A]/72 dark:focus:border-[#12B7FF]/42"
+                        className="h-12 w-full rounded-[0.65rem] border border-[#005BFF]/12 bg-background/70 px-12 text-sm text-foreground outline-none transition focus:border-[#005BFF]/42 focus:ring-3 focus:ring-[#005BFF]/12 dark:border-[#12B7FF]/16 dark:bg-[#07142A]/72 dark:focus:border-[#12B7FF]/42"
                       />
                     </label>
                   );
@@ -150,7 +150,7 @@ export default function ContactPageContent() {
                 <input
                   type="text"
                   placeholder="Subject"
-                  className="h-13 w-full rounded-[0.65rem] border border-[#005BFF]/12 bg-background/70 px-12 text-sm text-foreground outline-none transition focus:border-[#005BFF]/42 focus:ring-3 focus:ring-[#005BFF]/12 dark:border-[#12B7FF]/16 dark:bg-[#07142A]/72 dark:focus:border-[#12B7FF]/42"
+                  className="h-12 w-full rounded-[0.65rem] border border-[#005BFF]/12 bg-background/70 px-12 text-sm text-foreground outline-none transition focus:border-[#005BFF]/42 focus:ring-3 focus:ring-[#005BFF]/12 dark:border-[#12B7FF]/16 dark:bg-[#07142A]/72 dark:focus:border-[#12B7FF]/42"
                 />
               </label>
 

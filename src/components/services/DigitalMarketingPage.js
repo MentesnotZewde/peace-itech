@@ -321,7 +321,7 @@ function DigitalMarketingHero({ service }) {
                 variant="outline"
                 className="h-12 rounded-full border-[#005BFF]/45 bg-background/70 px-6 text-[#005BFF] backdrop-blur hover:-translate-y-0.5 dark:border-[#12B7FF]/40 dark:text-[#12B7FF]"
               >
-                <Link href="/#case-studies">
+                <Link href="/media-center">
                   See Our Results
                   <ArrowRight className="size-5" aria-hidden="true" />
                 </Link>
@@ -329,7 +329,7 @@ function DigitalMarketingHero({ service }) {
             </div>
           </div>
 
-          <div className="web-hero-image-enter relative mx-auto w-full max-w-[64rem] lg:-mr-24 xl:-mr-32">
+          <div className="web-hero-image-enter relative mx-auto w-full max-w-[58rem]">
             <div className="absolute inset-x-10 bottom-6 h-14 rounded-full bg-[#005BFF]/22 blur-2xl dark:bg-[#12B7FF]/24" />
             <Image
               src="/images/digital-marketing hero_v2.png.png"

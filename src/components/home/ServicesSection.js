@@ -6,7 +6,7 @@ export default function ServicesSection() {
   const headingWords =
     "A complete technology partner for modern operations.".split(" ");
   const paragraphText =
-    "Each service is generated from one data array, so adding a new offering later only requires adding another object above.";
+    "From websites and automation to IT support and digital growth, our services connect strategy, delivery, and long-term support.";
   const headingColorClasses = [
     "text-black dark:text-white",
     "text-black dark:text-white",
@@ -20,7 +20,7 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="bg-muted/30 py-20 transition-colors sm:py-24"
+      className="bg-muted/30 py-16 transition-colors sm:py-20 lg:py-24"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
@@ -64,7 +64,7 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-x-8 gap-y-10 sm:mt-14 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => {
             const Icon = service.icon;
 
