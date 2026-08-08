@@ -72,46 +72,48 @@ export default function Footer() {
     >
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.25fr_0.7fr_0.9fr_1.1fr]">
-            <div>
-              <Link
-                href="/"
-                className="group flex items-center gap-3 font-semibold"
-                aria-label="Peace iTech Inc home"
-              >
-                <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-muted/50">
-                  <Image
-                    src="/logo-icon.png"
-                    alt="Peace iTech Inc logo"
-                    width={56}
-                    height={56}
-                    className="size-12 scale-125 object-contain transition-transform duration-300 group-hover:scale-[1.35]"
-                  />
-                </span>
-                <span className="text-base text-foreground">
-                  Peace iTech Inc
-                </span>
-              </Link>
-              <p className="mt-5 max-w-sm text-sm leading-6 text-muted-foreground">
-                Premium technology solutions for websites, ERP, automation,
-                cybersecurity, digital marketing, and dependable IT support.
-              </p>
-              <div className="mt-6 flex gap-2">
-                {socialLinks.map((link) => (
-                  <Button
-                    key={link.label}
-                    asChild
-                    variant="outline"
-                    size="icon"
-                    className="rounded-full bg-background shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#12B7A8] hover:text-[#005BFF]"
-                  >
-                    <Link href={link.href} aria-label={link.label}>
-                      <SocialIcon>{link.icon}</SocialIcon>
-                    </Link>
-                  </Button>
-                ))}
-              </div>
+          <div>
+            <Link
+              href="/"
+              className="group flex items-center gap-3 font-semibold"
+              aria-label="Peace iTech Inc home"
+            >
+              <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-muted/50">
+                <Image
+                  src="/logo-icon.png"
+                  alt="Peace iTech Inc logo"
+                  width={56}
+                  height={56}
+                  className="size-12 scale-125 object-contain transition-transform duration-300 group-hover:scale-[1.35]"
+                />
+              </span>
+              <span className="text-base text-foreground">Peace iTech Inc</span>
+            </Link>
+            <p className="mt-5 max-w-sm text-sm leading-6 text-muted-foreground">
+              Premium technology solutions for websites, ERP, automation,
+              cybersecurity, digital marketing, and dependable IT support.
+            </p>
+            <div className="mt-6 flex gap-2">
+              {socialLinks.map((link) => (
+                <Button
+                  key={link.label}
+                  asChild
+                  variant="outline"
+                  size="icon"
+                  className="rounded-full bg-background shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#12B7A8] hover:text-[#005BFF]"
+                >
+                  <Link href={link.href} aria-label={link.label}>
+                    <SocialIcon>{link.icon}</SocialIcon>
+                  </Link>
+                </Button>
+              ))}
             </div>
+          </div>
 
+          {/* Paired side-by-side on mobile via this inner grid; on lg+ it
+                becomes `contents` so Company/Services rejoin the outer
+                4-column grid as if this wrapper wasn't there. */}
+          <div className="grid grid-cols-2 gap-6 lg:contents">
             <div>
               <h3 className="text-sm font-semibold text-foreground">Company</h3>
               <div className="mt-4 grid gap-3">
@@ -128,7 +130,9 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-sm font-semibold text-foreground">Services</h3>
+              <h3 className="text-sm font-semibold text-foreground">
+                Services
+              </h3>
               <div className="mt-4 grid gap-3">
                 {services.map((service) => (
                   <Link
@@ -141,70 +145,53 @@ export default function Footer() {
                 ))}
               </div>
             </div>
-
-            <div>
-              <h3 className="text-sm font-semibold text-foreground">
-                Stay connected
-              </h3>
-              <p className="mt-4 text-sm leading-6 text-muted-foreground">
-                Get practical notes on business technology, automation, and
-                secure digital growth.
-              </p>
-              {/* Simple newsletter UI: the form is visual until a backend/API route is added. */}
-              <form className="mt-5 flex flex-col gap-2 rounded-2xl border border-border bg-muted/40 p-1 sm:flex-row sm:rounded-full">
-                <label className="sr-only" htmlFor="footer-email">
-                  Email address
-                </label>
-                <input
-                  id="footer-email"
-                  type="email"
-                  placeholder="Email address"
-                  className="min-w-0 flex-1 rounded-full bg-transparent px-4 py-2 text-sm outline-none placeholder:text-muted-foreground"
-                />
-                <Button type="submit" className="rounded-full px-5">
-                  Join
-                </Button>
-              </form>
-              <div className="mt-6 grid gap-3 text-sm text-muted-foreground">
-                <Link
-                  href="mailto:hello@peaceitech.com"
-                  className="flex items-center gap-2 transition-colors hover:text-foreground"
-                >
-                  <Mail className="size-4 text-[#005BFF]" aria-hidden="true" />
-                  hello@peaceitech.com
-                </Link>
-                <Link
-                  href="tel:+15550120188"
-                  className="flex items-center gap-2 transition-colors hover:text-foreground"
-                >
-                  <Phone className="size-4 text-[#005BFF]" aria-hidden="true" />
-                  +1 (555) 012-0188
-                </Link>
-                <span className="flex items-center gap-2">
-                  <MapPin className="size-4 text-[#005BFF]" aria-hidden="true" />
-                  United States
-                </span>
-              </div>
-            </div>
           </div>
 
-          <div className="mt-10 flex flex-col gap-3 border-t border-border/70 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>&copy; 2026 Peace iTech Inc. All rights reserved.</p>
-            <div className="flex flex-wrap gap-x-5 gap-y-2">
-              <Link href="#" className="transition-colors hover:text-foreground">
-                Privacy Policy
+          <div>
+            <h3 className="text-sm font-semibold text-foreground">
+              Stay connected
+            </h3>
+
+            <div className="mt-6 grid gap-3 text-sm text-muted-foreground">
+              <Link
+                href="mailto:hello@peaceitech.com"
+                className="flex items-center gap-2 transition-colors hover:text-foreground"
+              >
+                <Mail className="size-4 text-[#005BFF]" aria-hidden="true" />
+                hello@peaceitech.com
               </Link>
-              <Link href="#" className="transition-colors hover:text-foreground">
-                Terms of Use
+              <Link
+                href="tel:+15550120188"
+                className="flex items-center gap-2 transition-colors hover:text-foreground"
+              >
+                <Phone className="size-4 text-[#005BFF]" aria-hidden="true" />
+                +1 (555) 012-0188
               </Link>
-              <Link href="#" className="transition-colors hover:text-foreground">
-                Legal
-              </Link>
-              <Link href="#" className="transition-colors hover:text-foreground">
-                Site Map
-              </Link>
+              <span className="flex items-center gap-2">
+                <MapPin className="size-4 text-[#005BFF]" aria-hidden="true" />
+                United States
+              </span>
             </div>
           </div>
+        </div>
+
+        <div className="mt-10 flex flex-col gap-3 border-t border-border/70 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; 2026 Peace iTech Inc. All rights reserved.</p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link href="#" className="transition-colors hover:text-foreground">
+              Privacy Policy
+            </Link>
+            <Link href="#" className="transition-colors hover:text-foreground">
+              Terms of Use
+            </Link>
+            <Link href="#" className="transition-colors hover:text-foreground">
+              Legal
+            </Link>
+            <Link href="#" className="transition-colors hover:text-foreground">
+              Site Map
+            </Link>
+          </div>
+        </div>
       </div>
     </footer>
   );

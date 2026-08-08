@@ -90,7 +90,7 @@ export default function StatsSection() {
           observer.disconnect();
         }
       },
-      { threshold: 0.28 }
+      { threshold: 0.28 },
     );
 
     observer.observe(element);
@@ -143,17 +143,17 @@ export default function StatsSection() {
 
         <div
           ref={statsRef}
-          className="mt-16 grid overflow-hidden border-y border-border/70 md:grid-cols-4"
+          className="mt-16 grid grid-cols-2 overflow-hidden border-y border-border/70 md:grid-cols-4"
         >
           {stats.map((stat, index) => (
             <div
               key={stat.label}
-              className="animate-stats-reveal group relative border-border/70 py-7 opacity-0 md:border-l md:px-8 md:first:border-l-0"
+              className="animate-stats-reveal group relative border-border/70 px-4 py-7 opacity-0 [&:nth-child(even)]:border-l [&:nth-child(n+3)]:border-t md:border-l md:px-8 md:first:border-l-0 md:[&:nth-child(even)]:border-l md:[&:nth-child(n+3)]:border-t-0"
               style={{ animationDelay: `${520 + index * 110}ms` }}
             >
               <div className="pointer-events-none absolute inset-x-4 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-[#12B7FF]/70 to-transparent transition-transform duration-700 group-hover:scale-x-100 md:inset-x-8" />
               <p
-                className="animate-stat-value text-4xl font-semibold tracking-normal text-foreground sm:text-5xl"
+                className="animate-stat-value text-3xl font-semibold tracking-normal text-foreground sm:text-4xl md:text-5xl"
                 aria-label={stat.value}
               >
                 <AnimatedStatValue

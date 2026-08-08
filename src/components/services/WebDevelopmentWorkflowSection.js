@@ -112,11 +112,10 @@ export default function WebDevelopmentWorkflowSection() {
   return (
     <motion.section
       ref={sectionRef}
-      className="relative isolate overflow-hidden py-20 transition-colors sm:py-24"
+      className="relative isolate overflow-visible py-20 transition-colors sm:py-24"
       variants={sectionVariants}
       initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      animate="visible"
     >
       <div className="absolute left-0 top-24 -z-10 h-80 w-80 rounded-full bg-[#12B7FF]/10 blur-3xl dark:bg-[#005BFF]/12" />
       <div className="absolute right-0 top-1/3 -z-10 h-96 w-96 rounded-full bg-[#005BFF]/8 blur-3xl dark:bg-[#12B7FF]/8" />

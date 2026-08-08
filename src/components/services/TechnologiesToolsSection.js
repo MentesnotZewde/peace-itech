@@ -8,7 +8,10 @@ import { motion } from "framer-motion";
 const defaultTools = [
   { name: "React", logo: "https://cdn.simpleicons.org/react/61DAFB" },
   { name: "Next.js", logo: "/images/Next.jpg" },
-  { name: "Tailwind CSS", logo: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+  {
+    name: "Tailwind CSS",
+    logo: "https://cdn.simpleicons.org/tailwindcss/06B6D4",
+  },
   { name: "Node.js", logo: "https://cdn.simpleicons.org/nodedotjs/5FA04E" },
   { name: "Firebase", logo: "https://cdn.simpleicons.org/firebase/FFCA28" },
   { name: "PostgreSQL", logo: "https://cdn.simpleicons.org/postgresql/4169E1" },
@@ -69,7 +72,12 @@ function LogoCard({ tool }) {
       className="group flex h-24 w-32 shrink-0 flex-col items-center justify-center gap-2 rounded-2xl border border-[#005BFF]/10 bg-white/78 shadow-[0_16px_36px_rgba(0,91,255,0.08)] backdrop-blur-xl transition-colors duration-300 hover:border-[#12B7FF]/45 hover:shadow-[0_22px_48px_rgba(18,183,255,0.18)] dark:border-[#12B7FF]/16 dark:bg-[#0B1830]/70 dark:shadow-black/20 dark:hover:border-[#12B7FF]/45 dark:hover:shadow-[#12B7FF]/16 sm:w-36"
     >
       <span className="flex size-11 items-center justify-center rounded-xl border border-[#005BFF]/8 bg-white/90 shadow-inner shadow-[#005BFF]/5 dark:border-[#12B7FF]/14">
-        <img src={tool.logo} alt="" className="size-7 object-contain" loading="lazy" />
+        <img
+          src={tool.logo}
+          alt=""
+          className="size-7 object-contain"
+          loading="lazy"
+        />
       </span>
       <span className="max-w-full px-2 text-center text-xs font-semibold leading-4 text-foreground">
         {tool.name}
@@ -80,9 +88,11 @@ function LogoCard({ tool }) {
 
 function StaticLogoGrid({ items }) {
   return (
-    <div className="grid grid-cols-2 justify-items-center gap-3 sm:grid-cols-3">
+    <div className="-mx-4 flex gap-3 overflow-x-auto px-4 py-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0">
       {items.map((tool) => (
-        <LogoCard key={tool.name} tool={tool} />
+        <div key={tool.name} className="flex-shrink-0 sm:flex-shrink">
+          <LogoCard tool={tool} />
+        </div>
       ))}
     </div>
   );
@@ -99,8 +109,10 @@ function LogoCarousel({ items, reverse = false, isCompact = false }) {
     <div
       className="relative overflow-hidden py-2"
       style={{
-        WebkitMaskImage: "linear-gradient(90deg, transparent, black 9%, black 91%, transparent)",
-        maskImage: "linear-gradient(90deg, transparent, black 9%, black 91%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(90deg, transparent, black 9%, black 91%, transparent)",
+        maskImage:
+          "linear-gradient(90deg, transparent, black 9%, black 91%, transparent)",
       }}
     >
       <motion.div
@@ -156,7 +168,10 @@ export default function TechnologiesToolsSection({
               className="mt-3 pb-1 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl"
             >
               {title}
-              <span className="hero-heading-accent block" style={{ textShadow: "none" }}>
+              <span
+                className="hero-heading-accent block"
+                style={{ textShadow: "none" }}
+              >
                 {accentTitle}
               </span>
             </motion.h2>

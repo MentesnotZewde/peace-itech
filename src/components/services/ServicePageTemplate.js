@@ -144,14 +144,14 @@ const webShowcaseProjects = [
 
 function WebFeatureRail() {
   return (
-    <div className="relative z-20 grid gap-3 sm:grid-cols-2 lg:block lg:space-y-4">
+    <div className="relative z-20 grid grid-cols-2  divide-x divide-y divide-border/70 rounded-2xl bg-white/78 p-3 dark:bg-[#07111F]/72 lg:block lg:space-y-4 lg:divide-x-0 lg:divide-y-0 lg:bg-transparent lg:p-0">
       {webFeatureCards.map((card, index) => {
         const Icon = card.icon;
 
         return (
           <div
             key={card.title}
-            className="web-feature-card rounded-2xl border border-[#005BFF]/12 bg-white/78 p-4 shadow-xl shadow-[#005BFF]/10 backdrop-blur-xl dark:border-[#12B7FF]/20 dark:bg-[#07111F]/72 dark:shadow-[#12B7FF]/10 lg:w-[13.5rem]"
+            className="web-feature-card rounded-2xl border border-transparent bg-transparent p-4 shadow-none lg:border-[#005BFF]/12 lg:bg-white/78 lg:shadow-xl lg:shadow-[#005BFF]/10 backdrop-blur-xl dark:border-transparent dark:bg-transparent lg:dark:border-[#12B7FF]/20 lg:dark:bg-[#07111F]/72 lg:dark:shadow-[#12B7FF]/10 lg:w-[13.5rem]"
             style={{ "--card-delay": `${520 + index * 150}ms` }}
           >
             <div className="flex items-start gap-3">
@@ -453,11 +453,6 @@ function WebDevelopmentHero({ service }) {
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
           <div className="web-hero-copy-enter max-w-3xl">
-            <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#005BFF]/22 bg-background/74 px-4 py-2 text-xs font-semibold uppercase tracking-normal text-[#005BFF] shadow-sm backdrop-blur dark:border-[#12B7FF]/30 dark:text-[#12B7FF]">
-              <Sparkles className="size-4" aria-hidden="true" />
-              {service.title}
-            </div>
-
             <h1 className="font-heading text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-[3.35rem]">
               <span
                 className="animate-hero-heading-word block opacity-0"

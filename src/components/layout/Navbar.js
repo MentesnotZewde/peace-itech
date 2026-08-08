@@ -287,9 +287,6 @@ export default function Navbar() {
                         <span className="block font-medium text-foreground">
                           {service.title}
                         </span>
-                        <span className="mt-1 line-clamp-2 block text-xs leading-5 text-muted-foreground">
-                          {service.description}
-                        </span>
                       </span>
                     </Link>
                   );

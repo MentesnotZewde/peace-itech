@@ -5,9 +5,15 @@ import { ArrowRight, Bot, Loader2, Send, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const starterActions = [
-  { label: "Explore Services", prompt: "What services does Peace iTech Inc provide?" },
+  {
+    label: "Explore Services",
+    prompt: "What services does Peace iTech Inc provide?",
+  },
   { label: "About Us", prompt: "Who is Peace iTech Inc?" },
-  { label: "How It Works", prompt: "How does Peace iTech Inc work with clients?" },
+  {
+    label: "How It Works",
+    prompt: "How does Peace iTech Inc work with clients?",
+  },
   { label: "Contact Us", prompt: "How can I contact Peace iTech Inc?" },
 ];
 
@@ -123,10 +129,7 @@ export default function AssistantPanel({ onClose }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [
-            ...requestMessages,
-            { role: "user", content },
-          ],
+          messages: [...requestMessages, { role: "user", content }],
         }),
       });
 
@@ -177,7 +180,10 @@ export default function AssistantPanel({ onClose }) {
                 Peace iTech AI Assistant
               </p>
               <p className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
-                <Sparkles className="size-3 text-[#12B7FF]" aria-hidden="true" />
+                <Sparkles
+                  className="size-3 text-[#12B7FF]"
+                  aria-hidden="true"
+                />
                 Website guide
               </p>
             </div>
@@ -266,7 +272,8 @@ export default function AssistantPanel({ onClose }) {
             </button>
           </div>
           <p className="mt-2 px-1 text-[0.7rem] leading-5 text-muted-foreground">
-            Informational assistant only. Please avoid sharing sensitive personal information.
+            Informational assistant only. Please avoid sharing sensitive
+            personal information.
           </p>
         </form>
       </div>

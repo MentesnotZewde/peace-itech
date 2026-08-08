@@ -8,7 +8,13 @@ import { Button } from "@/components/ui/button";
 import HeroOrbitVisual from "@/components/home/HeroOrbitVisual";
 
 const metrics = [
-  { value: "6+", label: "Service lines", type: "count", target: 6, suffix: "+" },
+  {
+    value: "6+",
+    label: "Service lines",
+    type: "count",
+    target: 6,
+    suffix: "+",
+  },
   { value: "AI", label: "Ready workflows", type: "text" },
   { value: "24/7", label: "Support mindset", type: "support" },
 ];
@@ -18,7 +24,7 @@ const heroHeadingWords =
 
 function AnimatedMetric({ metric }) {
   const [displayValue, setDisplayValue] = useState(
-    metric.type === "text" ? metric.value : "0"
+    metric.type === "text" ? metric.value : "0",
   );
 
   useEffect(() => {
@@ -66,42 +72,37 @@ function AnimatedMetric({ metric }) {
 
 export default function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-transparent px-4 py-10 transition-colors sm:px-6 sm:py-14 lg:px-8">
+    <section className="relative isolate overflow-hidden bg-transparent px-0 py-10 transition-colors sm:px-6 sm:py-14 lg:px-8">
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="relative py-8 sm:py-10 lg:py-14">
           <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.72fr] lg:items-center">
-            <div className="flex max-w-3xl flex-col justify-center">
-              <div className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3 py-1 text-sm font-medium text-muted-foreground shadow-sm backdrop-blur">
-                <Sparkles className="size-4 text-[#005BFF] dark:text-[#12B7FF]" aria-hidden="true" />
-                Enterprise-grade web, automation, security, and IT solutions
-              </div>
-
+            <div className="flex w-full max-w-none flex-col justify-center px-4 sm:px-0 lg:max-w-3xl">
               <h1
-                className="font-heading max-w-4xl text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-6xl"
+                className="font-heading w-full max-w-none whitespace-normal break-normal text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:max-w-4xl lg:text-6xl"
                 aria-label="Modern technology systems for ambitious businesses."
               >
                 {heroHeadingWords.map((word, index) => {
                   const isAccentWord = ["technology", "ambitious"].includes(
-                    word
+                    word,
                   );
 
                   return (
                     <span
                       key={`${word}-${index}`}
-                      className={`animate-hero-heading-word inline-block opacity-0 ${
+                      className={`animate-hero-heading-word opacity-0 ${
                         isAccentWord ? "hero-heading-accent" : ""
                       }`}
                       style={{ animationDelay: `${120 + index * 105}ms` }}
                       aria-hidden="true"
                     >
                       {word}
-                      {index < heroHeadingWords.length - 1 ? "\u00A0" : ""}
+                      {index < heroHeadingWords.length - 1 ? " " : ""}
                     </span>
                   );
                 })}
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+              <p className="mt-6 w-full max-w-none text-base leading-7 text-muted-foreground sm:text-lg lg:max-w-2xl">
                 Peace iTech Inc helps businesses grow with thoughtful websites,
                 ERP systems, automation, cybersecurity, digital marketing, IT
                 support, cloud services, and practical AI-powered workflows.
@@ -128,17 +129,16 @@ export default function Hero() {
                 </Button>
               </div>
 
-              <div className="mt-10 grid gap-4 border-t border-border/70 pt-6 sm:grid-cols-3">
+              <div className="mt-10 grid grid-cols-3 gap-2 border-t border-border/70 pt-6 sm:gap-4">
                 {metrics.map((metric) => (
-                  <div key={metric.label}>
+                  <div key={metric.label} className="min-w-0">
                     <AnimatedMetric metric={metric} />
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                       {metric.label}
                     </p>
                   </div>
                 ))}
               </div>
-
             </div>
 
             <HeroOrbitVisual />
@@ -148,5 +148,3 @@ export default function Hero() {
     </section>
   );
 }
-
-

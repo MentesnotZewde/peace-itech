@@ -1,4 +1,7 @@
-import { getApprovedKnowledgeText, getRelevantLinks } from "@/lib/ai/company-knowledge";
+import {
+  getApprovedKnowledgeText,
+  getRelevantLinks,
+} from "@/lib/ai/company-knowledge";
 import { getAssistantInstructions } from "@/lib/ai/instructions";
 import { checkRateLimit } from "@/lib/ai/rate-limit";
 
@@ -6,8 +9,9 @@ export const runtime = "nodejs";
 
 const MAX_MESSAGE_LENGTH = 900;
 const MAX_HISTORY_MESSAGES = 10;
-const OPENAI_TIMEOUT_MS = 20_000;
-const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
+const GEMINI_TIMEOUT_MS = 20_000;
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 function getClientIp(request) {
   const forwardedFor = request.headers.get("x-forwarded-for");
@@ -23,46 +27,22 @@ function cleanMessage(message) {
   return { role, content };
 }
 
-function getOutputText(response) {
-  if (typeof response.output_text === "string") {
-    return response.output_text.trim();
-  }
-
-  const chunks = [];
-  for (const item of response.output || []) {
-    for (const content of item.content || []) {
-      if (content.type === "output_text" && content.text) {
-        chunks.push(content.text);
-      }
-    }
-  }
-
-  return chunks.join("\n").trim();
+// Gemini uses "model" instead of "assistant", and a "contents" array
+// instead of OpenAI's "messages"/"input" shape.
+function buildGeminiContents(messages) {
+  return messages.map((message) => ({
+    role: message.role === "assistant" ? "model" : "user",
+    parts: [{ text: message.content }],
+  }));
 }
 
-function buildOpenAIInput(messages) {
-  const transcript = messages
-    .map((message) => `${message.role === "assistant" ? "Assistant" : "Visitor"}: ${message.content}`)
-    .join("\n");
-
-  return [
-    {
-      role: "user",
-      content: [
-        {
-          type: "input_text",
-          text: [
-            `Approved company knowledge:\n${getApprovedKnowledgeText()}`,
-            "",
-            "Conversation so far:",
-            transcript,
-            "",
-            "Answer the visitor's latest question using only the approved company knowledge.",
-          ].join("\n"),
-        },
-      ],
-    },
-  ];
+function getOutputText(response) {
+  const candidate = response?.candidates?.[0];
+  const parts = candidate?.content?.parts || [];
+  return parts
+    .map((part) => part.text || "")
+    .join("\n")
+    .trim();
 }
 
 export async function POST(request) {
@@ -91,14 +71,20 @@ export async function POST(request) {
   }
 
   const messages = Array.isArray(body?.messages)
-    ? body.messages.map(cleanMessage).filter(Boolean).slice(-MAX_HISTORY_MESSAGES)
+    ? body.messages
+        .map(cleanMessage)
+        .filter(Boolean)
+        .slice(-MAX_HISTORY_MESSAGES)
     : [];
 
   if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
-    return Response.json({ error: "Please enter a question." }, { status: 400 });
+    return Response.json(
+      { error: "Please enter a question." },
+      { status: 400 },
+    );
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return Response.json(
       {
@@ -110,33 +96,42 @@ export async function POST(request) {
   }
 
   const userQuestion = messages[messages.length - 1].content;
-  const tools = [];
-  if (process.env.OPENAI_VECTOR_STORE_ID) {
-    tools.push({
-      type: "file_search",
-      vector_store_ids: [process.env.OPENAI_VECTOR_STORE_ID],
-    });
-  }
+
+  // Gemini takes the "system" role separately from the conversation turns.
+  const systemInstruction = {
+    parts: [
+      {
+        text: [
+          getAssistantInstructions(),
+          "",
+          `Approved company knowledge:\n${getApprovedKnowledgeText()}`,
+          "",
+          "Answer the visitor's latest question using only the approved company knowledge above.",
+        ].join("\n"),
+      },
+    ],
+  };
 
   try {
-    const openAIResponse = await fetch(OPENAI_RESPONSES_URL, {
+    const geminiResponse = await fetch(`${GEMINI_URL}?key=${apiKey}`, {
       method: "POST",
-      signal: AbortSignal.timeout(OPENAI_TIMEOUT_MS),
+      signal: AbortSignal.timeout(GEMINI_TIMEOUT_MS),
       headers: {
-        Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: process.env.OPENAI_ASSISTANT_MODEL || "gpt-4.1-mini",
-        instructions: getAssistantInstructions(),
-        input: buildOpenAIInput(messages),
-        tools,
-        temperature: 0.2,
-        max_output_tokens: 420,
+        contents: buildGeminiContents(messages),
+        systemInstruction,
+        generationConfig: {
+          maxOutputTokens: 2048,
+        },
       }),
     });
 
-    if (!openAIResponse.ok) {
+    if (!geminiResponse.ok) {
+      const errBody = await geminiResponse.text();
+      console.error("Gemini API error:", geminiResponse.status, errBody);
+
       return Response.json(
         {
           error:
@@ -146,7 +141,12 @@ export async function POST(request) {
       );
     }
 
-    const data = await openAIResponse.json();
+    const data = await geminiResponse.json();
+    const finishReason = data?.candidates?.[0]?.finishReason;
+    if (finishReason && finishReason !== "STOP") {
+      console.warn("Gemini finished early:", finishReason);
+    }
+
     const reply =
       getOutputText(data) ||
       "I do not have enough approved information to answer that. Please contact Peace iTech Inc and the team will help.";
@@ -155,7 +155,8 @@ export async function POST(request) {
       reply,
       links: getRelevantLinks(userQuestion, reply),
     });
-  } catch {
+  } catch (err) {
+    console.error("Assistant route error:", err);
     return Response.json(
       {
         error:

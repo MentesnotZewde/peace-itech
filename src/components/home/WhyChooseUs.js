@@ -1,10 +1,5 @@
 import Image from "next/image";
-import {
-  Cpu,
-  Lightbulb,
-  LockKeyhole,
-  Rocket,
-} from "lucide-react";
+import { Cpu, Lightbulb, LockKeyhole, Rocket } from "lucide-react";
 
 const reasons = [
   {
@@ -56,7 +51,7 @@ const photos = [
 
 const headingWords =
   "Built for leaders who want technology to feel calm, capable, and measurable.".split(
-    " "
+    " ",
   );
 
 export default function WhyChooseUs() {
@@ -233,5 +228,3 @@ export default function WhyChooseUs() {
     </section>
   );
 }
-
-
