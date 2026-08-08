@@ -217,7 +217,7 @@ export default function BusinessAutomationPage() {
                   className="h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
                 >
                   <Link href="/contact">
-                    Explore your workflow{" "}
+                    Explore your workflow
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </Link>
                 </Button>
