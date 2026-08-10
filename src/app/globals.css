@@ -1,3 +1,7 @@
+@theme {
+  --font-sans: var(--font-jakarta), sans-serif;
+  --font-heading: var(--font-fredoka), sans-serif;
+}
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -7,9 +11,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-sans: var(--font-sans);
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --font-heading: var(--font-sora), var(--font-sans);
+  --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,72 +53,72 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #07111f;
-  --card: #ffffff;
-  --card-foreground: #07111f;
-  --popover: #ffffff;
-  --popover-foreground: #07111f;
-  --primary: #005bff;
-  --primary-foreground: #ffffff;
-  --secondary: #eaf8ff;
-  --secondary-foreground: #07111f;
-  --muted: #eaf8ff;
-  --muted-foreground: #526172;
-  --accent: #eaf8ff;
-  --accent-foreground: #0718d8;
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgb(7 24 216 / 12%);
-  --input: rgb(7 24 216 / 16%);
-  --ring: #12b7ff;
-  --chart-1: #eaf8ff;
-  --chart-2: #12b7ff;
-  --chart-3: #005bff;
-  --chart-4: #0718d8;
-  --chart-5: #07111f;
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: #104281;
+  --chart-2: #1c5cab;
+  --chart-3: #2a78d6;
+  --chart-4: #5598e7;
+  --chart-5: #86b6ef;
   --radius: 0.625rem;
-  --sidebar: #ffffff;
-  --sidebar-foreground: #07111f;
-  --sidebar-primary: #005bff;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #eaf8ff;
-  --sidebar-accent-foreground: #0718d8;
-  --sidebar-border: rgb(7 24 216 / 12%);
-  --sidebar-ring: #12b7ff;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.623 0.214 259.815);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
 }
 
 .dark {
-  --background: #07111f;
-  --foreground: #ffffff;
-  --card: #0b1830;
-  --card-foreground: #ffffff;
-  --popover: #0b1830;
-  --popover-foreground: #ffffff;
-  --primary: #12b7ff;
-  --primary-foreground: #07111f;
-  --secondary: rgb(18 183 255 / 14%);
-  --secondary-foreground: #ffffff;
-  --muted: rgb(234 248 255 / 9%);
-  --muted-foreground: rgb(234 248 255 / 72%);
-  --accent: rgb(18 183 255 / 16%);
-  --accent-foreground: #eaf8ff;
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: rgb(234 248 255 / 12%);
-  --input: rgb(234 248 255 / 16%);
-  --ring: #12b7ff;
-  --chart-1: #eaf8ff;
-  --chart-2: #12b7ff;
-  --chart-3: #005bff;
-  --chart-4: #0718d8;
-  --chart-5: #07111f;
-  --sidebar: #0b1830;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #12b7ff;
-  --sidebar-primary-foreground: #07111f;
-  --sidebar-accent: rgb(18 183 255 / 16%);
-  --sidebar-accent-foreground: #eaf8ff;
-  --sidebar-border: rgb(234 248 255 / 12%);
-  --sidebar-ring: #12b7ff;
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: #184f95;
+  --chart-2: #256abf;
+  --chart-3: #3987e5;
+  --chart-4: #6da7ec;
+  --chart-5: #9ec5f4;
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.623 0.214 259.815);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {
@@ -122,7 +126,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground transition-colors duration-300;
+    @apply transition-colors duration-300 bg-background text-foreground;
     overflow-x: clip;
   }
   html {
@@ -173,14 +177,16 @@
     text-shadow: 0 18px 36px rgb(18 183 255 / 16%);
   }
   .business-automation-copy {
-    animation: business-automation-copy-enter 760ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: business-automation-copy-enter 760ms
+      cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   .business-automation-visual {
-    animation: business-automation-visual-enter 860ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+    animation: business-automation-visual-enter 860ms
+      cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
   }
   .business-automation-app-card {
-    animation: business-automation-app-card-enter 620ms cubic-bezier(0.16, 1, 0.3, 1)
-      var(--icon-delay, 180ms) both;
+    animation: business-automation-app-card-enter 620ms
+      cubic-bezier(0.16, 1, 0.3, 1) var(--icon-delay, 180ms) both;
     height: clamp(2.35rem, 5.4vw, 3.35rem);
     left: var(--icon-x);
     top: var(--icon-y);
@@ -229,7 +235,8 @@
     will-change: opacity, filter, transform;
   }
   .web-hero-image-enter {
-    animation: web-hero-image-enter 880ms cubic-bezier(0.16, 1, 0.3, 1) 260ms both;
+    animation: web-hero-image-enter 880ms cubic-bezier(0.16, 1, 0.3, 1) 260ms
+      both;
     will-change: opacity, filter, transform;
   }
   .web-feature-card {
@@ -237,8 +244,8 @@
     animation:
       web-feature-card-enter 720ms cubic-bezier(0.16, 1, 0.3, 1)
         var(--card-delay, 620ms) both,
-      web-feature-card-float 7s ease-in-out calc(var(--card-delay, 620ms) + 720ms)
-        infinite;
+      web-feature-card-float 7s ease-in-out
+        calc(var(--card-delay, 620ms) + 720ms) infinite;
     will-change: opacity, transform;
   }
   .web-feature-connectors {
@@ -279,21 +286,17 @@
   }
   .interactive-hero-background__glow {
     background:
-      radial-gradient(
-        circle at 50% 30%,
-        rgb(18 183 255 / 9%),
-        transparent 34%
-      ),
-      radial-gradient(
-        circle at 78% 78%,
-        rgb(0 91 255 / 6%),
-        transparent 30%
-      );
+      radial-gradient(circle at 50% 30%, rgb(18 183 255 / 9%), transparent 34%),
+      radial-gradient(circle at 78% 78%, rgb(0 91 255 / 6%), transparent 30%);
     opacity: 0.9;
   }
   .dark .interactive-hero-background {
     background:
-      radial-gradient(circle at 15% 12%, rgb(18 183 255 / 10%), transparent 32%),
+      radial-gradient(
+        circle at 15% 12%,
+        rgb(18 183 255 / 10%),
+        transparent 32%
+      ),
       radial-gradient(circle at 88% 18%, rgb(0 91 255 / 14%), transparent 36%),
       linear-gradient(135deg, #07111f, #06274a 55%, #07111f);
   }
@@ -302,16 +305,8 @@
   }
   .dark .interactive-hero-background__glow {
     background:
-      radial-gradient(
-        circle at 48% 24%,
-        rgb(18 183 255 / 8%),
-        transparent 36%
-      ),
-      radial-gradient(
-        circle at 80% 76%,
-        rgb(18 183 255 / 7%),
-        transparent 32%
-    );
+      radial-gradient(circle at 48% 24%, rgb(18 183 255 / 8%), transparent 36%),
+      radial-gradient(circle at 80% 76%, rgb(18 183 255 / 7%), transparent 32%);
     opacity: 0.74;
   }
   .interactive-hero-background--subtle {
@@ -332,7 +327,11 @@
   }
   .page-loader {
     background:
-      radial-gradient(circle at 50% 42%, rgb(18 183 255 / 10%), transparent 34%),
+      radial-gradient(
+        circle at 50% 42%,
+        rgb(18 183 255 / 10%),
+        transparent 34%
+      ),
       radial-gradient(circle at 18% 18%, rgb(0 91 255 / 6%), transparent 28%),
       linear-gradient(135deg, #ffffff, #f8fbff 52%, #eef8ff);
   }
@@ -348,8 +347,12 @@
     opacity: 0.24;
   }
   .page-loader__aura {
-    background:
-      radial-gradient(circle, rgb(18 183 255 / 12%), rgb(0 91 255 / 6%) 36%, transparent 68%);
+    background: radial-gradient(
+      circle,
+      rgb(18 183 255 / 12%),
+      rgb(0 91 255 / 6%) 36%,
+      transparent 68%
+    );
     filter: blur(10px);
     opacity: 0;
     animation: page-loader-aura 1120ms ease-out both;
@@ -358,14 +361,19 @@
     filter: drop-shadow(0 28px 44px rgb(0 91 255 / 14%));
   }
   .page-loader__logo-shell {
-    animation: page-loader-logo-enter 820ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
+    animation: page-loader-logo-enter 820ms cubic-bezier(0.16, 1, 0.3, 1) 90ms
+      both;
   }
   .page-loader__logo {
     filter: drop-shadow(0 16px 26px rgb(0 91 255 / 18%));
   }
   .page-loader__logo-glow {
-    background:
-      radial-gradient(circle, rgb(18 183 255 / 22%), rgb(0 91 255 / 12%) 42%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgb(18 183 255 / 22%),
+      rgb(0 91 255 / 12%) 42%,
+      transparent 70%
+    );
     filter: blur(11px);
     animation: page-loader-glow 980ms ease-in-out both;
   }
@@ -394,7 +402,8 @@
     background: #12b7ff;
     box-shadow: 0 0 18px rgb(18 183 255 / 58%);
     opacity: 0;
-    animation: page-loader-node 1000ms ease-in-out var(--loader-node-delay, 260ms) infinite;
+    animation: page-loader-node 1000ms ease-in-out
+      var(--loader-node-delay, 260ms) infinite;
   }
   .page-loader__node--two {
     --loader-node-delay: 420ms;
@@ -410,15 +419,23 @@
       radial-gradient(circle at 88% 18%, rgb(0 91 255 / 7%), transparent 38%),
       linear-gradient(135deg, #07111f, #082037 55%, #07111f);
   }
-  .dark .interactive-hero-background--subtle .interactive-hero-background__canvas {
+  .dark
+    .interactive-hero-background--subtle
+    .interactive-hero-background__canvas {
     opacity: 0.78;
   }
-  .dark .interactive-hero-background--subtle .interactive-hero-background__glow {
+  .dark
+    .interactive-hero-background--subtle
+    .interactive-hero-background__glow {
     opacity: 0.34;
   }
   .dark .page-loader {
     background:
-      radial-gradient(circle at 50% 44%, rgb(18 183 255 / 15%), transparent 32%),
+      radial-gradient(
+        circle at 50% 44%,
+        rgb(18 183 255 / 15%),
+        transparent 32%
+      ),
       radial-gradient(circle at 18% 16%, rgb(0 91 255 / 12%), transparent 30%),
       radial-gradient(circle at 82% 82%, rgb(33 211 195 / 8%), transparent 30%),
       linear-gradient(135deg, #020817, #07111f 54%, #03101f);
@@ -434,15 +451,23 @@
     opacity: 0.34;
   }
   .dark .page-loader__aura {
-    background:
-      radial-gradient(circle, rgb(18 183 255 / 20%), rgb(0 91 255 / 10%) 38%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgb(18 183 255 / 20%),
+      rgb(0 91 255 / 10%) 38%,
+      transparent 70%
+    );
   }
   .dark .page-loader__logo {
     filter: drop-shadow(0 20px 30px rgb(18 183 255 / 22%));
   }
   .dark .page-loader__logo-glow {
-    background:
-      radial-gradient(circle, rgb(18 183 255 / 30%), rgb(0 91 255 / 18%) 42%, transparent 72%);
+    background: radial-gradient(
+      circle,
+      rgb(18 183 255 / 30%),
+      rgb(0 91 255 / 18%) 42%,
+      transparent 72%
+    );
   }
   .dark .page-loader__orbit--outer {
     border-color: rgb(18 183 255 / 28%);
@@ -555,8 +580,8 @@
     animation-duration: 620ms;
   }
   .web-feature-card {
-    animation: web-feature-card-enter-compact 520ms cubic-bezier(0.16, 1, 0.3, 1)
-      var(--card-delay, 320ms) both;
+    animation: web-feature-card-enter-compact 520ms
+      cubic-bezier(0.16, 1, 0.3, 1) var(--card-delay, 320ms) both;
   }
   .business-automation-hero {
     min-height: auto;
@@ -888,14 +913,16 @@
   72%,
   100% {
     border-color: rgb(18 183 255 / 20%);
-    box-shadow: 0 20px 25px -5px rgb(0 91 255 / 10%),
+    box-shadow:
+      0 20px 25px -5px rgb(0 91 255 / 10%),
       0 8px 10px -6px rgb(0 91 255 / 10%);
     transform: scale(1);
   }
   8%,
   16% {
     border-color: rgb(18 183 255 / 64%);
-    box-shadow: 0 24px 44px -8px rgb(0 91 255 / 32%),
+    box-shadow:
+      0 24px 44px -8px rgb(0 91 255 / 32%),
       0 0 34px rgb(18 183 255 / 32%);
     transform: scale(1.09);
   }
