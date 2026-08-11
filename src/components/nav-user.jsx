@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { toast } from "sonner";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -22,14 +23,23 @@ import { useProfile } from "@/components/dashboard/profile-provider";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
-  const { profile } = useProfile();
-  const user = { name: profile.name, email: profile.email, avatar: profile.avatar };
-  const initials = profile.name
+  const { profile, logout } = useProfile();
+  const user = {
+    name: profile.fullName,
+    email: profile.email,
+    avatar: profile.profilePicture?.url,
+  };
+  const initials = (profile.fullName || "")
     .split(" ")
     .map((n) => n[0])
     .join("")
     .slice(0, 2)
     .toUpperCase();
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Signed out");
+  };
 
   return (
     <SidebarMenu>
@@ -79,7 +89,7 @@ export function NavUser() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOutIcon className="text-sidebar-primary" />
               Log out
             </DropdownMenuItem>

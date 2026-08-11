@@ -1,22 +1,14 @@
 "use client";
 
+import { useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-const chartData = [
-  { month: "Jan", projects: 1 },
-  { month: "Feb", projects: 3 },
-  { month: "Mar", projects: 2 },
-  { month: "Apr", projects: 4 },
-  { month: "May", projects: 5 },
-  { month: "Jun", projects: 2 },
-  { month: "Jul", projects: 3 },
-  { month: "Aug", projects: 4 },
-];
+import { useProjects } from "@/components/dashboard/projects-provider";
+import { monthlyProjectCounts } from "@/lib/project-metrics";
 
 const chartConfig = {
   projects: {
@@ -26,6 +18,10 @@ const chartConfig = {
 };
 
 export function OverviewChart() {
+  const { projects } = useProjects();
+  // Bucketed by start month, from the same rows the projects table renders.
+  const chartData = useMemo(() => monthlyProjectCounts(projects), [projects]);
+
   return (
     <ChartContainer config={chartConfig} className="h-[300px] w-full">
       <BarChart data={chartData}>

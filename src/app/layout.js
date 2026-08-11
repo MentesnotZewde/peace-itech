@@ -27,13 +27,13 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      className="h-full antialiased"
+      // The font variables live on <html> so every rule that resolves
+      // --font-sans (including the one on <html> itself) can see them.
+      className={`${fredoka.variable} ${jakarta.variable} h-full antialiased`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
-      <body
-        className={`${fredoka.variable} ${jakarta.variable} min-h-full flex flex-col font-sans`}
-      >
+      <body className="min-h-full flex flex-col font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <PageLoader />
           {children}

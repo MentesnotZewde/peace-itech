@@ -3,18 +3,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
+import { actionsColumn } from "@/components/dashboard/row-actions";
 
 function initials(name) {
-  return name
+  return (name || "")
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -32,10 +25,23 @@ function statusClassName(status) {
   return statusStyles[status] ?? statusStyles.Inactive;
 }
 
-export function getEmployeeColumns({ onEdit, onDelete }) {
+function formatJoined(value) {
+  if (!value) return "—";
+  return new Date(value).toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export function getEmployeeColumns({
+  onEdit,
+  onDelete,
+  canEdit = true,
+  canDelete = true,
+}) {
   return [
     {
-      accessorKey: "name",
+      accessorKey: "fullName",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -48,12 +54,12 @@ export function getEmployeeColumns({ onEdit, onDelete }) {
       cell: ({ row }) => (
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={row.original.avatar} />
-            <AvatarFallback>{initials(row.original.name)}</AvatarFallback>
+            <AvatarImage src={row.original.profilePicture?.url} />
+            <AvatarFallback>{initials(row.original.fullName)}</AvatarFallback>
           </Avatar>
           <div>
             <p className="text-sm font-medium leading-none">
-              {row.original.name}
+              {row.original.fullName}
             </p>
             <p className="text-xs text-muted-foreground">
               {row.original.email}
@@ -65,11 +71,30 @@ export function getEmployeeColumns({ onEdit, onDelete }) {
     {
       accessorKey: "role",
       header: "Role",
+      cell: ({ row }) => (
+        <Badge
+          variant="outline"
+          className={
+            row.original.role === "Admin"
+              ? "border-transparent bg-sidebar-primary/10 text-sidebar-primary"
+              : "border-transparent bg-muted text-muted-foreground"
+          }
+        >
+          {row.original.role}
+        </Badge>
+      ),
     },
     {
       accessorKey: "department",
       header: "Department",
+      cell: ({ row }) => row.original.department || "—",
     },
+    {
+      accessorKey: "profession",
+      header: "Profession",
+      cell: ({ row }) => row.original.profession || "—",
+    },
+
     {
       accessorKey: "status",
       header: "Status",
@@ -83,36 +108,16 @@ export function getEmployeeColumns({ onEdit, onDelete }) {
       ),
     },
     {
-      accessorKey: "joined",
+      accessorKey: "createdAt",
       header: "Joined",
+      cell: ({ row }) => formatJoined(row.original.createdAt),
     },
-    {
-      id: "actions",
-      cell: ({ row }) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => onEdit(row.original)}
-              className="gap-2"
-            >
-              <Pencil className="h-3.5 w-3.5" /> Edit
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => onDelete(row.original)}
-              className="gap-2 text-destructive focus:text-destructive"
-            >
-              <Trash2 className="h-3.5 w-3.5" /> Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    },
+    actionsColumn({
+      onEdit,
+      onDelete,
+      canEdit,
+      canDelete,
+      getLabel: (row) => row.fullName,
+    }),
   ];
 }

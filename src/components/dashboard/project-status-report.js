@@ -1,12 +1,25 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { progressForStatus } from "@/lib/project-progress";
 
+// One ring per project stage, newest-to-oldest progress. Each label carries
+// the progress that stage implies, since progress is derived from the status.
 const TIERS = [
-  { value: 100, label: "Completed", color: "var(--chart-1)" },
-  { value: 75, label: "75% Done", color: "var(--chart-2)" },
-  { value: 50, label: "Halfway", color: "var(--chart-3)" },
-  { value: 25, label: "Just Started", color: "var(--chart-4)" },
-  { value: 0, label: "Not Started", color: "var(--chart-5)" },
+  { status: "Completed", color: "var(--chart-1)" },
+  { status: "75% Done", color: "var(--chart-2)" },
+  { status: "Halfway", color: "var(--chart-3)" },
+  { status: "Started", color: "var(--chart-4)" },
+  { status: "Not Started", color: "var(--chart-5)" },
 ];
+
+// A project saved before the finer stages existed still counts as Halfway.
+const LEGACY_MATCHES = { Halfway: ["In Progress"] };
+
+function matchesTier(project, status) {
+  return (
+    project.projectstatus === status ||
+    (LEGACY_MATCHES[status] || []).includes(project.projectstatus)
+  );
+}
 
 const SIZE = 96;
 const STROKE = 10;
@@ -61,14 +74,14 @@ export function ProjectStatusReport({ projects }) {
       <CardContent>
         <div className="flex flex-wrap items-start justify-around gap-6">
           {TIERS.map((tier) => {
-            const count = projects.filter(
-              (p) => Number(p.progress) === tier.value,
+            const count = projects.filter((p) =>
+              matchesTier(p, tier.status),
             ).length;
             const pct = total ? Math.round((count / total) * 100) : 0;
 
             return (
               <div
-                key={tier.value}
+                key={tier.status}
                 className="flex flex-col items-center gap-2"
               >
                 <div className="relative" style={{ width: SIZE, height: SIZE }}>
@@ -85,7 +98,7 @@ export function ProjectStatusReport({ projects }) {
                     style={{ backgroundColor: tier.color }}
                   />
                   <span className="text-xs font-medium text-foreground">
-                    {tier.label}
+                    {tier.status} · {progressForStatus(tier.status)}%
                   </span>
                 </div>
                 <span className="text-xs text-muted-foreground">

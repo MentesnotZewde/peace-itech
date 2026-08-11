@@ -1,13 +1,44 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import PageShell from "@/components/layout/PageShell";
+import { auth, getToken, saveSession } from "@/lib/api-client";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  // Already signed in? Skip the form.
+  useEffect(() => {
+    if (getToken()) router.replace("/dashboard");
+  }, [router]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmitting(true);
+
+    try {
+      const session = await toast.promise(auth.login(email, password), {
+        loading: "Signing you in…",
+        success: (data) => `Welcome back, ${data.user.fullName.split(" ")[0]}!`,
+        error: (err) => err.message,
+      }).unwrap();
+
+      saveSession(session);
+      router.replace("/dashboard");
+    } catch {
+      // toast.promise already surfaced the reason.
+      setSubmitting(false);
+    }
+  };
 
   return (
     <PageShell className="flex items-center justify-center p-4">
@@ -32,12 +63,17 @@ export default function LoginPage() {
             Please enter your log in details below
           </p>
 
-          <form className="mt-8 space-y-4">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
             <div>
               <input
                 type="email"
                 placeholder="Email"
-                className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10 focus:border-neutral-400 transition"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={submitting}
+                className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10 focus:border-neutral-400 transition disabled:opacity-60"
               />
             </div>
 
@@ -45,7 +81,12 @@ export default function LoginPage() {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10 focus:border-neutral-400 transition pr-10"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={submitting}
+                className="w-full rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10 focus:border-neutral-400 transition pr-10 disabled:opacity-60"
               />
               <button
                 type="button"
@@ -69,14 +110,14 @@ export default function LoginPage() {
                 Forgot password?
               </Link>
             </div>
-            <Link href="/dashboard" className="">
-              <button
-                type="submit"
-                className="w-full cursor-pointer rounded-xl bg-blue-800 text-white text-sm font-medium py-3 hover:bg-blue-750 transition"
-              >
-                Sign in
-              </button>
-            </Link>
+            <button
+              type="submit"
+              disabled={submitting}
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-blue-800 text-white text-sm font-medium py-3 hover:bg-blue-750 transition disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
+              {submitting ? "Signing in…" : "Sign in"}
+            </button>
           </form>
         </div>
 

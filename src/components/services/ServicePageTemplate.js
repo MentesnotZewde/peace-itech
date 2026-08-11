@@ -31,6 +31,7 @@ import DigitalMarketingPage from "@/components/services/DigitalMarketingPage";
 import ErpSystemsPage from "@/components/services/ErpSystemsPage";
 import CybersecurityPage from "@/components/services/CybersecurityPage";
 import ItSupportPage from "@/components/services/ItSupportPage";
+import PointOfSalePage from "@/components/services/PointOfSalePage";
 const webFeatureCards = [
   {
     title: "Responsive",
@@ -898,6 +899,10 @@ export default function ServicePageTemplate({ service }) {
 
   if (service.slug === "it-support") {
     return <ItSupportPage service={service} />;
+  }
+
+  if (service.slug === "point-of-sale") {
+    return <PointOfSalePage service={service} />;
   }
 
   return (

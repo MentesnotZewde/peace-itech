@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -9,57 +10,40 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/dashboard/users/data-table";
 import { getEmployeeColumns } from "@/components/dashboard/users/employee-columns";
 import { UserFormDialog } from "@/components/dashboard/users/user-form-dialog";
 import { DeleteAlertDialog } from "@/components/dashboard/users/delete-alert-dialog";
 import { useNotifications } from "@/components/dashboard/notifications-provider";
+import { useProfile } from "@/components/dashboard/profile-provider";
+import { toFormData, usersApi } from "@/lib/api-client";
 
-const initialEmployees = [
-  {
-    id: 1,
-    name: "Sarah Kim",
-    email: "sarah@peaceitech.com",
-    role: "Frontend Engineer",
-    department: "Engineering",
-    status: "Active",
-    joined: "Jan 2025",
-  },
-  {
-    id: 2,
-    name: "Daniel Osei",
-    email: "daniel@peaceitech.com",
-    role: "DevOps Engineer",
-    department: "Infrastructure",
-    status: "Active",
-    joined: "Mar 2025",
-  },
-  {
-    id: 3,
-    name: "Amara Bekele",
-    email: "amara@peaceitech.com",
-    role: "Project Manager",
-    department: "Operations",
-    status: "On Leave",
-    joined: "Nov 2024",
-  },
+const DEPARTMENTS = [
+  "Engineering",
+  "Infrastructure",
+  "Operations",
+  "Sales",
+  "Support",
 ];
 
-const fields = [
-  { key: "name", label: "Full Name", required: true },
+// Mirrors the fields the API accepts on /api/users.
+const baseFields = [
+  { key: "fullName", label: "Full Name", required: true },
   { key: "email", label: "Email", type: "email", required: true },
-  { key: "role", label: "Role", required: true },
+  {
+    key: "role",
+    label: "Role",
+    type: "select",
+    options: ["Admin", "User"],
+    required: true,
+  },
+  { key: "profession", label: "Profession", placeholder: "Frontend Engineer" },
   {
     key: "department",
     label: "Department",
     type: "select",
-    options: [
-      "Engineering",
-      "Infrastructure",
-      "Operations",
-      "Sales",
-      "Support",
-    ],
+    options: DEPARTMENTS,
   },
   {
     key: "status",
@@ -67,14 +51,91 @@ const fields = [
     type: "select",
     options: ["Active", "On Leave", "Inactive"],
   },
+  {
+    key: "profilePicture",
+    label: "Profile Picture",
+    type: "file",
+    accept: "image/*",
+  },
 ];
 
+// Everything except the name, password, and picture is Admin-only, matching
+// what PATCH /api/users/:id enforces.
+const SELF_EDITABLE = [
+  "fullName",
+  "password",
+  "currentPassword",
+  "profilePicture",
+];
+
+function fieldsFor(editing, isAdmin, isSelf) {
+  const password = {
+    key: "password",
+    label: editing ? "New Password (leave blank to keep)" : "Password",
+    type: "password",
+    required: !editing,
+    autoComplete: "new-password",
+  };
+  // Changing your own password means proving you know the old one.
+  const currentPassword = {
+    key: "currentPassword",
+    label: "Current Password (required to change it)",
+    type: "password",
+    autoComplete: "current-password",
+  };
+
+  const credentials = editing && isSelf ? [password, currentPassword] : [password];
+  // Password sits right under the email on both forms.
+  const fields = [...baseFields.slice(0, 2), ...credentials, ...baseFields.slice(2)];
+
+  if (isAdmin) return fields;
+  return fields.filter((field) => SELF_EDITABLE.includes(field.key));
+}
+
 export default function EmployeesPage() {
-  const [employees, setEmployees] = useState(initialEmployees);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const { addNotification } = useNotifications();
+  const { profile } = useProfile();
+
+  const isAdmin = profile.role === "Admin";
+
+  // Bumping this re-runs the fetch; the loader lives inside the effect so no
+  // state is set synchronously during render.
+  const [reloadKey, setReloadKey] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadUsers() {
+      try {
+        const { users: list } = await usersApi.list({ limit: 100 });
+        if (!active) return;
+        setUsers(list);
+        setError(null);
+      } catch (err) {
+        if (!active) return;
+        setError(err.message);
+        toast.error("Could not load employees", { description: err.message });
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    loadUsers();
+    return () => {
+      active = false;
+    };
+  }, [reloadKey]);
+
+  const retry = () => {
+    setLoading(true);
+    setReloadKey((k) => k + 1);
+  };
 
   const handleAdd = () => {
     setEditing(null);
@@ -86,42 +147,80 @@ export default function EmployeesPage() {
     setFormOpen(true);
   };
 
-  const handleSubmit = (data) => {
+  // Thrown errors bubble back to the dialog, which keeps itself open and shows
+  // the per-field messages the API returned.
+  const handleSubmit = async (data, files) => {
+    const picture = files.profilePicture;
+    const payload = { ...data };
+    delete payload.profilePicture;
+
+    // Editing with a blank password means "leave it as it is".
+    if (editing && !payload.password) {
+      delete payload.password;
+      delete payload.currentPassword;
+    }
+
+    const body = picture
+      ? toFormData({ ...payload, profilePicture: picture })
+      : payload;
+
     if (editing) {
-      setEmployees((prev) =>
-        prev.map((e) => (e.id === editing.id ? { ...e, ...data } : e)),
-      );
-      toast.success("Employee updated");
+      const { user } = await toast
+        .promise(usersApi.update(editing._id, body), {
+          loading: "Saving changes…",
+          success: (res) => `${res.user.fullName} updated`,
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      setUsers((prev) => prev.map((u) => (u._id === user._id ? user : u)));
       addNotification({
         title: "Employee updated",
-        description: `${data.name}'s details were updated.`,
+        description: `${user.fullName}'s details were updated.`,
       });
     } else {
-      setEmployees((prev) => [
-        ...prev,
-        { ...data, id: Date.now(), joined: "Just now" },
-      ]);
-      toast.success("Employee added");
+      const { user } = await toast
+        .promise(usersApi.create(body), {
+          loading: "Creating employee…",
+          success: (res) => `${res.user.fullName} added`,
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      setUsers((prev) => [user, ...prev]);
       addNotification({
         title: "New employee added",
-        description: `${data.name} joined as ${data.role}.`,
+        description: `${user.fullName} joined as ${user.profession || user.role}.`,
       });
     }
   };
 
-  const handleDelete = () => {
-    setEmployees((prev) => prev.filter((e) => e.id !== deleteTarget.id));
-    toast.success("Employee deleted");
-    addNotification({
-      title: "Employee removed",
-      description: `${deleteTarget.name} was removed from the team.`,
-    });
+  const handleDelete = async () => {
+    const target = deleteTarget;
     setDeleteTarget(null);
+
+    try {
+      await toast
+        .promise(usersApi.remove(target._id), {
+          loading: `Deleting ${target.fullName}…`,
+          success: `${target.fullName} deleted`,
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      setUsers((prev) => prev.filter((u) => u._id !== target._id));
+      addNotification({
+        title: "Employee removed",
+        description: `${target.fullName} was removed from the team.`,
+      });
+    } catch {
+      // The toast carries the reason (e.g. the last Admin cannot be deleted).
+    }
   };
 
-  const roleOptions = useMemo(
-    () => [...new Set(employees.map((e) => e.role))].sort(),
-    [employees],
+  const professionOptions = useMemo(
+    () => [...new Set(users.map((u) => u.profession).filter(Boolean))].sort(),
+    [users],
   );
 
   return (
@@ -136,29 +235,55 @@ export default function EmployeesPage() {
       <Card>
         <CardHeader>
           <CardTitle>All Employees</CardTitle>
-          <CardDescription>{employees.length} total</CardDescription>
+          <CardDescription>
+            {loading ? "Loading…" : `${users.length} total`}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <DataTable
-            columns={getEmployeeColumns({
-              onEdit: handleEdit,
-              onDelete: setDeleteTarget,
-            })}
-            data={employees}
-            searchKey="name"
-            searchPlaceholder="Search employees..."
-            filters={[{ key: "role", label: "Role", options: roleOptions }]}
-            onAddNew={handleAdd}
-            addLabel="Add Employee"
-          />
+          {loading ? (
+            <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
+              <Loader2 className="size-4 animate-spin" />
+              Loading employees…
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center gap-3 py-16 text-center">
+              <p className="text-sm text-muted-foreground">{error}</p>
+              <Button variant="outline" size="sm" onClick={retry}>
+                Try again
+              </Button>
+            </div>
+          ) : (
+            <DataTable
+              columns={getEmployeeColumns({
+                onEdit: handleEdit,
+                onDelete: setDeleteTarget,
+                // A non-Admin may only edit their own record, and delete none.
+                canEdit: (row) => isAdmin || row._id === profile._id,
+                canDelete: (row) => isAdmin && row._id !== profile._id,
+              })}
+              data={users}
+              searchKey="fullName"
+              searchPlaceholder="Search employees..."
+              filters={[
+                { key: "role", label: "Role", options: ["Admin", "User"] },
+                {
+                  key: "profession",
+                  label: "Profession",
+                  options: professionOptions,
+                },
+              ]}
+              onAddNew={isAdmin ? handleAdd : undefined}
+              addLabel="Add Employee"
+            />
+          )}
         </CardContent>
       </Card>
 
       <UserFormDialog
-        key={editing ? editing.id : "new"}
+        key={editing ? editing._id : "new"}
         open={formOpen}
         onOpenChange={setFormOpen}
-        fields={fields}
+        fields={fieldsFor(editing, isAdmin, editing?._id === profile._id)}
         initialData={editing}
         onSubmit={handleSubmit}
         title={editing ? "Edit Employee" : "Add Employee"}
@@ -167,7 +292,7 @@ export default function EmployeesPage() {
       <DeleteAlertDialog
         open={!!deleteTarget}
         onOpenChange={(v) => !v && setDeleteTarget(null)}
-        itemName={deleteTarget?.name}
+        itemName={deleteTarget?.fullName}
         onConfirm={handleDelete}
       />
     </div>

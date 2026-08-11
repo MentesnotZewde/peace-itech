@@ -326,8 +326,8 @@ export default function Navbar() {
                   asChild
                   className="h-11 rounded-full bg-gradient-to-r from-blue-700 to-cyan-500 text-white shadow-lg shadow-blue-500/20"
                 >
-                  <Link href="/contact" onClick={() => setIsOpen(false)}>
-                    Start a project
+                  <Link href="/login" onClick={() => setIsOpen(false)}>
+                    Login
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </Link>
                 </Button>

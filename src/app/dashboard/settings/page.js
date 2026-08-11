@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,12 +14,26 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useProfile } from "@/components/dashboard/profile-provider";
 import { useNotifications } from "@/components/dashboard/notifications-provider";
 
+const DEPARTMENTS = [
+  "Engineering",
+  "Infrastructure",
+  "Operations",
+  "Sales",
+  "Support",
+];
+
 function initials(name) {
-  return name
+  return (name || "")
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -29,25 +44,84 @@ function initials(name) {
 export default function SettingsPage() {
   const { profile, updateProfile } = useProfile();
   const { addNotification } = useNotifications();
-  const [form, setForm] = useState(profile);
 
-  const handleChange = (key, value) =>
+  const [form, setForm] = useState({
+    fullName: profile.fullName,
+    email: profile.email,
+    profession: profile.profession || "",
+    department: profile.department || "",
+    currentPassword: "",
+    password: "",
+  });
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(
+    profile.profilePicture?.url || "",
+  );
+  const [fieldErrors, setFieldErrors] = useState({});
+  const [saving, setSaving] = useState(false);
+
+  // Email, role, profession, department, and status are Admin-only — everyone
+  // else may change their name, password, and photo.
+  const isAdmin = profile.role === "Admin";
+
+  const handleChange = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
+    setFieldErrors((prev) => (prev[key] ? { ...prev, [key]: null } : prev));
+  };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    handleChange("avatar", URL.createObjectURL(file));
+    setAvatarFile(file);
+    setAvatarPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    updateProfile(form);
-    addNotification({
-      title: "Profile updated",
-      description: "Your profile settings were saved successfully.",
-    });
-    toast.success("Profile updated");
+    setSaving(true);
+    setFieldErrors({});
+
+    // Send only what changed; a blank password means "keep the current one",
+    // and the old password rides along only when setting a new one.
+    const patch = {};
+    for (const [key, value] of Object.entries(form)) {
+      if (key === "password" || key === "currentPassword") continue;
+      if (value !== (profile[key] || "")) patch[key] = value;
+    }
+    if (form.password) {
+      patch.password = form.password;
+      patch.currentPassword = form.currentPassword;
+    }
+
+    if (!Object.keys(patch).length && !avatarFile) {
+      setSaving(false);
+      toast.info("Nothing to save", {
+        description: "Change a field first, then save.",
+      });
+      return;
+    }
+
+    try {
+      const user = await toast
+        .promise(updateProfile(patch, avatarFile), {
+          loading: "Saving your profile…",
+          success: "Profile updated",
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      setAvatarFile(null);
+      setAvatarPreview(user.profilePicture?.url || "");
+      setForm((prev) => ({ ...prev, currentPassword: "", password: "" }));
+      addNotification({
+        title: "Profile updated",
+        description: "Your profile settings were saved successfully.",
+      });
+    } catch (err) {
+      if (err?.fields) setFieldErrors(err.fields);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -64,14 +138,16 @@ export default function SettingsPage() {
           <CardTitle>Profile</CardTitle>
           <CardDescription>
             This information is shown across the admin dashboard.
+            {!isAdmin &&
+              " Your email, role, profession, and department can only be changed by an Admin."}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="flex items-center gap-4">
               <Avatar size="lg">
-                <AvatarImage src={form.avatar} alt={form.name} />
-                <AvatarFallback>{initials(form.name || "AU")}</AvatarFallback>
+                <AvatarImage src={avatarPreview} alt={form.fullName} />
+                <AvatarFallback>{initials(form.fullName)}</AvatarFallback>
               </Avatar>
               <div className="space-y-1.5">
                 <Label htmlFor="avatar">Profile photo</Label>
@@ -82,18 +158,29 @@ export default function SettingsPage() {
                   onChange={handleAvatarChange}
                   className="max-w-xs"
                 />
+                {fieldErrors.profilePicture && (
+                  <p className="text-xs text-destructive">
+                    {fieldErrors.profilePicture}
+                  </p>
+                )}
               </div>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="fullName">Full Name</Label>
                 <Input
-                  id="name"
-                  value={form.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
+                  id="fullName"
+                  value={form.fullName}
+                  onChange={(e) => handleChange("fullName", e.target.value)}
+                  aria-invalid={!!fieldErrors.fullName}
                   required
                 />
+                {fieldErrors.fullName && (
+                  <p className="text-xs text-destructive">
+                    {fieldErrors.fullName}
+                  </p>
+                )}
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="email">Email</Label>
@@ -102,41 +189,99 @@ export default function SettingsPage() {
                   type="email"
                   value={form.email}
                   onChange={(e) => handleChange("email", e.target.value)}
+                  aria-invalid={!!fieldErrors.email}
+                  disabled={!isAdmin}
                   required
+                />
+                {fieldErrors.email && (
+                  <p className="text-xs text-destructive">
+                    {fieldErrors.email}
+                  </p>
+                )}
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="profession">Profession</Label>
+                <Input
+                  id="profession"
+                  value={form.profession}
+                  placeholder="Frontend Engineer"
+                  onChange={(e) => handleChange("profession", e.target.value)}
+                  disabled={!isAdmin}
                 />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="phone">Phone</Label>
+                <Label htmlFor="department">Department</Label>
+                <Select
+                  value={form.department}
+                  onValueChange={(v) => handleChange("department", v)}
+                  disabled={!isAdmin}
+                >
+                  <SelectTrigger id="department" className="w-full">
+                    <SelectValue placeholder="Select department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {DEPARTMENTS.map((d) => (
+                      <SelectItem key={d} value={d}>
+                        {d}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="password">New Password</Label>
                 <Input
-                  id="phone"
-                  type="tel"
-                  value={form.phone}
-                  onChange={(e) => handleChange("phone", e.target.value)}
+                  id="password"
+                  type="password"
+                  autoComplete="new-password"
+                  placeholder="Leave blank to keep current"
+                  value={form.password}
+                  onChange={(e) => handleChange("password", e.target.value)}
+                  aria-invalid={!!fieldErrors.password}
                 />
+                {fieldErrors.password && (
+                  <p className="text-xs text-destructive">
+                    {fieldErrors.password}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="currentPassword">Current Password</Label>
+                <Input
+                  id="currentPassword"
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="Required to set a new password"
+                  value={form.currentPassword}
+                  onChange={(e) =>
+                    handleChange("currentPassword", e.target.value)
+                  }
+                  // Only meaningful while changing the password.
+                  disabled={!form.password}
+                  required={!!form.password}
+                  aria-invalid={!!fieldErrors.currentPassword}
+                />
+                {fieldErrors.currentPassword && (
+                  <p className="text-xs text-destructive">
+                    {fieldErrors.currentPassword}
+                  </p>
+                )}
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="role">Role</Label>
-                <Input id="role" value={form.role} disabled />
+                <Input id="role" value={profile.role} disabled />
               </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <Label htmlFor="bio">Bio</Label>
-              <Textarea
-                id="bio"
-                rows={3}
-                placeholder="A short description about yourself"
-                value={form.bio}
-                onChange={(e) => handleChange("bio", e.target.value)}
-              />
             </div>
 
             <div className="flex justify-end">
               <Button
                 type="submit"
+                disabled={saving}
                 className="bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
               >
-                Save Changes
+                {saving && <Loader2 className="size-4 animate-spin" />}
+                {saving ? "Saving…" : "Save Changes"}
               </Button>
             </div>
           </form>

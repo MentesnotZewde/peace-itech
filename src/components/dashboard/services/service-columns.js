@@ -1,15 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ArrowUpDown, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
+import { actionsColumn } from "@/components/dashboard/row-actions";
 
 export function getServiceColumns({ onEdit, onDelete }) {
   return [
@@ -37,33 +30,6 @@ export function getServiceColumns({ onEdit, onDelete }) {
         </p>
       ),
     },
-    {
-      id: "actions",
-      cell: ({ row }) => (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => onEdit(row.original)}
-              className="gap-2"
-            >
-              <Pencil className="h-3.5 w-3.5" /> Edit
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => onDelete(row.original)}
-              className="gap-2 text-destructive focus:text-destructive"
-            >
-              <Trash2 className="h-3.5 w-3.5" /> Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      ),
-    },
+    actionsColumn({ onEdit, onDelete, getLabel: (row) => row.title }),
   ];
 }

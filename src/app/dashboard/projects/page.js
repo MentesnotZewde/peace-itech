@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -9,143 +10,17 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/dashboard/users/data-table";
 import { getProjectColumns } from "@/components/dashboard/users/project-columns";
 import { UserFormDialog } from "@/components/dashboard/users/user-form-dialog";
 import { DeleteAlertDialog } from "@/components/dashboard/users/delete-alert-dialog";
 import { ProjectStatusReport } from "@/components/dashboard/project-status-report";
 import { useNotifications } from "@/components/dashboard/notifications-provider";
-
-const initialProjects = [
-  {
-    id: 1,
-    name: "Samuel Tesfaye",
-    email: "samuel@acme.com",
-    company: "Acme Corp",
-    contact: "+251 911 223 344",
-    projectRequirements: {
-      name: "Acme-Corp-Requirements.pdf",
-      url: "/sample-docs/project-requirements-acme.pdf",
-    },
-    projectstatus: "In Progress",
-    progress: "75",
-    agreedprice: "$12,400",
-    joined: "Feb 2025",
-    deliverydate: "2026-03-15",
-  },
-  {
-    id: 2,
-    name: "Liya Fikru",
-    email: "liya@northsideit.com",
-    company: "Northside IT",
-    contact: "+1 415 555 0132",
-    projectRequirements: {
-      name: "Northside-IT-Requirements.pdf",
-      url: "/sample-docs/project-requirements-northside.pdf",
-    },
-    projectstatus: "Completed",
-    progress: "100",
-    agreedprice: "$8,200",
-    joined: "Apr 2025",
-    deliverydate: "2025-07-01",
-  },
-  {
-    id: 3,
-    name: "Robel Assefa",
-    email: "robel@brightpath.com",
-    company: "Bright Path Inc",
-    contact: "+44 20 7946 0958",
-    projectRequirements: {
-      name: "BrightPath-Requirements.pdf",
-      url: "/sample-docs/project-requirements-brightpath.pdf",
-    },
-    projectstatus: "Not Started",
-    progress: "0",
-    agreedprice: "$3,100",
-    joined: "Sep 2024",
-    deliverydate: "2026-01-20",
-  },
-  {
-    id: 4,
-    name: "Meron Girma",
-    email: "meron@greenvalley.com",
-    company: "Green Valley Foods",
-    contact: "+251 922 334 455",
-    projectRequirements: {
-      name: "GreenValley-Requirements.pdf",
-      url: "/sample-docs/project-requirements-greenvalley.pdf",
-    },
-    projectstatus: "In Progress",
-    progress: "50",
-    agreedprice: "$6,750",
-    joined: "May 2025",
-    deliverydate: "2026-02-10",
-  },
-  {
-    id: 5,
-    name: "James Carter",
-    email: "james@sunriselogistics.com",
-    company: "Sunrise Logistics",
-    contact: "+1 312 555 0198",
-    projectRequirements: {
-      name: "Sunrise-Requirements.pdf",
-      url: "/sample-docs/project-requirements-sunrise.pdf",
-    },
-    projectstatus: "In Progress",
-    progress: "25",
-    agreedprice: "$9,300",
-    joined: "Jun 2025",
-    deliverydate: "2026-04-05",
-  },
-  {
-    id: 6,
-    name: "Hana Solomon",
-    email: "hana@metrohealth.com",
-    company: "Metro Health Clinic",
-    contact: "+251 933 445 566",
-    projectRequirements: {
-      name: "MetroHealth-Requirements.pdf",
-      url: "/sample-docs/project-requirements-metrohealth.pdf",
-    },
-    projectstatus: "Completed",
-    progress: "100",
-    agreedprice: "$15,000",
-    joined: "Jan 2025",
-    deliverydate: "2025-11-20",
-  },
-  {
-    id: 7,
-    name: "Oliver Bennett",
-    email: "oliver@silverlinestudios.com",
-    company: "Silverline Studios",
-    contact: "+44 161 555 0176",
-    projectRequirements: {
-      name: "Silverline-Requirements.pdf",
-      url: "/sample-docs/project-requirements-silverline.pdf",
-    },
-    projectstatus: "Completed",
-    progress: "75",
-    agreedprice: "$5,400",
-    joined: "Jul 2025",
-    deliverydate: "2026-03-01",
-  },
-  {
-    id: 8,
-    name: "Aisha Noor",
-    email: "aisha@vantageretail.com",
-    company: "Vantage Retail Group",
-    contact: "+971 50 555 0142",
-    projectRequirements: {
-      name: "Vantage-Requirements.pdf",
-      url: "/sample-docs/project-requirements-vantage.pdf",
-    },
-    projectstatus: "Completed",
-    progress: "50",
-    agreedprice: "$11,200",
-    joined: "Mar 2025",
-    deliverydate: "2026-05-18",
-  },
-];
+import { useProfile } from "@/components/dashboard/profile-provider";
+import { useProjects } from "@/components/dashboard/projects-provider";
+import { PROJECT_STATUSES } from "@/lib/project-progress";
+import { SERVICE_CATEGORIES } from "@/lib/service-categories";
 
 const fields = [
   { key: "name", label: "Contact Name", required: true },
@@ -153,33 +28,45 @@ const fields = [
   { key: "company", label: "Company", required: true },
   { key: "contact", label: "Contact Number", type: "phone", required: true },
   {
+    key: "category",
+    label: "Service Category",
+    type: "select",
+    options: SERVICE_CATEGORIES,
+  },
+  {
     key: "projectRequirements",
     label: "Project Requirements",
     type: "file",
     accept: "application/pdf",
   },
   {
+    // Progress is derived from this, so there's no separate progress input.
     key: "projectstatus",
     label: "Project Status",
     type: "select",
-    options: ["Not Started", "In Progress", "Completed"],
+    options: PROJECT_STATUSES,
   },
-  {
-    key: "progress",
-    label: "Progress",
-    type: "select",
-    options: ["0", "25", "50", "75", "100"],
-  },
-  { key: "agreedprice", label: "Agreed Price" },
+  { key: "agreedprice", label: "Agreed Price", type: "money" },
   { key: "deliverydate", label: "Expected Delivery Date", type: "date" },
 ];
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState(initialProjects);
+  const {
+    projects,
+    loading,
+    error,
+    refresh,
+    addProject,
+    updateProject,
+    removeProject,
+  } = useProjects();
+  const { addNotification } = useNotifications();
+  const { profile } = useProfile();
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
-  const { addNotification } = useNotifications();
+
+  const isAdmin = profile.role === "Admin";
 
   const handleAdd = () => {
     setEditing(null);
@@ -191,37 +78,57 @@ export default function ProjectsPage() {
     setFormOpen(true);
   };
 
-  const handleSubmit = (data) => {
+  // Errors bubble to the dialog, which stays open and shows field messages.
+  const handleSubmit = async (data, files) => {
     if (editing) {
-      setProjects((prev) =>
-        prev.map((p) => (p.id === editing.id ? { ...p, ...data } : p)),
-      );
-      toast.success("Project updated");
+      const project = await toast
+        .promise(updateProject(editing._id, data, files), {
+          loading: "Saving changes…",
+          success: "Project updated",
+          error: (err) => err.message,
+        })
+        .unwrap();
+
       addNotification({
         title: "Project updated",
-        description: `${data.company}'s project was updated.`,
+        description: `${project.company || project.title}'s project was updated.`,
       });
     } else {
-      setProjects((prev) => [
-        ...prev,
-        { ...data, id: Date.now(), joined: "Just now" },
-      ]);
-      toast.success("Project added");
+      const project = await toast
+        .promise(addProject(data, files), {
+          loading: "Creating project…",
+          success: "Project added",
+          error: (err) => err.message,
+        })
+        .unwrap();
+
       addNotification({
         title: "New project added",
-        description: `${data.company} was added to your project list.`,
+        description: `${project.company || project.title} was added to your project list.`,
       });
     }
   };
 
-  const handleDelete = () => {
-    setProjects((prev) => prev.filter((p) => p.id !== deleteTarget.id));
-    toast.success("Project deleted");
-    addNotification({
-      title: "Project removed",
-      description: `${deleteTarget.company}'s project was removed.`,
-    });
+  const handleDelete = async () => {
+    const target = deleteTarget;
     setDeleteTarget(null);
+
+    try {
+      await toast
+        .promise(removeProject(target._id), {
+          loading: "Deleting project…",
+          success: "Project deleted",
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      addNotification({
+        title: "Project removed",
+        description: `${target.company || target.title}'s project was removed.`,
+      });
+    } catch {
+      // The toast already carries the reason.
+    }
   };
 
   return (
@@ -238,25 +145,49 @@ export default function ProjectsPage() {
       <Card>
         <CardHeader>
           <CardTitle>All Projects</CardTitle>
-          <CardDescription>{projects.length} total</CardDescription>
+          <CardDescription>
+            {loading ? "Loading…" : `${projects.length} total`}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <DataTable
-            columns={getProjectColumns({
-              onEdit: handleEdit,
-              onDelete: setDeleteTarget,
-            })}
-            data={projects}
-            searchKey="name"
-            searchPlaceholder="Search projects..."
-            onAddNew={handleAdd}
-            addLabel="Add Project"
-          />
+          {loading ? (
+            <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
+              <Loader2 className="size-4 animate-spin" />
+              Loading projects…
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center gap-3 py-16 text-center">
+              <p className="text-sm text-muted-foreground">{error}</p>
+              <Button variant="outline" size="sm" onClick={refresh}>
+                Try again
+              </Button>
+            </div>
+          ) : (
+            <DataTable
+              columns={getProjectColumns({
+                onEdit: handleEdit,
+                onDelete: setDeleteTarget,
+                canDelete: isAdmin,
+              })}
+              data={projects}
+              searchKey="name"
+              searchPlaceholder="Search projects..."
+              filters={[
+                {
+                  key: "projectstatus",
+                  label: "Status",
+                  options: PROJECT_STATUSES,
+                },
+              ]}
+              onAddNew={handleAdd}
+              addLabel="Add Project"
+            />
+          )}
         </CardContent>
       </Card>
 
       <UserFormDialog
-        key={editing ? editing.id : "new"}
+        key={editing ? editing._id : "new"}
         open={formOpen}
         onOpenChange={setFormOpen}
         fields={fields}
@@ -268,7 +199,7 @@ export default function ProjectsPage() {
       <DeleteAlertDialog
         open={!!deleteTarget}
         onOpenChange={(v) => !v && setDeleteTarget(null)}
-        itemName={deleteTarget?.name}
+        itemName={deleteTarget?.company || deleteTarget?.name}
         onConfirm={handleDelete}
       />
     </div>

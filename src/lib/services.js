@@ -4,6 +4,7 @@ import {
   Headphones,
   Megaphone,
   ShieldCheck,
+  ShoppingCart,
   Workflow,
 } from "lucide-react";
 
@@ -19,11 +20,29 @@ export const services = [
       "Premium websites, ecommerce experiences, admin dashboards, and SaaS interfaces built to convert visitors and support real business operations.",
     icon: Code2,
     accent: "from-[#005BFF]/20 via-[#12B7FF]/20 to-[#12B7FF]/20",
-    outcomes: ["Responsive websites", "SaaS UI systems", "Ecommerce storefronts"],
+    outcomes: [
+      "Responsive websites",
+      "SaaS UI systems",
+      "Ecommerce storefronts",
+    ],
     overview:
       "We design and build fast, responsive web platforms with clean interfaces, strong technical foundations, and a user experience that feels polished on every screen.",
-    technologies: ["Next.js", "React", "Tailwind CSS", "Node.js", "Vercel", "PostgreSQL", "Stripe", "CMS"],
-    process: ["Discovery and content strategy", "UX/UI wireframes", "Frontend and backend build", "SEO, QA, and launch"],
+    technologies: [
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "Node.js",
+      "Vercel",
+      "PostgreSQL",
+      "Stripe",
+      "CMS",
+    ],
+    process: [
+      "Discovery and content strategy",
+      "UX/UI wireframes",
+      "Frontend and backend build",
+      "SEO, QA, and launch",
+    ],
     showcaseTitle: "Web experiences that look premium and work hard.",
     showcaseItems: [
       "Corporate website system",
@@ -32,7 +51,12 @@ export const services = [
       "Ecommerce checkout experience",
       "SaaS subscription interface",
     ],
-    workflowVisual: ["Landing page", "Product catalog", "Checkout", "Admin panel"],
+    workflowVisual: [
+      "Landing page",
+      "Product catalog",
+      "Checkout",
+      "Admin panel",
+    ],
     dashboardMetric: "94%",
     dashboardLabel: "performance-first build",
   },
@@ -44,11 +68,29 @@ export const services = [
       "Custom ERP platforms that connect teams, finance, inventory, HR, approvals, and executive reporting into one reliable operating layer.",
     icon: BarChart3,
     accent: "from-[#12B7FF]/20 via-[#0718D8]/20 to-[#005BFF]/20",
-    outcomes: ["Unified business data", "Role-based workflows", "Executive reporting"],
+    outcomes: [
+      "Unified business data",
+      "Role-based workflows",
+      "Executive reporting",
+    ],
     overview:
       "We create ERP systems around how your company actually operates, giving leaders visibility while helping teams move through daily work with fewer bottlenecks.",
-    technologies: ["PostgreSQL", "Prisma", "React", "REST APIs", "Power BI", "Cloud hosting", "Role-based access", "Audit logs"],
-    process: ["Map operations", "Design data model", "Build department modules", "Train teams and iterate"],
+    technologies: [
+      "PostgreSQL",
+      "Prisma",
+      "React",
+      "REST APIs",
+      "Power BI",
+      "Cloud hosting",
+      "Role-based access",
+      "Audit logs",
+    ],
+    process: [
+      "Map operations",
+      "Design data model",
+      "Build department modules",
+      "Train teams and iterate",
+    ],
     showcaseTitle: "Enterprise workflows presented with clarity.",
     showcaseItems: [
       "Analytics command center",
@@ -72,8 +114,22 @@ export const services = [
     outcomes: ["Automated approvals", "Connected apps", "CRM and email flows"],
     overview:
       "We connect the tools your team already uses and build automation layers that route work, notify people, generate documents, sync records, and keep processes moving.",
-    technologies: ["Google Apps Script", "Google Workspace", "Power Automate", "Zapier", "Make.com", "n8n", "Webhooks", "CRM APIs"],
-    process: ["Audit repetitive tasks", "Design automation map", "Connect tools and triggers", "Measure time saved"],
+    technologies: [
+      "Google Apps Script",
+      "Google Workspace",
+      "Power Automate",
+      "Zapier",
+      "Make.com",
+      "n8n",
+      "Webhooks",
+      "CRM APIs",
+    ],
+    process: [
+      "Audit repetitive tasks",
+      "Design automation map",
+      "Connect tools and triggers",
+      "Measure time saved",
+    ],
     showcaseTitle: "Workflow systems that move work without manual chasing.",
     showcaseItems: [
       "Google Apps Script operations hub",
@@ -87,29 +143,47 @@ export const services = [
     dashboardLabel: "manual work reduced",
   },
   {
-    title: "Cybersecurity",
-    slug: "cybersecurity",
-    eyebrow: "Digital Trust",
+    title: "Point-of-Sale Systems",
+    slug: "point-of-sale",
+    eyebrow: "Retail Operations",
     description:
-      "Security dashboards, access controls, cloud hardening, monitoring systems, and practical protection for business-critical infrastructure.",
-    icon: ShieldCheck,
-    accent: "from-[#12B7FF]/20 via-[#005BFF]/20 to-[#0718D8]/20",
-    outcomes: ["Risk reduction", "Secure infrastructure", "Monitoring readiness"],
-    overview:
-      "We help businesses understand risk, protect data, secure cloud systems, monitor critical activity, and build resilience without making security feel impossible to operate.",
-    technologies: ["IAM", "SIEM", "Endpoint security", "Cloud security", "Backups", "Audit reviews", "MFA", "Incident response"],
-    process: ["Assess risk", "Prioritize controls", "Implement protection", "Monitor and improve"],
-    showcaseTitle: "Security visibility for systems that cannot go dark.",
-    showcaseItems: [
-      "Security operations dashboard",
-      "Cloud posture review",
-      "Data protection controls",
-      "Threat monitoring workspace",
-      "Secure infrastructure baseline",
+      "Custom POS systems that simplify checkout, inventory, customer loyalty, and sales reporting for modern retail teams.",
+    icon: ShoppingCart,
+    accent: "from-[#005BFF]/20 via-[#12B7FF]/20 to-[#12B7FF]/20",
+    outcomes: [
+      "Fast checkout flows",
+      "Integrated inventory",
+      "Customer loyalty",
     ],
-    workflowVisual: ["Detect", "Verify", "Contain", "Recover"],
-    dashboardMetric: "24/7",
-    dashboardLabel: "monitoring posture",
+    overview:
+      "We build point-of-sale experiences that help retailers sell quickly, track stock accurately, and offer customers an efficient checkout journey.",
+    technologies: [
+      "POS terminals",
+      "Stripe / payment APIs",
+      "Inventory sync",
+      "Next.js",
+      "React",
+      "Tailwind CSS",
+      "Barcode scanning",
+      "Dashboard analytics",
+    ],
+    process: [
+      "Understand your retail model",
+      "Design checkout and inventory flows",
+      "Build POS and backend integrations",
+      "Launch, train, and support",
+    ],
+    showcaseTitle: "POS systems built for speedy sales and accurate inventory.",
+    showcaseItems: [
+      "In-store checkout flow",
+      "Inventory & stock alerts",
+      "Customer loyalty setup",
+      "Sales reporting dashboard",
+      "Receipt and order history",
+    ],
+    workflowVisual: ["Scan", "Pay", "Track", "Analyze"],
+    dashboardMetric: "99%",
+    dashboardLabel: "checkout uptime",
   },
   {
     title: "Digital Marketing",
@@ -122,9 +196,24 @@ export const services = [
     outcomes: ["SEO visibility", "Campaign performance", "Brand growth"],
     overview:
       "We combine creative execution with analytics so your marketing activity is easier to plan, easier to measure, and easier to improve over time.",
-    technologies: ["SEO tools", "Google Analytics", "Search Console", "Meta Ads", "CRM", "Email marketing", "Canva", "CMS"],
-    process: ["Research audience", "Build campaign assets", "Launch channels", "Report and optimize"],
-    showcaseTitle: "Growth dashboards and brand systems with measurable impact.",
+    technologies: [
+      "SEO tools",
+      "Google Analytics",
+      "Search Console",
+      "Meta Ads",
+      "CRM",
+      "Email marketing",
+      "Canva",
+      "CMS",
+    ],
+    process: [
+      "Research audience",
+      "Build campaign assets",
+      "Launch channels",
+      "Report and optimize",
+    ],
+    showcaseTitle:
+      "Growth dashboards and brand systems with measurable impact.",
     showcaseItems: [
       "SEO analytics dashboard",
       "Campaign performance report",
@@ -144,11 +233,29 @@ export const services = [
       "Remote technical support, office troubleshooting, device support, network assistance, and professional helpdesk operations for growing teams.",
     icon: Headphones,
     accent: "from-[#12B7FF]/20 via-[#005BFF]/20 to-[#12B7FF]/20",
-    outcomes: ["Remote assistance", "Device and network support", "Reliable helpdesk"],
+    outcomes: [
+      "Remote assistance",
+      "Device and network support",
+      "Reliable helpdesk",
+    ],
     overview:
       "We provide dependable support for teams working from home, offices, or hybrid environments, helping people resolve issues quickly and keep business moving.",
-    technologies: ["Helpdesk tools", "Remote desktop", "Device management", "Network diagnostics", "Microsoft 365", "Google Workspace", "Backups", "Monitoring"],
-    process: ["Onboard users and devices", "Set support channels", "Resolve and document", "Improve recurring issues"],
+    technologies: [
+      "Helpdesk tools",
+      "Remote desktop",
+      "Device management",
+      "Network diagnostics",
+      "Microsoft 365",
+      "Google Workspace",
+      "Backups",
+      "Monitoring",
+    ],
+    process: [
+      "Onboard users and devices",
+      "Set support channels",
+      "Resolve and document",
+      "Improve recurring issues",
+    ],
     showcaseTitle: "Support experiences that feel responsive and professional.",
     showcaseItems: [
       "Remote support desk",
@@ -166,5 +273,3 @@ export const services = [
 export function getServiceBySlug(slug) {
   return services.find((service) => service.slug === slug);
 }
-
-

@@ -17,10 +17,7 @@ import { PieChartIcon, MapIcon } from "lucide-react";
 import { FaUsersCog } from "react-icons/fa";
 import { AiOutlineSolution } from "react-icons/ai";
 import { GrProjects } from "react-icons/gr";
-import { IoNewspaperOutline } from "react-icons/io5";
-import { SlEvent } from "react-icons/sl";
-import { MdOutlineInsights } from "react-icons/md";
-import { RxUpdate } from "react-icons/rx";
+import { MEDIA_CATEGORIES } from "@/lib/media-categories";
 
 // This is sample data.
 const data = {
@@ -53,6 +50,10 @@ const data = {
           title: "Manage Projects",
           url: "/dashboard/projects",
         },
+        {
+          title: "Portfolio Projects",
+          url: "/dashboard/projects/portfolio",
+        },
       ],
     },
     {
@@ -80,28 +81,12 @@ const data = {
     // },
     ,
   ],
-  Media: [
-    {
-      name: "News",
-      url: "#",
-      icon: <IoNewspaperOutline className="text-sidebar-primary" />,
-    },
-    {
-      name: "Events",
-      url: "#",
-      icon: <SlEvent className="text-sidebar-primary" />,
-    },
-    {
-      name: "Insights",
-      url: "#",
-      icon: <MdOutlineInsights className="text-sidebar-primary" />,
-    },
-    {
-      name: "Company Updates",
-      url: "#",
-      icon: <RxUpdate className="text-sidebar-primary" />,
-    },
-  ],
+  // Every media category opens the same unified admin page, pre-filtered.
+  Media: MEDIA_CATEGORIES.map(({ name, icon: Icon }) => ({
+    name,
+    url: `/dashboard/media-center?category=${encodeURIComponent(name)}`,
+    icon: <Icon className="text-sidebar-primary" />,
+  })),
 };
 
 export function AppSidebar({ ...props }) {
