@@ -3,12 +3,12 @@
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import {
+  CheckCircle2,
   ExternalLink,
+  EyeOff,
   ImageOff,
   Loader2,
   Pencil,
-  Plus,
-  Trash2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,24 +21,26 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { UserFormDialog } from "@/components/dashboard/users/user-form-dialog";
-import { DeleteAlertDialog } from "@/components/dashboard/users/delete-alert-dialog";
 import { useProjects } from "@/components/dashboard/projects-provider";
+import { useProfile } from "@/components/dashboard/profile-provider";
 import { useNotifications } from "@/components/dashboard/notifications-provider";
 import { services } from "@/lib/services";
 import { SERVICE_CATEGORIES } from "@/lib/service-categories";
 import { PROJECT_FIELDS } from "@/lib/project-fields";
 
-// Anything added here is a delivered project; progress follows the status.
-const NEW_DELIVERED_PROJECT = {
-  ...Object.fromEntries(PROJECT_FIELDS.map((f) => [f.key, ""])),
-  projectstatus: "Completed",
-};
-
 const iconByCategory = Object.fromEntries(
   services.map((s) => [s.title, s.icon]),
 );
 
-function PortfolioCard({ project, index, onEdit, onDelete }) {
+function PortfolioCard({
+  project,
+  index,
+  onEdit,
+  onToggleApproval,
+  canManage,
+  pending,
+}) {
+  const approved = Boolean(project.portfolioApproved);
   const Icon = iconByCategory[project.category];
   const label = project.title || project.company;
 
@@ -50,6 +52,15 @@ function PortfolioCard({ project, index, onEdit, onDelete }) {
             {String(index + 1).padStart(2, "0")}
           </span>
           <h3 className="truncate font-semibold text-foreground">{label}</h3>
+          <span
+            className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
+              approved
+                ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                : "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+            }`}
+          >
+            {approved ? "Published" : "Pending approval"}
+          </span>
         </div>
         <div className="flex shrink-0 items-center gap-2">
           {project.liveUrl && (
@@ -64,22 +75,42 @@ function PortfolioCard({ project, index, onEdit, onDelete }) {
               </a>
             </Button>
           )}
-          <Button
-            variant="outline"
-            size="icon-sm"
-            aria-label={`Edit ${label}`}
-            onClick={() => onEdit(project)}
-          >
-            <Pencil className="size-3.5" />
-          </Button>
-          <Button
-            variant="destructive"
-            size="icon-sm"
-            aria-label={`Delete ${label}`}
-            onClick={() => onDelete(project)}
-          >
-            <Trash2 className="size-3.5" />
-          </Button>
+          {canManage && (
+            <>
+              <Button
+                variant="outline"
+                size="icon-sm"
+                aria-label={`Edit ${label}`}
+                onClick={() => onEdit(project)}
+              >
+                <Pencil className="size-3.5" />
+              </Button>
+              {approved ? (
+                <Button
+                  variant="outline"
+                  size="icon-sm"
+                  disabled={pending}
+                  aria-label={`Unpublish ${label} from the website`}
+                  title="Unpublish from the website"
+                  onClick={() => onToggleApproval(project, false)}
+                >
+                  <EyeOff className="size-3.5" />
+                </Button>
+              ) : (
+                <Button
+                  size="sm"
+                  disabled={pending}
+                  aria-label={`Approve ${label} for the website`}
+                  title="Approve and publish to the website"
+                  className="gap-1 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
+                  onClick={() => onToggleApproval(project, true)}
+                >
+                  <CheckCircle2 className="size-3.5" />
+                  Approve
+                </Button>
+              )}
+            </>
+          )}
         </div>
       </div>
 
@@ -123,77 +154,70 @@ function PortfolioCard({ project, index, onEdit, onDelete }) {
 }
 
 export default function PortfolioPage() {
-  const { projects, loading, addProject, updateProject, removeProject } =
-    useProjects();
+  const { projects, loading, updateProject } = useProjects();
   const { addNotification } = useNotifications();
+  const { profile } = useProfile();
+  const isAdmin = profile.role === "Admin";
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
+  const [approval, setApproval] = useState("all");
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [deleteTarget, setDeleteTarget] = useState(null);
 
   const delivered = projects.filter((p) => p.projectstatus === "Completed");
+  const pendingCount = delivered.filter((p) => !p.portfolioApproved).length;
 
-  const openAdd = () => {
-    setEditing(null);
-    setFormOpen(true);
-  };
-
+  // No "add" here on purpose: a project reaches the portfolio by being marked
+  // Completed on the Projects page. This page only edits and removes.
   const openEdit = (project) => {
     setEditing(project);
     setFormOpen(true);
   };
 
   const handleSubmit = async (data, files) => {
-    if (editing) {
-      const project = await toast
-        .promise(updateProject(editing._id, data, files), {
-          loading: "Saving changes…",
-          success: "Project updated",
-          error: (err) => err.message,
-        })
-        .unwrap();
-
-      addNotification({
-        title: "Portfolio project updated",
-        description: `"${project.title || project.company}" was updated.`,
-      });
-      return;
-    }
-
     const project = await toast
-      .promise(addProject(data, files), {
-        loading: "Adding project…",
-        success: "Project added",
+      .promise(updateProject(editing._id, data, files), {
+        loading: "Saving changes…",
+        success: "Project updated",
         error: (err) => err.message,
       })
       .unwrap();
 
     addNotification({
-      title: "New project added",
-      description: `${project.title || project.company} was added to your project list.`,
+      title: "Portfolio project updated",
+      description: `"${project.title || project.company}" was updated.`,
     });
   };
 
-  const handleDelete = async () => {
-    const target = deleteTarget;
-    setDeleteTarget(null);
+  // Approval is what puts a project on the public site; the project itself is
+  // never touched here.
+  const [approving, setApproving] = useState(null);
+
+  const handleToggleApproval = async (project, approve) => {
+    setApproving(project._id);
+    const label = project.title || project.company;
 
     try {
       await toast
-        .promise(removeProject(target._id), {
-          loading: "Deleting project…",
-          success: "Project deleted",
+        .promise(updateProject(project._id, { portfolioApproved: approve }), {
+          loading: approve ? "Publishing…" : "Unpublishing…",
+          success: approve
+            ? `"${label}" is now live on the website`
+            : `"${label}" removed from the website`,
           error: (err) => err.message,
         })
         .unwrap();
 
       addNotification({
-        title: "Portfolio project removed",
-        description: `"${target.title || target.company}" was removed.`,
+        title: approve ? "Portfolio project published" : "Portfolio project unpublished",
+        description: approve
+          ? `"${label}" was approved and is now visible on the public site.`
+          : `"${label}" is no longer shown on the public site.`,
       });
     } catch {
       // The toast already carries the reason.
+    } finally {
+      setApproving(null);
     }
   };
 
@@ -201,14 +225,17 @@ export default function PortfolioPage() {
     const query = search.trim().toLowerCase();
 
     return delivered.filter((p) => {
+      const matchesApproval =
+        approval === "all" ||
+        (approval === "published" ? p.portfolioApproved : !p.portfolioApproved);
       const matchesCategory = category === "all" || p.category === category;
       const matchesSearch =
         !query ||
         p.title?.toLowerCase().includes(query) ||
         p.company?.toLowerCase().includes(query);
-      return matchesCategory && matchesSearch;
+      return matchesApproval && matchesCategory && matchesSearch;
     });
-  }, [delivered, search, category]);
+  }, [delivered, search, category, approval]);
 
   return (
     <div className="space-y-6">
@@ -217,8 +244,14 @@ export default function PortfolioPage() {
           Portfolio Projects
         </h1>
         <p className="text-sm text-muted-foreground">
-          Completed projects delivered for customers.
+          Completed projects wait here for approval — only the ones you publish
+          appear on the public service pages.
         </p>
+        {pendingCount > 0 && (
+          <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-600 dark:text-amber-400">
+            {pendingCount} awaiting approval
+          </p>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -229,6 +262,16 @@ export default function PortfolioPage() {
             onChange={(e) => setSearch(e.target.value)}
             className="max-w-sm"
           />
+          <Select value={approval} onValueChange={setApproval}>
+            <SelectTrigger className="w-44">
+              <SelectValue placeholder="Approval" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="pending">Pending approval</SelectItem>
+              <SelectItem value="published">Published</SelectItem>
+            </SelectContent>
+          </Select>
           <Select value={category} onValueChange={setCategory}>
             <SelectTrigger className="w-52">
               <SelectValue placeholder="Category" />
@@ -243,14 +286,7 @@ export default function PortfolioPage() {
             </SelectContent>
           </Select>
         </div>
-        <Button
-          size="sm"
-          onClick={openAdd}
-          className="gap-1 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
-        >
-          <Plus className="h-4 w-4" />
-          Add
-        </Button>
+
       </div>
 
       {loading ? (
@@ -265,7 +301,7 @@ export default function PortfolioPage() {
           <CardContent className="py-10 text-center text-sm text-muted-foreground">
             No delivered projects yet. Mark a project as{" "}
             <span className="font-medium text-foreground">Completed</span> in
-            the Projects tab to see it here.
+            the Projects tab, then approve it here to publish it.
           </CardContent>
         </Card>
       ) : filtered.length === 0 ? (
@@ -275,35 +311,32 @@ export default function PortfolioPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
           {filtered.map((project, index) => (
             <PortfolioCard
               key={project._id}
               project={project}
               index={index}
               onEdit={openEdit}
-              onDelete={setDeleteTarget}
+              onToggleApproval={handleToggleApproval}
+              canManage={isAdmin}
+              pending={approving === project._id}
             />
           ))}
         </div>
       )}
 
-      <UserFormDialog
-        key={editing ? editing._id : "new"}
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        fields={PROJECT_FIELDS}
-        initialData={editing ?? NEW_DELIVERED_PROJECT}
-        onSubmit={handleSubmit}
-        title={editing ? "Edit Project" : "Add Project"}
-      />
-
-      <DeleteAlertDialog
-        open={!!deleteTarget}
-        onOpenChange={(v) => !v && setDeleteTarget(null)}
-        itemName={deleteTarget?.title || deleteTarget?.company}
-        onConfirm={handleDelete}
-      />
+      {editing && (
+        <UserFormDialog
+          key={editing._id}
+          open={formOpen}
+          onOpenChange={setFormOpen}
+          fields={PROJECT_FIELDS}
+          initialData={editing}
+          onSubmit={handleSubmit}
+          title="Edit Project"
+        />
+      )}
     </div>
   );
 }

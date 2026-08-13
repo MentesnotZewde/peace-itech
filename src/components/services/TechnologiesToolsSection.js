@@ -5,24 +5,23 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+// Logos are served from /public, never from a CDN: the site's CSP allows
+// images from 'self' and Cloudinary only, so a remote icon renders as a gap.
 const defaultTools = [
-  { name: "React", logo: "https://cdn.simpleicons.org/react/61DAFB" },
+  { name: "React", logo: "/images/tools/react.svg" },
   { name: "Next.js", logo: "/images/Next.jpg" },
-  {
-    name: "Tailwind CSS",
-    logo: "https://cdn.simpleicons.org/tailwindcss/06B6D4",
-  },
-  { name: "Node.js", logo: "https://cdn.simpleicons.org/nodedotjs/5FA04E" },
-  { name: "Firebase", logo: "https://cdn.simpleicons.org/firebase/FFCA28" },
-  { name: "PostgreSQL", logo: "https://cdn.simpleicons.org/postgresql/4169E1" },
+  { name: "Tailwind CSS", logo: "/images/tools/tailwindcss.svg" },
+  { name: "Node.js", logo: "/images/tools/nodedotjs.svg" },
+  { name: "Firebase", logo: "/images/tools/firebase.svg" },
+  { name: "PostgreSQL", logo: "/images/tools/postgresql.svg" },
   { name: "Microsoft Azure", logo: "/images/Microsoft Azure.png" },
   { name: "Power Automate", logo: "/images/Power Automate.png" },
   { name: "SharePoint", logo: "/images/SharePoint.png" },
   { name: "Twilio", logo: "/images/Twilio-Logo.png" },
-  { name: "Figma", logo: "https://cdn.simpleicons.org/figma/F24E1E" },
+  { name: "Figma", logo: "/images/tools/figma.svg" },
   { name: "GitHub", logo: "/images/GitHub.png" },
   { name: "Vercel", logo: "/images/Vercel-Logo.png" },
-  { name: "WordPress", logo: "https://cdn.simpleicons.org/wordpress/21759B" },
+  { name: "WordPress", logo: "/images/tools/wordpress.svg" },
 ];
 
 function useCompactMotion() {
@@ -159,13 +158,13 @@ export default function TechnologiesToolsSection({
           <div className="mx-auto max-w-3xl text-center">
             <motion.p
               variants={headingReveal}
-              className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]"
+              className="text-sm  uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]"
             >
               {eyebrow}
             </motion.p>
             <motion.h2
               variants={headingReveal}
-              className="mt-3 pb-1 text-3xl font-semibold tracking-normal text-foreground sm:text-5xl"
+              className="mt-3 pb-1 text-2xl  tracking-normal text-foreground sm:text-4xl"
             >
               {title}
               <span

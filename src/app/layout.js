@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Fredoka, Plus_Jakarta_Sans } from "next/font/google";
+import { Fredoka, Plus_Jakarta_Sans, Sora } from "next/font/google";
 import AssistantWidget from "@/components/ai-assistant/AssistantWidget";
 import PageLoader from "@/components/layout/PageLoader";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -10,7 +10,11 @@ const fredoka = Fredoka({
   variable: "--font-fredoka",
   display: "swap",
 });
-
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sora",
+  display: "swap",
+});
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-jakarta",
@@ -29,7 +33,7 @@ export default function RootLayout({ children }) {
       lang="en"
       // The font variables live on <html> so every rule that resolves
       // --font-sans (including the one on <html> itself) can see them.
-      className={`${fredoka.variable} ${jakarta.variable} h-full antialiased`}
+      className={`${fredoka.variable} ${sora.variable} ${jakarta.variable} h-full antialiased`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

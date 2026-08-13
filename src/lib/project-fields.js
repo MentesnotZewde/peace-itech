@@ -21,5 +21,10 @@ export const PROJECT_FIELDS = [
     type: "file",
     accept: "image/*",
   },
-  { key: "liveUrl", label: "Live Site URL", type: "url" },
+  {
+    key: "liveUrl",
+    label: "Project Link",
+    type: "url",
+    placeholder: "https://example.com",
+  },
 ];

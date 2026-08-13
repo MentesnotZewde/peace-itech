@@ -7,10 +7,10 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 const stats = [
-  { value: "120+", target: 120, suffix: "+", label: "Projects Completed" },
-  { value: "85+", target: 85, suffix: "+", label: "Happy Clients" },
-  { value: "6", target: 6, suffix: "", label: "Countries Served" },
-  { value: "8+", target: 8, suffix: "+", label: "Years Experience" },
+  { value: "10+", target: 10, suffix: "+", label: "Projects Completed" },
+  { value: "12+", target: 12, suffix: "+", label: "Happy Clients" },
+  { value: "3", target: 3, suffix: "", label: "Countries Served" },
+  { value: "2+", target: 2, suffix: "+", label: "Years Experience" },
 ];
 
 const images = [
@@ -130,10 +130,10 @@ export default function StatsSection() {
               {index === 0 ? (
                 <Button
                   asChild
-                  className="mt-5 h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:bg-[#071B8F]"
+                  className="mt-5 h-12 rounded-md bg-[#397dfc] px-6 px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:bg-[#071B8F]"
                 >
-                  <Link href="/about-us#company-journey">
-                    Discover Our Story
+                  <Link href="/about-us#Company Journey">
+                    Discover Our Journey
                   </Link>
                 </Button>
               ) : null}

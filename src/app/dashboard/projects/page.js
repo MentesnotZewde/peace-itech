@@ -19,36 +19,8 @@ import { ProjectStatusReport } from "@/components/dashboard/project-status-repor
 import { useNotifications } from "@/components/dashboard/notifications-provider";
 import { useProfile } from "@/components/dashboard/profile-provider";
 import { useProjects } from "@/components/dashboard/projects-provider";
+import { fieldsFor } from "@/lib/project-form-fields";
 import { PROJECT_STATUSES } from "@/lib/project-progress";
-import { SERVICE_CATEGORIES } from "@/lib/service-categories";
-
-const fields = [
-  { key: "name", label: "Contact Name", required: true },
-  { key: "email", label: "Email", type: "email", required: true },
-  { key: "company", label: "Company", required: true },
-  { key: "contact", label: "Contact Number", type: "phone", required: true },
-  {
-    key: "category",
-    label: "Service Category",
-    type: "select",
-    options: SERVICE_CATEGORIES,
-  },
-  {
-    key: "projectRequirements",
-    label: "Project Requirements",
-    type: "file",
-    accept: "application/pdf",
-  },
-  {
-    // Progress is derived from this, so there's no separate progress input.
-    key: "projectstatus",
-    label: "Project Status",
-    type: "select",
-    options: PROJECT_STATUSES,
-  },
-  { key: "agreedprice", label: "Agreed Price", type: "money" },
-  { key: "deliverydate", label: "Expected Delivery Date", type: "date" },
-];
 
 export default function ProjectsPage() {
   const {
@@ -167,6 +139,8 @@ export default function ProjectsPage() {
               columns={getProjectColumns({
                 onEdit: handleEdit,
                 onDelete: setDeleteTarget,
+                // Projects are Admin-only to change; everyone else reads.
+                canEdit: isAdmin,
                 canDelete: isAdmin,
               })}
               data={projects}
@@ -179,7 +153,7 @@ export default function ProjectsPage() {
                   options: PROJECT_STATUSES,
                 },
               ]}
-              onAddNew={handleAdd}
+              onAddNew={isAdmin ? handleAdd : undefined}
               addLabel="Add Project"
             />
           )}
@@ -190,7 +164,7 @@ export default function ProjectsPage() {
         key={editing ? editing._id : "new"}
         open={formOpen}
         onOpenChange={setFormOpen}
-        fields={fields}
+        fields={fieldsFor(editing)}
         initialData={editing}
         onSubmit={handleSubmit}
         title={editing ? "Edit Project" : "Add Project"}

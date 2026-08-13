@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema(
       // Kept so the old image can be removed from Cloudinary on replace/delete.
       publicId: { type: String },
     },
+    // Bumped whenever the password changes; tokens carry the version they were
+    // minted with, so old ones stop working the moment it moves.
+    tokenVersion: { type: Number, default: 0 },
   },
   { timestamps: true },
 );
@@ -40,6 +43,9 @@ const userSchema = new mongoose.Schema(
 userSchema.pre("save", async function hashPassword() {
   if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 12);
+
+  // A password change must invalidate every token issued before it.
+  if (!this.isNew) this.tokenVersion += 1;
 });
 
 userSchema.methods.comparePassword = function comparePassword(candidate) {

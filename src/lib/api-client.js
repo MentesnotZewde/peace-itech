@@ -96,6 +96,11 @@ export const auth = {
       auth: false,
     }),
   me: () => apiFetch("/api/auth/me"),
+  // The session cookie is httpOnly, so only the server can clear it.
+  logout: () =>
+    apiFetch("/api/auth/logout", { method: "POST", auth: false }).catch(
+      () => null,
+    ),
 };
 
 export const projectsApi = {
@@ -104,6 +109,35 @@ export const projectsApi = {
   update: (id, body) =>
     apiFetch(`/api/projects/${id}`, { method: "PATCH", body }),
   remove: (id) => apiFetch(`/api/projects/${id}`, { method: "DELETE" }),
+};
+
+export const mediaApi = {
+  list: (params = {}) => {
+    const query = new URLSearchParams(
+      Object.entries(params).filter(([, v]) => v !== "" && v != null),
+    ).toString();
+    return apiFetch(`/api/media${query ? `?${query}` : ""}`);
+  },
+  create: (body) => apiFetch("/api/media", { method: "POST", body }),
+  update: (id, body) => apiFetch(`/api/media/${id}`, { method: "PATCH", body }),
+  remove: (id) => apiFetch(`/api/media/${id}`, { method: "DELETE" }),
+};
+
+export const appointmentsApi = {
+  list: (params = {}) => {
+    const query = new URLSearchParams(
+      Object.entries(params).filter(([, v]) => v !== "" && v != null),
+    ).toString();
+    return apiFetch(`/api/appointments${query ? `?${query}` : ""}`);
+  },
+  // Only the status is editable; rescheduling would have to rewrite the
+  // calendar event, so it is not exposed here.
+  setStatus: (id, status) =>
+    apiFetch(`/api/appointments/${id}`, {
+      method: "PATCH",
+      body: { status },
+    }),
+  remove: (id) => apiFetch(`/api/appointments/${id}`, { method: "DELETE" }),
 };
 
 export const usersApi = {

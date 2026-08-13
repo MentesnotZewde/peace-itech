@@ -83,7 +83,12 @@ function RequirementsButton({ doc }) {
   );
 }
 
-export function getProjectColumns({ onEdit, onDelete, canDelete = true }) {
+export function getProjectColumns({
+  onEdit,
+  onDelete,
+  canEdit = true,
+  canDelete = true,
+}) {
   return [
     {
       accessorKey: "name",
@@ -167,6 +172,7 @@ export function getProjectColumns({ onEdit, onDelete, canDelete = true }) {
     actionsColumn({
       onEdit,
       onDelete,
+      canEdit,
       canDelete,
       getLabel: (row) => row.company || row.name || row.title,
     }),

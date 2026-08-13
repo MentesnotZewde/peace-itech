@@ -18,9 +18,9 @@ import { useNotifications } from "@/components/dashboard/notifications-provider"
 const initialServices = [
   {
     id: 1,
-    title: "Web Development",
+    title: "Web & App Development",
     description:
-      "Premium websites, ecommerce experiences, admin dashboards, and SaaS interfaces built to convert visitors and support real business operations.",
+      "Premium websites, mobile apps, ecommerce experiences, admin dashboards, and SaaS interfaces built to convert visitors and support real business operations.",
   },
   {
     id: 2,

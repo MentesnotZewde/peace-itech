@@ -52,9 +52,9 @@ export default function FaqSection() {
     <section className="relative overflow-hidden px-4 py-14 transition-colors sm:px-6 sm:py-16 lg:px-8">
       <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
         <div>
-          <h2 className="text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+          <h2 className="text-2xl font-heading font-semibold leading-tight tracking-normal text-foreground sm:text-3xl">
             Frequently Asked{" "}
-            <span className="text-[#005BFF] dark:text-[#12B7FF]">
+            <span className="text-[#12B7FF] dark:text-[#12B7FF]">
               Questions
             </span>
           </h2>
@@ -81,8 +81,8 @@ export default function FaqSection() {
               build, automate, support, and scale.
             </p>
             <Link
-              href="/contact"
-              className="mt-6 flex h-11 items-center justify-center gap-3 rounded-full bg-[#005BFF] px-5 text-sm font-semibold text-white shadow-[0_16px_32px_rgba(0,91,255,0.24)] transition hover:bg-[#004FE0]"
+              href="/book-appointment"
+              className="mt-10 flex h-11 items-center justify-center gap-3 rounded-md bg-[#397dfc] px-5 text-sm font-semibold text-white shadow-[0_16px_32px_rgba(0,91,255,0.24)] transition hover:bg-[#004FE0]"
             >
               Book a Free Call
               <ArrowRight className="h-4 w-4" />
@@ -133,7 +133,7 @@ export default function FaqSection() {
                         <Plus className="h-4 w-4" />
                       )}
                     </span>
-                    <span className="text-base font-semibold leading-6 text-foreground sm:text-lg">
+                    <span className="text-base font-semibold leading-6 text-foreground sm:text-md">
                       {faq.question}
                     </span>
                   </span>

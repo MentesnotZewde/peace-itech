@@ -154,12 +154,14 @@ project whose `projectstatus` is `Completed`.
 Every project needs at least a `company` or a `title`; everything else is
 optional, because the two forms post different subsets.
 
+Projects are read by everyone signed in and changed only by an Admin.
+
 | Route                       | Who                |
 | --------------------------- | ------------------ |
 | `GET /api/projects`         | any signed-in user |
-| `POST /api/projects`        | any signed-in user |
 | `GET /api/projects/:id`     | any signed-in user |
-| `PATCH` / `PUT /api/projects/:id` | any signed-in user |
+| `POST /api/projects`        | Admin              |
+| `PATCH` / `PUT /api/projects/:id` | Admin        |
 | `DELETE /api/projects/:id`  | Admin              |
 
 `GET` accepts `search` (name, company, title, email), `status`, `category`, and
@@ -177,6 +179,126 @@ curl -X POST http://localhost:3000/api/projects \
 
 Replacing `image` or `projectRequirements` destroys the asset it supersedes,
 and deleting a project removes both of its files.
+
+## Media items
+
+Backs the admin Media Center and the public `/media-center` page.
+
+| Field      | Notes                                                    |
+| ---------- | -------------------------------------------------------- |
+| `title`    | required                                                  |
+| `category` | `News` \| `Events` \| `Insights` \| `Company Updates`     |
+| `date`     | publication date as `YYYY-MM-DD` (a plain string, so it never shifts with timezones) |
+| `summary`  | teaser text for the card                                  |
+| `status`   | `Draft` \| `Published` — defaults to `Draft`              |
+| `featured` | boolean; accepts `true`/`"true"` so multipart forms work  |
+| `image`    | cover image `{ url, publicId, name, resourceType }`       |
+
+| Route                     | Who                                            |
+| ------------------------- | ---------------------------------------------- |
+| `GET /api/media`          | **public** — anonymous callers only see `Published` |
+| `GET /api/media/:id`      | public for published; a draft returns `404` unless signed in |
+| `POST /api/media`         | Admin                                           |
+| `PATCH` / `PUT /api/media/:id` | Admin                                      |
+| `DELETE /api/media/:id`   | Admin                                           |
+
+`GET` accepts `category` (`All` is ignored), `status` (signed-in only),
+`featured=true`, and `search` over title and summary. Results are sorted by
+publication date, newest first.
+
+```bash
+curl -X POST http://localhost:3000/api/media \
+  -H "Authorization: Bearer $TOKEN" \
+  -F title="Peace iTech launches automation practice" \
+  -F category="News" -F date="2026-05-15" \
+  -F status="Published" -F featured=true \
+  -F image=@./cover.png
+```
+
+Replacing the cover destroys the image it supersedes, and deleting an item
+removes its image too.
+
+## Contact form
+
+`POST /api/contact` — **public**. Backs the form on `/contact`.
+
+| Field     | Notes                                              |
+| --------- | -------------------------------------------------- |
+| `name`    | required, 2–120 chars                               |
+| `email`   | required, must parse as an email                    |
+| `phone`   | optional, ≤40 chars                                 |
+| `office`  | optional, ≤120 chars                                |
+| `subject` | required, 3–200 chars                               |
+| `message` | required, 10–5000 chars                             |
+| `website` | honeypot — must be empty; a filled value is dropped |
+
+Nothing is stored: the submission is emailed and the request ends. A send
+failure therefore returns `502` rather than a success screen, because the
+message really is lost at that point.
+
+Mail goes straight from this server to an SMTP mailbox you control (see the
+`SMTP_*` vars in `.env.example`) — no form service or relay is involved. `From`
+is the authenticated SMTP account, since providers reject a `From` they did not
+authorise; `Reply-To` is the visitor, so replying reaches them.
+
+Abuse controls are deliberately basic: a hidden honeypot field, and an
+in-process limit of 3 submissions per IP per minute. The limiter lives in
+module memory, so it resets on redeploy and does not span instances — put a
+real limiter at the edge if the form gets targeted.
+
+## Appointments
+
+Backs the public `/book-appointment` page and the admin Appointments list.
+
+| Field             | Notes                                                     |
+| ----------------- | --------------------------------------------------------- |
+| `name` / `email`  | required                                                   |
+| `phone` / `company` | optional contact details                                 |
+| `topic`           | one of the service topics in `lib/appointment-slots.js`    |
+| `message`         | optional note from the visitor                             |
+| `date`            | `YYYY-MM-DD` in the business timezone (a plain string, so it never shifts) |
+| `time`            | `HH:mm` slot start, same timezone                          |
+| `status`          | `Pending` \| `Confirmed` \| `Completed` \| `Cancelled`     |
+| `googleEventId`   | set once the event reaches Google Calendar; absent means un-synced |
+| `slotKey`         | `date` + `time` while the booking holds its slot; removed on cancel |
+
+| Route                                    | Who                            |
+| ---------------------------------------- | ------------------------------ |
+| `GET /api/appointments/availability?date=` | **public** — free slot times only |
+| `POST /api/appointments`                 | **public** — the booking form   |
+| `GET /api/appointments`                  | signed-in staff                 |
+| `GET /api/appointments/:id`              | signed-in staff                 |
+| `PATCH /api/appointments/:id`            | signed-in staff — status only   |
+| `DELETE /api/appointments/:id`           | Admin                           |
+
+Availability is derived, never stored: `lib/appointment-slots.js` holds the
+opening hours, slot length, lunch break, booking window, and minimum notice.
+The endpoint returns only free times — who holds the others is never exposed.
+
+Double-booking is prevented by a unique sparse index on `slotKey`, so two
+visitors submitting the same slot at once give one of them a `409`. A
+cancelled booking drops its `slotKey` and releases the slot.
+
+`GET /api/appointments` accepts `status` (`All` is ignored) plus `from` / `to`
+date bounds, sorted soonest first.
+
+```bash
+curl -X POST http://localhost:3000/api/appointments \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Sara T","email":"sara@example.com",
+       "topic":"Web & App Development","date":"2026-08-17","time":"09:00"}'
+```
+
+### Google Calendar
+
+Bookings are mirrored onto a company calendar with a service-account JWT (see
+`GOOGLE_*` in `.env.example`). Calendar failures are logged but never fail a
+booking — the record is already saved and the dashboard still shows it, with
+the missing `googleEventId` marking it un-synced. Cancelling or deleting a
+booking removes its event.
+
+A service account has no mailbox, so Google will not send its own invitations;
+the visitor is added as an attendee, and any confirmation email is ours to send.
 
 ## Uploads
 

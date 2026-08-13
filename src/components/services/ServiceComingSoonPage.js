@@ -24,7 +24,7 @@ export default function ServiceComingSoonPage({ service }) {
             />
           </div>
 
-          <h1 className="mt-8 font-heading text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-[3.35rem]">
+          <h1 className="mt-8 ffont-heading text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl lg:text-[2.35rem]">
             <span
               className="animate-hero-heading-word block opacity-0"
               style={{ animationDelay: "120ms" }}
@@ -39,7 +39,7 @@ export default function ServiceComingSoonPage({ service }) {
             </span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-md">
             We are preparing this service experience carefully. For now, our
             team is focused on the services currently available through Peace
             iTech.
@@ -49,7 +49,7 @@ export default function ServiceComingSoonPage({ service }) {
             <Button
               asChild
               size="lg"
-              className="h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
+              className="h-12 rounded-md bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
             >
               <Link href="/services/web-development">
                 Explore web development
@@ -60,13 +60,13 @@ export default function ServiceComingSoonPage({ service }) {
               asChild
               size="lg"
               variant="outline"
-              className="h-12 rounded-full bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#12B7FF]/10"
+              className="h-12 rounded-md bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#12B7FF]/10"
             >
               <Link href="/contact">Talk to us</Link>
             </Button>
           </div>
 
-          <div className="mx-auto mt-8 flex w-fit items-center gap-3 rounded-full border border-[#005BFF]/10 bg-white/60 px-4 py-2 text-sm text-muted-foreground shadow-sm backdrop-blur dark:border-[#12B7FF]/14 dark:bg-[#07111F]/60 dark:text-white/72">
+          <div className="mx-auto mt-8 flex w-fit items-center gap-3 rounded-md border border-[#005BFF]/10 bg-white/60 px-4 py-2 text-sm text-muted-foreground shadow-sm backdrop-blur dark:border-[#12B7FF]/14 dark:bg-[#07111F]/60 dark:text-white/72">
             <Clock3 className="size-4 text-[#12B7FF]" aria-hidden="true" />
             <span>Updates are on the way</span>
           </div>

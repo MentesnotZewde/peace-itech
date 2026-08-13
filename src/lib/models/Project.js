@@ -31,6 +31,9 @@ const projectSchema = new mongoose.Schema(
     description: { type: String, trim: true },
     image: assetSchema,
     liveUrl: { type: String, trim: true },
+    // Completing a project queues it for the portfolio; it only reaches the
+    // public site once an Admin approves it there.
+    portfolioApproved: { type: Boolean, default: false },
 
     // Delivery tracking
     projectRequirements: assetSchema,

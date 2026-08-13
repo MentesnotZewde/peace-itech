@@ -3,17 +3,16 @@ import Link from "next/link";
 import { services } from "@/lib/services";
 
 export default function ServicesSection() {
-  const headingWords =
-    "A complete technology partner for modern operations.".split(" ");
+  const headingWords = "Everything Your Business Needs to Grow.".split(" ");
   const paragraphText =
     "From websites and automation to IT support and digital growth, our services connect strategy, delivery, and long-term support.";
   const headingColorClasses = [
     "text-black dark:text-white",
     "text-black dark:text-white",
-    "text-[#12B7FF]",
+    "hero-heading-accent",
     "text-black dark:text-white",
     "text-black dark:text-white",
-    "text-[#12B7FF]",
+    "hero-heading-accent",
     "text-black dark:text-white",
   ];
 
@@ -25,11 +24,11 @@ export default function ServicesSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="animate-services-fade text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF]">
+            <p className="animate-services-fade text-sm font-semibold uppercase tracking-[0.18em] text-[#397dfc]">
               SERVICES
             </p>
             <h2
-              className="mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl"
+              className="mt-3 font-heading max-w-3xl text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl"
               aria-label="A complete technology partner for modern operations."
             >
               {headingWords.map((word, index) => (
@@ -75,7 +74,7 @@ export default function ServicesSection() {
                 className="group animate-services-item block opacity-0 transition-transform duration-300 hover:-translate-y-1"
                 style={{ animationDelay: `${920 + index * 95}ms` }}
               >
-                <div className="mb-5 flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#005BFF]/15 to-[#12B7FF]/15 text-[#005BFF] ring-1 ring-[#005BFF]/20 transition-transform duration-300 group-hover:scale-105">
+                <div className="mb-5 flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#397dfc]/15 to-[#12B7FF]/15 text-[#397dfc] ring-1 ring-[#397dfc]/20 transition-transform duration-300 group-hover:scale-105">
                   <Icon className="size-6" aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-semibold tracking-normal text-foreground">
@@ -158,5 +157,3 @@ export default function ServicesSection() {
     </section>
   );
 }
-
-

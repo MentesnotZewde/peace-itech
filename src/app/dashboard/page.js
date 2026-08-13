@@ -86,22 +86,25 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           const TrendIcon = stat.trend === "down" ? TrendingDown : TrendingUp;
           return (
             <Card key={stat.title}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardDescription>{stat.title}</CardDescription>
-                <Icon className="h-4 w-4 text-sidebar-primary" />
+              {/* Tighter type and spacing so two tiles fit a phone row. */}
+              <CardHeader className="flex flex-row items-start justify-between gap-2 space-y-0 pb-2">
+                <CardDescription className="text-xs leading-snug sm:text-sm">
+                  {stat.title}
+                </CardDescription>
+                <Icon className="mt-0.5 h-4 w-4 shrink-0 text-sidebar-primary" />
               </CardHeader>
               <CardContent>
-                <CardTitle className="text-2xl">
+                <CardTitle className="text-xl sm:text-2xl">
                   {loading ? "—" : stat.value}
                 </CardTitle>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="min-w-0">
                 <Badge
                   variant={stat.trend === "down" ? "destructive" : "default"}
                   className={
@@ -110,8 +113,10 @@ export default function DashboardPage() {
                       : "gap-1 bg-sidebar-primary/10 text-sidebar-primary [a]:hover:bg-sidebar-primary/20"
                   }
                 >
-                  {stat.trend && <TrendIcon className="h-3 w-3" />}
-                  {loading ? "Loading…" : stat.note}
+                  {stat.trend && <TrendIcon className="h-3 w-3 shrink-0" />}
+                  <span className="truncate">
+                    {loading ? "Loading…" : stat.note}
+                  </span>
                 </Badge>
               </CardFooter>
             </Card>

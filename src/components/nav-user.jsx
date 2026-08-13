@@ -22,7 +22,7 @@ import { ChevronsUpDownIcon, BadgeCheckIcon, LogOutIcon } from "lucide-react";
 import { useProfile } from "@/components/dashboard/profile-provider";
 
 export function NavUser() {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
   const { profile, logout } = useProfile();
   const user = {
     name: profile.fullName,
@@ -82,7 +82,10 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/settings">
+                <Link
+                  href="/dashboard/settings"
+                  onClick={() => setOpenMobile(false)}
+                >
                   <BadgeCheckIcon className="text-sidebar-primary" />
                   Account
                 </Link>

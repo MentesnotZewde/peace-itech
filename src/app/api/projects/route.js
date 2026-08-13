@@ -52,11 +52,11 @@ export async function GET(request) {
   }
 }
 
-// POST /api/projects — any signed-in user; JSON or multipart with an `image`
+// POST /api/projects — Admin only; JSON or multipart with an `image`
 // and/or `projectRequirements` file.
 export async function POST(request) {
   try {
-    const { response } = await requireAuth(request);
+    const { response } = await requireAuth(request, ["Admin"]);
     if (response) return response;
 
     const { data, files } = await parseProjectBody(request);
@@ -83,6 +83,7 @@ export async function POST(request) {
       return jsonError(error.message, 422);
     }
     console.error("POST /api/projects", error);
-    return jsonError(error.message || "Something went wrong", 500);
+    // Detail stays in the log; clients get nothing about internals.
+    return jsonError("Something went wrong", 500);
   }
 }

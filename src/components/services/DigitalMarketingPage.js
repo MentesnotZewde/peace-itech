@@ -20,6 +20,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import ServicePortfolioSection from "@/components/services/ServicePortfolioSection";
 
 function InstagramLogo(props) {
   return (
@@ -275,10 +276,7 @@ function DigitalMarketingHero({ service }) {
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
           <div className="web-hero-copy-enter max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#005BFF] dark:text-[#12B7FF]">
-              Digital Marketing That Delivers
-            </p>
-            <h1 className="mt-5 font-heading text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:text-[3.35rem]">
+            <h1 className="mt-5 font-heading text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl lg:text-[2.35rem]">
               <span
                 className="animate-hero-heading-word block opacity-0"
                 style={{ animationDelay: "120ms" }}
@@ -298,7 +296,7 @@ function DigitalMarketingHero({ service }) {
                 Real Growth
               </span>
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
+            <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-md">
               Data-driven strategies. Creative campaigns. Measurable results. We
               help brands attract, engage, and convert the right audience into
               loyal customers.
@@ -308,7 +306,7 @@ function DigitalMarketingHero({ service }) {
               <Button
                 asChild
                 size="lg"
-                className="h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
+                className="h-12 rounded-md bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
               >
                 <Link href="/contact">
                   Get a Free Strategy Call
@@ -319,7 +317,7 @@ function DigitalMarketingHero({ service }) {
                 asChild
                 size="lg"
                 variant="outline"
-                className="h-12 rounded-full border-[#005BFF]/45 bg-background/70 px-6 text-[#005BFF] backdrop-blur hover:-translate-y-0.5 dark:border-[#12B7FF]/40 dark:text-[#12B7FF]"
+                className="h-12 rounded-md border-[#005BFF]/45 bg-background/70 px-6 text-[#005BFF] backdrop-blur hover:-translate-y-0.5 dark:border-[#12B7FF]/40 dark:text-[#12B7FF]"
               >
                 <Link href="/media-center">
                   See Our Results
@@ -512,10 +510,10 @@ function DigitalMarketingServicesSection() {
       <div className="mx-auto max-w-5xl">
         <ScrollReveal>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
+            <p className="text-sm  uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
               What We Do
             </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl">
               Digital Marketing Services
               <span className="block">Built for Growth</span>
             </h2>
@@ -585,10 +583,10 @@ function DigitalMarketingProcessSection() {
       <div className="mx-auto max-w-7xl">
         <ScrollReveal>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
+            <p className="text-sm  uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
               Our Process
             </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+            <h2 className="font-heading mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl">
               How We Work
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-muted-foreground sm:text-base">
@@ -611,7 +609,10 @@ function DigitalMarketingProcessSection() {
                   <div className="relative mt-4 flex size-32 items-center justify-center rounded-full border border-[#005BFF]/18 bg-white/78 shadow-[0_18px_42px_rgba(0,91,255,0.09)] backdrop-blur-xl dark:border-[#12B7FF]/18 dark:bg-[#07111F]/78 dark:shadow-black/20">
                     <span className="absolute inset-2 rounded-full border border-dashed border-[#005BFF]/32 dark:border-[#12B7FF]/34" />
                     <span className="flex size-20 items-center justify-center rounded-full bg-white text-[#005BFF] shadow-[inset_0_0_0_1px_rgba(0,91,255,0.08),0_10px_28px_rgba(0,91,255,0.08)] dark:bg-[#0B1830] dark:text-[#12B7FF]">
-                      <Icon className="size-10 stroke-[1.7]" aria-hidden="true" />
+                      <Icon
+                        className="size-10 stroke-[1.7]"
+                        aria-hidden="true"
+                      />
                     </span>
                   </div>
                   <h3 className="mt-5 text-base font-bold text-foreground">
@@ -639,7 +640,7 @@ function DigitalMarketingToolsSection() {
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
               Tools & Platforms We Use
             </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+            <h2 className="font-heading mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl">
               Trusted Tools. Proven Results.
             </h2>
           </div>
@@ -677,112 +678,104 @@ function DigitalMarketingPricingSection() {
     <section className="relative isolate overflow-hidden px-4 py-16 transition-colors sm:px-6 sm:py-20 lg:px-8">
       <div className="absolute right-10 top-8 -z-10 hidden grid-cols-8 gap-2 opacity-30 lg:grid">
         {Array.from({ length: 64 }).map((_, index) => (
-          <span
-            key={index}
-            className="size-1 rounded-full bg-[#005BFF]/28"
-          />
+          <span key={index} className="size-1 rounded-full bg-[#005BFF]/28" />
         ))}
       </div>
 
+      {/* Header and cards mirror the web development pricing section, so the
+          two service pages read as one system. */}
       <div className="mx-auto max-w-7xl">
         <ScrollReveal>
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
-              Affordable Pricing. Real Results.
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <div className="mb-5 flex items-center justify-center gap-3">
+              <span className="h-[2px] w-8 bg-sky-500" />
+              <span className="text-sm font-semibold tracking-[0.3em] text-sky-500">
+                PRICING
+              </span>
+            </div>
+
+            <h2 className="font-heading text-3xl leading-tight text-foreground sm:text-4xl md:text-5xl">
+              Affordable pricing,
+              <br />
+              <span className="font-heading italic text-sky-500">
+                real results.
+              </span>
             </h2>
-            <span className="mx-auto mt-3 block h-1 w-36 rounded-full bg-[#005BFF]" />
-            <p className="mx-auto mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+
+            <p className="mt-6 text-base leading-7 text-muted-foreground sm:leading-8">
               Simple, transparent plans designed to fit your business and
               deliver measurable growth.
             </p>
           </div>
         </ScrollReveal>
 
-        <div className="mx-auto mt-9 grid max-w-6xl gap-4 lg:grid-cols-3 lg:items-stretch">
+        <div className="mx-auto grid max-w-sm gap-5 md:max-w-none md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {digitalMarketingPricingPlans.map((plan, index) => {
-            const Icon = plan.icon;
             const NoteIcon = plan.noteIcon;
 
             return (
               <ScrollReveal key={plan.name} delay={100 + index * 100}>
                 <article
-                  className={`relative flex h-full flex-col rounded-2xl border bg-white/84 p-6 shadow-[0_18px_44px_rgba(0,91,255,0.07)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1.5 dark:bg-[#07111F]/72 ${
+                  className={`group relative flex h-full flex-col rounded-[1.25rem] border bg-white p-5 shadow-[0_18px_50px_rgba(7,24,216,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#12B7FF]/45 hover:shadow-[0_28px_64px_rgba(18,183,255,0.18)] dark:bg-[#0B1830] dark:shadow-black/20 dark:hover:shadow-[#12B7FF]/12 sm:p-6 ${
                     plan.popular
-                      ? "border-[#005BFF] shadow-[0_20px_58px_rgba(0,91,255,0.14)]"
-                      : "border-[#005BFF]/10 dark:border-[#12B7FF]/14"
+                      ? "border-[#12B7FF]/65 ring-1 ring-[#12B7FF]/20"
+                      : "border-[#005BFF]/12 dark:border-[#12B7FF]/14"
                   }`}
                 >
                   {plan.popular ? (
-                    <div className="absolute inset-x-0 top-0 rounded-t-2xl bg-[#005BFF] py-2 text-center text-xs font-bold uppercase tracking-[0.18em] text-white">
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-[#005BFF] to-[#12B7FF] px-4 py-1.5 text-xs font-semibold tracking-wide text-white shadow-lg shadow-[#12B7FF]/25">
                       Most Popular
-                    </div>
+                    </span>
                   ) : null}
 
-                  <div className={plan.popular ? "pt-7" : ""}>
-                    <div className="flex items-start gap-4">
-                      <span
-                        className={`flex size-11 shrink-0 items-center justify-center rounded-full ${
-                          plan.name === "Pro"
-                            ? "bg-amber-400/14 text-amber-500"
-                            : "bg-[#005BFF]/8 text-[#005BFF] dark:bg-[#12B7FF]/12 dark:text-[#12B7FF]"
-                        }`}
-                      >
-                        <Icon className="size-6 stroke-[1.8]" aria-hidden="true" />
-                      </span>
-                      <div>
-                        <h3 className="text-xl font-bold text-foreground">
-                          {plan.name}
-                        </h3>
-                        <p className="mt-1 text-xs font-semibold leading-5 text-[#005BFF] dark:text-[#12B7FF]">
-                          {plan.subtitle}
-                        </p>
-                      </div>
-                    </div>
+                  <h3 className="font-serif text-xl text-foreground">
+                    {plan.name}
+                  </h3>
 
-                    <div className="mt-6 flex items-end gap-2">
-                      <span className="text-3xl font-bold tracking-normal text-foreground">
-                        {plan.price}
-                      </span>
-                      <span className="pb-1 text-sm text-muted-foreground">
-                        /month
-                      </span>
-                    </div>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    {plan.subtitle}
+                  </p>
 
-                    <div className="my-5 h-px bg-[#07111F]/10 dark:bg-white/12" />
-
-                    <ul className="space-y-2.5">
-                      {plan.features.map((feature) => (
-                        <li
-                          key={feature}
-                          className="flex gap-2.5 text-xs leading-5 text-foreground/84 dark:text-white/82"
-                        >
-                          <Check
-                            className="mt-0.5 size-4 shrink-0 text-[#005BFF] dark:text-[#12B7FF]"
-                            aria-hidden="true"
-                          />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="mt-5 flex items-end gap-1.5">
+                    <span className="font-serif text-3xl text-foreground sm:text-4xl">
+                      {plan.price}
+                    </span>
+                    <span className="pb-1.5 text-xs text-muted-foreground">
+                      /month
+                    </span>
                   </div>
 
-                  <div className="mt-auto pt-6">
+                  <ul className="mt-5 space-y-2.5">
+                    {plan.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-start gap-2.5 text-sm leading-6 text-muted-foreground"
+                      >
+                        <Check
+                          size={16}
+                          className="mt-1 shrink-0 text-sky-500"
+                          aria-hidden="true"
+                        />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-auto pt-7">
                     <Button
                       asChild
-                      variant={plan.popular ? "default" : "outline"}
-                      className={`h-11 w-full rounded-xl ${
-                        plan.popular
-                          ? "bg-[#005BFF] text-white hover:bg-[#071B8F]"
-                          : "border-[#005BFF]/50 bg-transparent text-[#005BFF] hover:bg-[#005BFF] hover:text-white dark:text-[#12B7FF]"
-                      }`}
+                      className="h-auto w-full rounded-md border border-[#005BFF]/20 bg-background px-5 py-2.5 text-sm font-semibold text-foreground shadow-none transition-all duration-300 hover:border-[#12B7FF] hover:bg-gradient-to-r hover:from-[#005BFF] hover:to-[#12B7FF] hover:text-white hover:shadow-lg hover:shadow-[#12B7FF]/25 dark:border-[#12B7FF]/25 dark:bg-[#07111F] dark:hover:border-[#12B7FF]"
                     >
-                      <Link href="/contact">Get Started</Link>
+                      <Link href="/book-appointment">Get Started</Link>
                     </Button>
 
-                    <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#005BFF]/6 px-3 py-2.5 text-center text-xs font-semibold text-[#005BFF] dark:bg-[#12B7FF]/10 dark:text-[#12B7FF]">
-                      <NoteIcon className="size-4 shrink-0" aria-hidden="true" />
-                      <span>{plan.note}</span>
-                    </div>
+                    <p className="mt-3 flex items-center justify-center gap-2 text-center text-xs text-muted-foreground">
+                      <NoteIcon
+                        className="size-3.5 shrink-0 text-sky-500"
+                        aria-hidden="true"
+                      />
+                      {plan.note}
+                    </p>
                   </div>
                 </article>
               </ScrollReveal>
@@ -794,105 +787,101 @@ function DigitalMarketingPricingSection() {
   );
 }
 
+// No panel, matching the web development page: the closing pitch sits directly
+// on the page with a hairline rule carrying the supporting points beneath it.
 function DigitalMarketingFinalCTA() {
   return (
-    <section className="px-4 py-16 transition-colors sm:px-6 sm:py-20 lg:px-8">
-      <ScrollReveal>
-        <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-[#005BFF]/12 bg-white/82 p-6 text-foreground shadow-[0_24px_70px_rgba(0,91,255,0.09)] backdrop-blur-xl dark:border-[#12B7FF]/24 dark:bg-[#06162B] dark:text-white dark:shadow-[0_24px_80px_rgba(0,91,255,0.16)] sm:p-10 lg:p-14">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(18,183,255,0.08),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(0,91,255,0.08),transparent_36%)] dark:bg-[radial-gradient(circle_at_18%_20%,rgba(18,183,255,0.12),transparent_34%),radial-gradient(circle_at_88%_72%,rgba(0,91,255,0.18),transparent_36%)]" />
-          <div className="animate-float absolute -right-20 -top-24 size-72 rounded-full bg-[#12B7FF]/8 blur-3xl dark:bg-[#12B7FF]/12" />
-          <div className="animate-float absolute -bottom-24 right-16 size-80 rounded-full bg-[#005BFF]/7 blur-3xl dark:bg-[#005BFF]/12" />
+    <section className="relative overflow-hidden px-4 py-20 transition-colors sm:px-6 sm:py-24 lg:px-8">
+      <div className="absolute left-1/2 top-1/4 -z-10 size-[34rem] max-w-[92vw] -translate-x-1/2 rounded-full bg-[#12B7FF]/8 blur-3xl dark:bg-[#005BFF]/12" />
 
-          <div className="relative grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
-                Start with clarity
-              </p>
+      <div className="mx-auto max-w-7xl">
+        <ScrollReveal className="mx-auto max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
+            Start with clarity
+          </p>
 
-              <h2 className="mt-3 max-w-3xl text-4xl font-semibold leading-tight tracking-normal text-foreground dark:text-white sm:text-5xl">
-                Ready to turn attention into
-                <span
-                  className="hero-heading-accent block"
-                  style={{ textShadow: "none" }}
-                >
-                  measurable growth?
-                </span>
-              </h2>
-              <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground dark:text-white/72 sm:text-lg">
-                Tell us what you want to improve. We&apos;ll help shape the
-                right strategy, channels, content, and reporting plan for your
-                next stage of growth.
-              </p>
+          <h2 className="mt-3 text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+            Ready to turn attention into
+            <span
+              className="hero-heading-accent block"
+              style={{ textShadow: "none" }}
+            >
+              measurable growth?
+            </span>
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-muted-foreground">
+            Tell us what you want to improve. We&apos;ll help shape the right
+            strategy, channels, content, and reporting plan for your next stage
+            of growth.
+          </p>
 
-              <div className="mt-9 grid gap-4 sm:grid-cols-3">
-                {digitalMarketingCtaHighlights.map((item, index) => {
-                  const Icon = item.icon;
+          <div className="mt-9 flex flex-col items-center justify-center gap-5 sm:flex-row sm:gap-7">
+            <Button
+              asChild
+              size="lg"
+              className="h-13 rounded-md bg-[#005BFF] px-8 text-base font-semibold text-white shadow-[0_14px_34px_rgba(0,91,255,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#004FE0]"
+            >
+              <Link href="/book-appointment">
+                Book a strategy call
+                <ArrowRight className="size-5" aria-hidden="true" />
+              </Link>
+            </Button>
 
-                  return (
-                    <ScrollReveal key={item.title} delay={120 + index * 120}>
-                      <div className="flex items-center gap-3 border-[#005BFF]/14 sm:border-r sm:pr-4 last:border-r-0 dark:border-white/18">
-                        <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-[#005BFF]/10 text-[#005BFF] ring-1 ring-[#005BFF]/12 dark:bg-[#005BFF]/35 dark:text-[#12B7FF] dark:ring-[#12B7FF]/18">
-                          <Icon className="size-5" aria-hidden="true" />
-                        </span>
-                        <div>
-                          <p className="text-sm font-semibold text-foreground dark:text-white">
-                            {item.title}
-                          </p>
-                          <p className="mt-1 text-sm text-muted-foreground dark:text-white/66">
-                            {item.description}
-                          </p>
-                        </div>
-                      </div>
-                    </ScrollReveal>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="rounded-[1.5rem] border border-[#005BFF]/10 bg-white/54 p-5 backdrop-blur-sm dark:border-white/10 dark:bg-[#02102A]/34 lg:border-l lg:border-y-0 lg:border-r-0 lg:bg-transparent lg:pl-12">
-              <Button
-                asChild
-                size="lg"
-                variant="secondary"
-                className="h-16 w-full rounded-2xl bg-[#07111F] px-6 text-lg font-semibold text-white shadow-[0_18px_54px_rgba(0,91,255,0.18)] transition-all duration-300 hover:-translate-y-1 hover:bg-[#005BFF] hover:shadow-[0_24px_70px_rgba(18,183,255,0.28)] dark:bg-white dark:text-[#07111F] dark:shadow-[0_18px_54px_rgba(18,183,255,0.24)] dark:hover:bg-[#EAF8FF] dark:hover:shadow-[0_24px_70px_rgba(18,183,255,0.34)]"
-              >
-                <Link href="/contact">
-                  Book a strategy call
-                  <ArrowRight className="size-6" aria-hidden="true" />
-                </Link>
-              </Button>
-
-              <div className="mt-7 flex items-center justify-center gap-3 text-muted-foreground dark:text-white/72">
-                <Clock3 className="size-5 text-[#12B7FF]" aria-hidden="true" />
-                <span className="text-sm sm:text-base">
-                  Response within 24 hours
-                </span>
-              </div>
-
-              <div className="my-8 h-px bg-gradient-to-r from-transparent via-[#12B7FF]/32 to-transparent" />
-
-              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-[auto_auto_auto] xl:justify-center">
-                {digitalMarketingCtaTrustPoints.map((point, index) => (
-                  <ScrollReveal key={point} delay={260 + index * 120}>
-                    <div className="flex items-center justify-center gap-2 whitespace-nowrap text-sm text-muted-foreground dark:text-white/76 lg:justify-start xl:justify-center">
-                      <CheckCircle2
-                        className="size-4 text-[#12B7FF]"
-                        aria-hidden="true"
-                      />
-                      <span>{point}</span>
-                    </div>
-                  </ScrollReveal>
-                ))}
-              </div>
-            </div>
+            <span className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Clock3 className="size-4 text-[#12B7FF]" aria-hidden="true" />
+              Response within 24 hours
+            </span>
           </div>
+
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {digitalMarketingCtaTrustPoints.map((point) => (
+              <span
+                key={point}
+                className="flex items-center gap-2 text-sm text-muted-foreground"
+              >
+                <CheckCircle2
+                  className="size-4 text-[#12B7FF]"
+                  aria-hidden="true"
+                />
+                {point}
+              </span>
+            ))}
+          </div>
+        </ScrollReveal>
+
+        <div className="mx-auto mt-16 grid max-w-5xl border-t border-[#005BFF]/12 dark:border-[#12B7FF]/14 sm:grid-cols-3">
+          {digitalMarketingCtaHighlights.map((item, index) => {
+            const Icon = item.icon;
+
+            return (
+              <ScrollReveal
+                key={item.title}
+                delay={120 + index * 120}
+                className="flex flex-col items-center border-b border-[#005BFF]/12 px-6 py-8 text-center last:border-b-0 dark:border-[#12B7FF]/14 sm:border-b-0 sm:border-r sm:last:border-r-0"
+              >
+                <Icon
+                  className="size-6 stroke-[1.6] text-[#005BFF] dark:text-[#12B7FF]"
+                  aria-hidden="true"
+                />
+                <p className="mt-4 text-sm font-semibold text-foreground">
+                  {item.title}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {item.description}
+                </p>
+              </ScrollReveal>
+            );
+          })}
         </div>
-      </ScrollReveal>
+      </div>
     </section>
   );
 }
 
-export default function DigitalMarketingPage({ service }) {
+// `projects` comes from the route: this page places the portfolio itself
+// (above the CTA), so the slug is listed in SLUGS_WITH_INLINE_PORTFOLIO and the
+// route no longer appends one after the page.
+export default function DigitalMarketingPage({ service, projects }) {
   return (
     <main className="flex-1">
       <DigitalMarketingHero service={service} />
@@ -900,6 +889,7 @@ export default function DigitalMarketingPage({ service }) {
       <DigitalMarketingProcessSection />
       <DigitalMarketingToolsSection />
       <DigitalMarketingPricingSection />
+      <ServicePortfolioSection service={service} projects={projects} />
       <DigitalMarketingFinalCTA />
     </main>
   );

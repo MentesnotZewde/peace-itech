@@ -1,63 +1,80 @@
+import Image from "next/image";
+
 const teams = [
   {
-    name: "Startups",
+    name: "Madina Elemo Private Foreign  Employment Agency",
+    logo: "/images/logos/madina-elemo-logo.png",
   },
   {
-    name: "Healthcare teams",
+    name: "Wado Tax Services",
+    logo: "/images/logos/Wado Logo.jpg",
   },
   {
-    name: "Retail businesses",
+    name: "Buzu Cleaning Service",
+    logo: "/images/logos/buzu-cleaning-service-.png",
   },
   {
-    name: "Logistics companies",
+    name: "H2H Express Delivery",
+    logo: "/images/logos/H2H_Logo.png",
   },
   {
-    name: "Professional services",
+    name: "4 Kilo Butcher Canada",
+    logo: "/images/logos/4_Kilo_butcher_logo_3.png",
   },
   {
-    name: "Nonprofits",
-  },
-  {
-    name: "Global teams",
-  },
-  {
-    name: "Local businesses",
+    name: "Greenfox foreign employment agent plc",
+    logo: "/images/logos/green-fox-logo.png",
   },
 ];
 
-const carouselItems = [...teams, ...teams];
+// One track repeats the roster enough times to overflow a wide viewport; the
+// track itself is then rendered twice so the -50% loop never shows a seam.
+const track = [...teams, ...teams];
+
+function Logo({ team }) {
+  return (
+    <li className="group flex shrink-0 items-center gap-3 px-6 sm:gap-4 sm:px-9">
+      {/* A light tile keeps the dark-ink logos readable on the dark theme. */}
+      <Image
+        src={team.logo}
+        alt=""
+        width={100}
+        height={98}
+        sizes="48px"
+        className="size-7 object-contain sm:size-8"
+      />
+      <span className="whitespace-nowrap text-sm font-medium text-muted-foreground transition-colors duration-300 group-hover:text-foreground">
+        {team.name}
+      </span>
+    </li>
+  );
+}
 
 export default function TrustedTeams() {
   return (
-    <section className="overflow-hidden bg-background py-8 transition-colors sm:py-10">
+    <section
+      aria-label="Companies that work with Peace iTech"
+      className="border-y border-border/60 bg-background py-10 transition-colors sm:py-12"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto mb-7 flex max-w-3xl items-center gap-4">
-          <span className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-border" />
-          <p className="shrink-0 text-center text-xs font-semibold uppercase tracking-[0.22em] text-[#005BFF] dark:text-[#12B7FF]">
-            Trusted by
-          </p>
-          <span className="h-px flex-1 bg-gradient-to-l from-transparent via-border to-border" />
-        </div>
+        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          Trusted by
+        </p>
       </div>
 
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-background to-transparent sm:w-32" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-background to-transparent sm:w-32" />
-
-        {/* The duplicated item list creates a seamless infinite scroll. Hover pauses the motion. */}
-        <div className="group flex overflow-hidden py-2">
-          <div className="flex min-w-full shrink-0 animate-trust-scroll items-center gap-12 px-6 group-hover:[animation-play-state:paused] sm:gap-16 lg:gap-20">
-            {carouselItems.map((team, index) => (
-              <div
-                key={`${team.name}-${index}`}
-                className="flex shrink-0 items-center opacity-55 transition-all duration-300 hover:opacity-100"
-              >
-                <span className="whitespace-nowrap text-base font-semibold tracking-normal text-muted-foreground transition-colors hover:text-foreground sm:text-lg">
-                  {team.name}
-                </span>
-              </div>
-            ))}
-          </div>
+      <div className="marquee-viewport mt-7 [--marquee-duration:44s] sm:[--marquee-duration:54s]">
+        <div className="marquee-track">
+          {[0, 1].map((copy) => (
+            <ul
+              key={copy}
+              aria-hidden={copy === 1 || undefined}
+              className="flex shrink-0 items-center"
+            >
+              {track.map((team, index) => (
+                <Logo key={`${copy}-${team.name}-${index}`} team={team} />
+              ))}
+            </ul>
+          ))}
         </div>
       </div>
     </section>

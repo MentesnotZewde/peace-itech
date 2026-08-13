@@ -13,6 +13,17 @@ const quickLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
+// `href` is derived from `label` so the dialled number can never drift from the
+// one on screen.
+const phoneNumbers = [
+  { label: "+1 (416) 474-3396" },
+  { label: "+251 994104901" },
+  { label: "+251 25076556" },
+].map((phone) => ({
+  ...phone,
+  href: `tel:${phone.label.replace(/[^\d+]/g, "")}`,
+}));
+
 const socialLinks = [
   {
     label: "Facebook",
@@ -91,7 +102,7 @@ export default function Footer() {
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-6 text-muted-foreground">
               Premium technology solutions for websites, ERP, automation,
-              cybersecurity, digital marketing, and dependable IT support.
+              digital marketing and dependable IT support.
             </p>
             <div className="mt-6 flex gap-2">
               {socialLinks.map((link) => (
@@ -160,16 +171,28 @@ export default function Footer() {
                 <Mail className="size-4 text-[#005BFF]" aria-hidden="true" />
                 hello@peaceitech.com
               </Link>
-              <Link
-                href="tel:+15550120188"
-                className="flex items-center gap-2 transition-colors hover:text-foreground"
-              >
-                <Phone className="size-4 text-[#005BFF]" aria-hidden="true" />
-                +1 (555) 012-0188
-              </Link>
+              {/* One icon fronts the whole stack so three numbers still read as
+                  a single "call us" entry. */}
+              <div className="flex gap-2">
+                <Phone
+                  className="mt-0.5 size-4 shrink-0 text-[#005BFF]"
+                  aria-hidden="true"
+                />
+                <div className="grid gap-2">
+                  {phoneNumbers.map((phone) => (
+                    <Link
+                      key={phone.href}
+                      href={phone.href}
+                      className="transition-colors hover:text-foreground"
+                    >
+                      {phone.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
               <span className="flex items-center gap-2">
                 <MapPin className="size-4 text-[#005BFF]" aria-hidden="true" />
-                United States
+                Canada
               </span>
             </div>
           </div>

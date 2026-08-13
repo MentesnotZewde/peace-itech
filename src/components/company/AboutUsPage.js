@@ -13,8 +13,8 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
+  HandCoins,
 } from "lucide-react";
-
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { Button } from "@/components/ui/button";
 
@@ -81,7 +81,7 @@ const foundations = [
   },
   {
     title: "Our Values",
-    icon: Heart,
+    icon: HandCoins,
     values: [
       "Integrity in every action",
       "Innovation that solves real problems",
@@ -175,14 +175,14 @@ export default function AboutUsPage() {
           <ScrollReveal className="max-w-2xl">
             <div className="mb-4 flex items-center gap-3">
               <span className="h-px w-7 bg-[#12B7FF]" />
-              <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#12B7FF]">
+              <span className="text-xs uppercase tracking-[0.22em] text-[#12B7FF]">
                 Who We Are
               </span>
             </div>
-            <h1 className="text-4xl font-semibold leading-tight tracking-normal text-white sm:text-5xl lg:text-6xl">
+            <h1 className="text-4xl font-heading font-semibold leading-tight tracking-normal text-white sm:text-4xl lg:text-5xl">
               About Us
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/88 sm:text-lg">
+            <p className="mt-5 max-w-xl  leading-7 text-white/88 sm:text-md">
               We help businesses modernize with reliable websites, automation,
               digital marketing, IT support, and scalable technology solutions.
             </p>
@@ -206,7 +206,7 @@ export default function AboutUsPage() {
                 />
               </div>
 
-              <div className="absolute right-3 top-10 z-10 rounded-2xl border border-[#12B7FF]/18 bg-[#005BFF] px-6 py-5 text-white shadow-[0_18px_42px_rgba(0,91,255,0.28)] sm:right-8">
+              <div className="absolute right-3 top-10 z-10 rounded-sm border border-[#12B7FF]/18 bg-[#005BFF] px-6 py-5 text-white shadow-[0_18px_42px_rgba(0,91,255,0.28)] sm:right-8">
                 <div className="text-3xl font-semibold leading-none">6+</div>
                 <div className="mt-2 text-[0.68rem] font-semibold uppercase leading-4 tracking-[0.14em] text-white/88">
                   Service
@@ -215,7 +215,7 @@ export default function AboutUsPage() {
                 </div>
               </div>
 
-              <div className="absolute bottom-0 right-0 w-[62%] overflow-hidden rounded-[1.25rem] border border-[#005BFF]/10 bg-white shadow-[0_24px_60px_rgba(2,8,23,0.14)] dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/72">
+              <div className="absolute -bottom-12 right-0 w-[62%] overflow-hidden rounded-[1.25rem] border border-[#005BFF]/10 bg-white shadow-[0_24px_60px_rgba(2,8,23,0.14)] dark:border-[#12B7FF]/14 dark:bg-[#0B1830]/72">
                 <Image
                   src="/images/company-story-3.png"
                   alt="Peace iTech team building software and IT systems"
@@ -229,10 +229,10 @@ export default function AboutUsPage() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.08}>
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
-              Company About
+            <p className="text-sm  uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
+              About Company
             </p>
-            <h2 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+            <h2 className="mt-3 max-w-2xl text-3xl font-heading font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
               One partner for practical{" "}
               <span className="text-[#005BFF] dark:text-[#12B7FF]">
                 business success
@@ -240,10 +240,10 @@ export default function AboutUsPage() {
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground">
               Peace iTech Inc helps organizations in Canada, Ethiopia, and
-              beyond improve the way they work with modern websites,
-              automation, business systems, digital marketing, and dependable IT
-              support. Our solutions are built around people, workflows,
-              security, and long-term growth.
+              beyond improve the way they work with modern websites, automation,
+              business systems, digital marketing, and dependable IT support.
+              Our solutions are built around people, workflows, security, and
+              long-term growth.
             </p>
 
             <div className="mt-8">
@@ -254,7 +254,7 @@ export default function AboutUsPage() {
                 {strengths.map((strength) => (
                   <div
                     key={strength}
-                    className="flex items-center gap-3 text-sm font-medium text-foreground"
+                    className="flex items-center gap-3 text-sm  text-foreground"
                   >
                     <CheckCircle2 className="h-4 w-4 shrink-0 text-[#005BFF] dark:text-[#12B7FF]" />
                     <span>{strength}</span>
@@ -262,10 +262,9 @@ export default function AboutUsPage() {
                 ))}
               </div>
             </div>
-
             <Button
               asChild
-              className="mt-8 h-12 rounded-full bg-[#005BFF] px-6 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(0,91,255,0.28)] transition hover:bg-[#004FE0]"
+              className="mt-8 h-12 rounded-md bg-[#397dfc] px-6 text-sm font-semibold text-white shadow-[0_16px_34px_rgba(0,91,255,0.28)] transition hover:bg-[#004FE0]"
             >
               <Link href="/contact">
                 Meet Our Team
@@ -275,7 +274,6 @@ export default function AboutUsPage() {
           </ScrollReveal>
         </div>
       </section>
-
       <section className="px-4 pb-16 transition-colors sm:px-6 sm:pb-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <ScrollReveal className="text-center">
@@ -371,7 +369,10 @@ export default function AboutUsPage() {
         </div>
       </section>
 
-      <section className="px-4 pb-16 transition-colors sm:px-6 sm:pb-20 lg:px-8">
+      <section
+        className="px-4 pb-16 transition-colors sm:px-6 sm:pb-20 lg:px-8"
+        id="Company Journey"
+      >
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
             <ScrollReveal>
@@ -449,8 +450,8 @@ export default function AboutUsPage() {
               Certified skills behind our work
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
-              Our team keeps improving through recognized technology,
-              marketing, analytics, and security training.
+              Our team keeps improving through recognized technology, marketing,
+              analytics, and security training.
             </p>
           </ScrollReveal>
 

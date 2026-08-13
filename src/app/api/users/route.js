@@ -11,10 +11,11 @@ import {
 
 export const runtime = "nodejs";
 
-// GET /api/users?search=&role=&department=&status=&page=&limit=
+// GET /api/users?search=&role=&department=&status=&page=&limit= — Admin only:
+// the directory exposes every colleague's email, role, and department.
 export async function GET(request) {
   try {
-    const { response } = await requireAuth(request);
+    const { response } = await requireAuth(request, ["Admin"]);
     if (response) return response;
 
     await connectDB();
@@ -99,6 +100,7 @@ export async function POST(request) {
       return jsonError(error.message, 422);
     }
     console.error("POST /api/users", error);
-    return jsonError(error.message || "Something went wrong", 500);
+    // Detail stays in the log; clients get nothing about internals.
+    return jsonError("Something went wrong", 500);
   }
 }

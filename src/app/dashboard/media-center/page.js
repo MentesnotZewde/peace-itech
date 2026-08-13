@@ -1,9 +1,17 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { ImagePlus, LayoutGrid, Pencil, Plus, Search, Trash2 } from "lucide-react";
+import {
+  ImagePlus,
+  LayoutGrid,
+  Loader2,
+  Pencil,
+  Plus,
+  Search,
+  Trash2,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,96 +42,54 @@ import {
 } from "@/components/ui/table";
 import { DeleteAlertDialog } from "@/components/dashboard/users/delete-alert-dialog";
 import { useNotifications } from "@/components/dashboard/notifications-provider";
+import { useProfile } from "@/components/dashboard/profile-provider";
+import { mediaApi, toFormData } from "@/lib/api-client";
 import {
   MEDIA_CATEGORIES,
   MEDIA_CATEGORY_NAMES,
   mediaCategoryIcon,
 } from "@/lib/media-categories";
 
-const INITIAL_ITEMS = [
-  {
-    id: 1,
-    title: "Peace iTech launches enterprise automation practice",
-    category: "News",
-    date: "2026-05-15",
-    summary:
-      "A new practice area focused on workflow automation, integrations, and AI-assisted business operations.",
-    status: "Published",
-    featured: true,
-    image: "",
-  },
-  {
-    id: 2,
-    title: "Cybersecurity readiness for growing SaaS teams",
-    category: "Insights",
-    date: "2026-05-02",
-    summary:
-      "A practical guide to access reviews, monitoring, backup posture, and incident response planning.",
-    status: "Published",
-    featured: false,
-    image: "",
-  },
-  {
-    id: 3,
-    title: "Peace iTech client innovation roundtable",
-    category: "Events",
-    date: "2026-04-18",
-    summary:
-      "Leaders discussed ERP modernization, cloud reliability, and the next wave of customer portals.",
-    status: "Published",
-    featured: false,
-    image: "",
-  },
-  {
-    id: 4,
-    title: "A note on our updated data handling policy",
-    category: "Company Updates",
-    date: "2026-04-02",
-    summary:
-      "How we store, process, and protect client data across our managed services.",
-    status: "Draft",
-    featured: false,
-    image: "",
-  },
-  {
-    id: 5,
-    title: "Q2 hiring push across engineering and support",
-    category: "News",
-    date: "2026-03-21",
-    summary:
-      "We are growing our delivery and helpdesk teams to support new enterprise engagements.",
-    status: "Draft",
-    featured: false,
-    image: "",
-  },
-];
-
 const emptyItem = () => ({
   title: "",
   category: "News",
   date: "",
   summary: "",
+  content: "",
   status: "Draft",
   featured: false,
   image: "",
 });
 
 function MediaItemSheet({ open, onOpenChange, initialData, onSubmit }) {
-  const isEditing = Boolean(initialData?.id);
-  const [form, setForm] = useState(() => initialData ?? emptyItem());
+  const isEditing = Boolean(initialData?._id);
+  const [form, setForm] = useState(() => ({ ...emptyItem(), ...initialData }));
+  const [imageFile, setImageFile] = useState(null);
+  const [preview, setPreview] = useState(initialData?.image?.url || "");
   const [dragging, setDragging] = useState(false);
+  const [pending, setPending] = useState(false);
 
   const change = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
 
+  // Keep the File itself for the upload; the object URL is preview only.
   const readImage = (file) => {
     if (!file || !file.type.startsWith("image/")) return;
-    change("image", URL.createObjectURL(file));
+    setImageFile(file);
+    setPreview(URL.createObjectURL(file));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(form);
-    onOpenChange(false);
+    setPending(true);
+    try {
+      await onSubmit(form, imageFile);
+      onOpenChange(false);
+    } catch {
+      // The toast raised by the caller already explains the failure; keeping
+      // the sheet open means nothing typed is lost.
+    } finally {
+      setPending(false);
+    }
   };
 
   return (
@@ -165,10 +131,10 @@ function MediaItemSheet({ open, onOpenChange, initialData, onSubmit }) {
                   className="sr-only"
                   onChange={(e) => readImage(e.target.files?.[0])}
                 />
-                {form.image ? (
+                {preview ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={form.image}
+                    src={preview}
                     alt="Cover preview"
                     className="h-full w-full object-cover"
                   />
@@ -238,6 +204,22 @@ function MediaItemSheet({ open, onOpenChange, initialData, onSubmit }) {
 
             <div className="space-y-1.5">
               <Label
+                htmlFor="media-content"
+                className="text-xs tracking-wide text-muted-foreground uppercase"
+              >
+                Article Body
+              </Label>
+              <Textarea
+                id="media-content"
+                rows={10}
+                placeholder={"The full article shown on the detail page.\n\nLeave a blank line between paragraphs."}
+                value={form.content}
+                onChange={(e) => change("content", e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label
                 htmlFor="media-summary"
                 className="text-xs tracking-wide text-muted-foreground uppercase"
               >
@@ -291,15 +273,18 @@ function MediaItemSheet({ open, onOpenChange, initialData, onSubmit }) {
             <Button
               type="button"
               variant="outline"
+              disabled={pending}
               onClick={() => onOpenChange(false)}
             >
               Cancel
             </Button>
             <Button
               type="submit"
+              disabled={pending}
               className="bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
             >
-              {isEditing ? "Save Changes" : "Add Item"}
+              {pending && <Loader2 className="size-4 animate-spin" />}
+              {pending ? "Saving…" : isEditing ? "Save Changes" : "Add Item"}
             </Button>
           </SheetFooter>
         </form>
@@ -319,11 +304,46 @@ function MediaCenterContent() {
     ? requested
     : "All";
 
-  const [items, setItems] = useState(INITIAL_ITEMS);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [reloadKey, setReloadKey] = useState(0);
   const [search, setSearch] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
+
+  const { profile } = useProfile();
+  const isAdmin = profile.role === "Admin";
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadItems() {
+      try {
+        const { items: list } = await mediaApi.list();
+        if (!active) return;
+        setItems(list);
+        setError(null);
+      } catch (err) {
+        if (!active) return;
+        setError(err.message);
+        toast.error("Could not load media items", { description: err.message });
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    loadItems();
+    return () => {
+      active = false;
+    };
+  }, [reloadKey]);
+
+  const retry = () => {
+    setLoading(true);
+    setReloadKey((k) => k + 1);
+  };
 
   const selectCategory = (name) => {
     const query = name === "All" ? "" : `?category=${encodeURIComponent(name)}`;
@@ -359,34 +379,67 @@ function MediaCenterContent() {
     setSheetOpen(true);
   };
 
-  const handleSubmit = (data) => {
+  // An image turns the request into multipart; otherwise plain JSON is sent.
+  const buildBody = (data, imageFile) => {
+    const { image, _id, createdAt, updatedAt, ...fields } = data;
+    return imageFile ? toFormData({ ...fields, image: imageFile }) : fields;
+  };
+
+  const handleSubmit = async (data, imageFile) => {
+    const body = buildBody(data, imageFile);
+
     if (editing) {
-      setItems((prev) =>
-        prev.map((i) => (i.id === editing.id ? { ...i, ...data } : i)),
-      );
-      toast.success("Item updated");
+      const { item } = await toast
+        .promise(mediaApi.update(editing._id, body), {
+          loading: "Saving changes…",
+          success: "Item updated",
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      setItems((prev) => prev.map((i) => (i._id === item._id ? item : i)));
       addNotification({
         title: "Media item updated",
-        description: `"${data.title}" was updated.`,
+        description: `"${item.title}" was updated.`,
       });
     } else {
-      setItems((prev) => [{ ...data, id: Date.now() }, ...prev]);
-      toast.success("Item added");
+      const { item } = await toast
+        .promise(mediaApi.create(body), {
+          loading: "Adding item…",
+          success: "Item added",
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      setItems((prev) => [item, ...prev]);
       addNotification({
         title: "New media item added",
-        description: `"${data.title}" was added to ${data.category}.`,
+        description: `"${item.title}" was added to ${item.category}.`,
       });
     }
   };
 
-  const handleDelete = () => {
-    setItems((prev) => prev.filter((i) => i.id !== deleteTarget.id));
-    toast.success("Item deleted");
-    addNotification({
-      title: "Media item removed",
-      description: `"${deleteTarget.title}" was removed.`,
-    });
+  const handleDelete = async () => {
+    const target = deleteTarget;
     setDeleteTarget(null);
+
+    try {
+      await toast
+        .promise(mediaApi.remove(target._id), {
+          loading: "Deleting item…",
+          success: "Item deleted",
+          error: (err) => err.message,
+        })
+        .unwrap();
+
+      setItems((prev) => prev.filter((i) => i._id !== target._id));
+      addNotification({
+        title: "Media item removed",
+        description: `"${target.title}" was removed.`,
+      });
+    } catch {
+      // The toast already carries the reason.
+    }
   };
 
   const tabs = [{ name: "All", icon: LayoutGrid }, ...MEDIA_CATEGORIES];
@@ -405,13 +458,15 @@ function MediaCenterContent() {
             Manage everything that appears in the landing page media hub.
           </p>
         </div>
-        <Button
-          onClick={handleAdd}
-          className="gap-1 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
-        >
-          <Plus className="h-4 w-4" />
-          Add New
-        </Button>
+        {isAdmin && (
+          <Button
+            onClick={handleAdd}
+            className="gap-1 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90"
+          >
+            <Plus className="h-4 w-4" />
+            Add New
+          </Button>
+        )}
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -465,7 +520,30 @@ function MediaCenterContent() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filtered.length === 0 ? (
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={3} className="h-24 text-center">
+                  <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                    <Loader2 className="size-4 animate-spin" />
+                    Loading media items…
+                  </span>
+                </TableCell>
+              </TableRow>
+            ) : error ? (
+              <TableRow>
+                <TableCell colSpan={3} className="h-24 text-center">
+                  <span className="text-sm text-muted-foreground">{error}</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="ml-3"
+                    onClick={retry}
+                  >
+                    Try again
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ) : filtered.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={3} className="h-24 text-center">
                   No items found.
@@ -475,14 +553,14 @@ function MediaCenterContent() {
               filtered.map((item) => {
                 const Icon = mediaCategoryIcon(item.category);
                 return (
-                  <TableRow key={item.id}>
+                  <TableRow key={item._id}>
                     <TableCell className="py-3">
                       <div className="flex items-center gap-3">
                         <span className="flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-sidebar-primary/10 text-sidebar-primary">
-                          {item.image ? (
+                          {item.image?.url ? (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img
-                              src={item.image}
+                              src={item.image.url}
                               alt=""
                               className="h-full w-full object-cover"
                             />
@@ -520,22 +598,26 @@ function MediaCenterContent() {
                     </TableCell>
                     <TableCell>
                       <div className="flex justify-end gap-2">
-                        <Button
-                          variant="outline"
-                          size="icon-sm"
-                          aria-label={`Edit ${item.title}`}
-                          onClick={() => handleEdit(item)}
-                        >
-                          <Pencil className="size-3.5" />
-                        </Button>
-                        <Button
-                          variant="destructive"
-                          size="icon-sm"
-                          aria-label={`Delete ${item.title}`}
-                          onClick={() => setDeleteTarget(item)}
-                        >
-                          <Trash2 className="size-3.5" />
-                        </Button>
+                        {isAdmin && (
+                          <>
+                            <Button
+                              variant="outline"
+                              size="icon-sm"
+                              aria-label={`Edit ${item.title}`}
+                              onClick={() => handleEdit(item)}
+                            >
+                              <Pencil className="size-3.5" />
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="icon-sm"
+                              aria-label={`Delete ${item.title}`}
+                              onClick={() => setDeleteTarget(item)}
+                            >
+                              <Trash2 className="size-3.5" />
+                            </Button>
+                          </>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>
@@ -547,7 +629,7 @@ function MediaCenterContent() {
       </div>
 
       <MediaItemSheet
-        key={editing ? editing.id : "new"}
+        key={editing ? editing._id : "new"}
         open={sheetOpen}
         onOpenChange={setSheetOpen}
         initialData={editing}

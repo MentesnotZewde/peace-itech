@@ -69,7 +69,7 @@ export default function TestimonialsSection() {
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#005BFF] dark:text-[#12B7FF]">
               Testimonials
             </p>
-            <h2 className="mt-4 max-w-xl text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
+            <h2 className="mt-4 max-w-xl text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl font-heading">
               Our clients are our best ambassadors
             </h2>
             <p className="mt-5 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
@@ -147,7 +147,11 @@ export default function TestimonialsSection() {
                         ) : null}
                       </div>
 
-                      <div className={isActive ? "animate-paper-testimonial mt-8" : "mt-8"}>
+                      <div
+                        className={
+                          isActive ? "animate-paper-testimonial mt-8" : "mt-8"
+                        }
+                      >
                         <Quote className="h-6 w-6 text-[#005BFF] dark:text-[#12B7FF]" />
                         <p className="mt-5 max-w-2xl text-sm leading-6 text-muted-foreground">
                           {testimonial.quote}

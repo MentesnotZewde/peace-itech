@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { COUNTRY_CODES, parsePhone } from "@/lib/country-codes";
 import { CURRENCIES, formatMoney, parseMoney } from "@/lib/project-progress";
 import { Loader2, Paperclip } from "lucide-react";
@@ -166,8 +167,51 @@ export function UserFormDialog({
     setFieldErrors((prev) => (prev[key] ? { ...prev, [key]: null } : prev));
   };
 
+  // `showWhen` hides a field until the rest of the form calls for it — e.g.
+  // portfolio details only once a project is being marked Completed.
+  const visibleFields = fields.filter((field) =>
+    field.showWhen ? field.showWhen(form) : true,
+  );
+
+  // Short forms stay a single comfortable column; longer ones pair up on wider
+  // screens so the dialog doesn't turn into a tall strip.
+  const twoColumn = visibleFields.length > 6;
+
+  // The browser enforces `required` on inputs, but not on a Radix select or a
+  // file that was uploaded on a previous save, so check them here. Hidden
+  // fields are never required.
+  const missingRequired = () => {
+    const missing = {};
+
+    for (const field of visibleFields) {
+      const required = field.requiredWhen
+        ? field.requiredWhen(form)
+        : field.required;
+      if (!required) continue;
+
+      const value = form[field.key];
+      const filled =
+        field.type === "file"
+          ? Boolean(files[field.key] || value?.url || value)
+          : typeof value === "string"
+            ? value.trim() !== ""
+            : Boolean(value);
+
+      if (!filled) missing[field.key] = `${field.label} is required`;
+    }
+
+    return missing;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const missing = missingRequired();
+    if (Object.keys(missing).length) {
+      setFieldErrors(missing);
+      return;
+    }
+
     setPending(true);
     setFieldErrors({});
 
@@ -195,17 +239,52 @@ export function UserFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={(next) => !pending && onOpenChange(next)}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
+      {/* Capped height with its own scroll area: long forms (a project being
+          marked Completed carries a dozen fields) must never push the Save
+          button off-screen. */}
+      <DialogContent
+        className={cn(
+          "flex max-h-[90dvh] flex-col gap-0 p-0 sm:max-w-md",
+          twoColumn && "sm:max-w-2xl",
+        )}
+      >
+        {/* pr-10 keeps the title clear of the absolutely-positioned close button. */}
+        <DialogHeader className="shrink-0 border-b px-4 py-3 pr-10 text-left">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
             Fill in the details below and save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-          {fields.map((field) => (
-            <div key={`${field.key}-${formKey}`} className="space-y-1.5">
-              <Label htmlFor={field.key}>{field.label}</Label>
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="flex min-h-0 flex-1 flex-col"
+        >
+          <div
+            className={cn(
+              "min-h-0 flex-1 overflow-y-auto px-4 py-4",
+              twoColumn ? "grid gap-4 sm:grid-cols-2" : "space-y-4",
+            )}
+          >
+          {visibleFields.map((field) => {
+            // `requiredWhen` lets a field become mandatory based on what else
+            // is filled in — e.g. portfolio details once a project is marked
+            // Completed.
+            const required = field.requiredWhen
+              ? field.requiredWhen(form)
+              : field.required;
+
+            const fullWidth = ["textarea", "file"].includes(field.type);
+
+            return (
+            <div
+              key={`${field.key}-${formKey}`}
+              className={cn("space-y-1.5", fullWidth && "sm:col-span-2")}
+            >
+              <Label htmlFor={field.key}>
+                {field.label}
+                {required && <span className="text-destructive"> *</span>}
+              </Label>
               {field.type === "select" ? (
                 <Select
                   value={form[field.key]}
@@ -229,14 +308,14 @@ export function UserFormDialog({
                   id={field.key}
                   value={form[field.key]}
                   onChange={(v) => handleChange(field.key, v)}
-                  required={field.required}
+                  required={required}
                 />
               ) : field.type === "money" ? (
                 <MoneyField
                   id={field.key}
                   value={form[field.key]}
                   onChange={(v) => handleChange(field.key, v)}
-                  required={field.required}
+                  required={required}
                 />
               ) : field.type === "file" ? (
                 <FileField
@@ -244,14 +323,14 @@ export function UserFormDialog({
                   value={form[field.key]}
                   onChange={(v, file) => handleChange(field.key, v, file)}
                   accept={field.accept}
-                  required={field.required}
+                  required={required}
                 />
               ) : field.type === "textarea" ? (
                 <Textarea
                   id={field.key}
                   value={form[field.key] ?? ""}
                   onChange={(e) => handleChange(field.key, e.target.value)}
-                  required={field.required}
+                  required={required}
                   rows={4}
                 />
               ) : (
@@ -260,7 +339,7 @@ export function UserFormDialog({
                   type={field.type || "text"}
                   value={form[field.key] ?? ""}
                   onChange={(e) => handleChange(field.key, e.target.value)}
-                  required={field.required}
+                  required={required}
                   placeholder={field.placeholder}
                   autoComplete={field.autoComplete}
                   aria-invalid={!!fieldErrors[field.key]}
@@ -272,8 +351,12 @@ export function UserFormDialog({
                 </p>
               )}
             </div>
-          ))}
-          <DialogFooter className="pt-2">
+            );
+          })}
+          </div>
+          {/* mx-0/mb-0 cancel DialogFooter's negative margins, which exist to
+              offset the dialog's default padding — this one has none. */}
+          <DialogFooter className="mx-0 mb-0 shrink-0 border-t px-4 py-3">
             <Button
               type="button"
               variant="outline"

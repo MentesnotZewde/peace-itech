@@ -119,8 +119,16 @@ export default function EmployeesPage() {
         setError(null);
       } catch (err) {
         if (!active) return;
-        setError(err.message);
-        toast.error("Could not load employees", { description: err.message });
+        // The directory is Admin-only, so say that rather than showing a bare
+        // "Forbidden" with a pointless retry.
+        const message =
+          err.status === 403
+            ? "Only an Admin can view the employee directory."
+            : err.message;
+        setError({ message, retryable: err.status !== 403 });
+        if (err.status !== 403) {
+          toast.error("Could not load employees", { description: err.message });
+        }
       } finally {
         if (active) setLoading(false);
       }
@@ -247,18 +255,21 @@ export default function EmployeesPage() {
             </div>
           ) : error ? (
             <div className="flex flex-col items-center gap-3 py-16 text-center">
-              <p className="text-sm text-muted-foreground">{error}</p>
-              <Button variant="outline" size="sm" onClick={retry}>
-                Try again
-              </Button>
+              <p className="text-sm text-muted-foreground">{error.message}</p>
+              {error.retryable && (
+                <Button variant="outline" size="sm" onClick={retry}>
+                  Try again
+                </Button>
+              )}
             </div>
           ) : (
             <DataTable
               columns={getEmployeeColumns({
                 onEdit: handleEdit,
                 onDelete: setDeleteTarget,
-                // A non-Admin may only edit their own record, and delete none.
-                canEdit: (row) => isAdmin || row._id === profile._id,
+                // Admins only: everyone else changes their own details from
+                // the Settings page instead.
+                canEdit: isAdmin,
                 canDelete: (row) => isAdmin && row._id !== profile._id,
               })}
               data={users}

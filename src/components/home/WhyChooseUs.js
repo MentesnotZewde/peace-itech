@@ -91,7 +91,7 @@ export default function WhyChooseUs() {
               Why choose us
             </p>
             <h2
-              className="mt-3 max-w-2xl text-3xl font-semibold leading-tight tracking-normal sm:text-4xl"
+              className="mt-3 max-w-2xl text-3xl font-semibold leading-tight tracking-normal sm:text-4xl font-heading"
               aria-label="Built for leaders who want technology to feel calm, capable, and measurable."
             >
               {headingWords.map((word, index) => {

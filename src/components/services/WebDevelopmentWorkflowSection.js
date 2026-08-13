@@ -39,7 +39,7 @@ const workflowSteps = [
   {
     title: "Testing & Launch",
     description:
-      "We test everything thoroughly and launch your website or system with confidence.",
+      "We test everything thoroughly and launch your website, app, or system with confidence.",
     icon: Rocket,
     accent:
       "from-emerald-500/14 to-[#12B7FF]/10 text-emerald-500 dark:text-emerald-300",
@@ -125,16 +125,16 @@ export default function WebDevelopmentWorkflowSection() {
             Workflow
           </p>
 
-          <h2 className="mt-3 max-w-2xl text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl">
-            A clear process from idea to
+          <h2 className="font-heading mt-3 text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl">
+            From Idea to Ongoing
             <span
-              className="hero-heading-accent block"
+              className="hero-heading-accent ml-2"
               style={{ textShadow: "none" }}
             >
-              managed improvement.
+              Improvement.
             </span>
           </h2>
-          <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
+          <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-md">
             We keep every phase visible, structured, and practical so business
             owners and teams always know what is happening, why it matters, and
             what comes next.
@@ -142,16 +142,18 @@ export default function WebDevelopmentWorkflowSection() {
 
           <motion.div
             variants={itemVariants}
-            className="relative mt-8 -ml-4 sm:-ml-6 lg:-ml-8"
+            className="relative mt-8 -ml-4 max-w-md sm:-ml-6 lg:-ml-8"
           >
-            <div className="relative overflow-hidden rounded-r-[1.75rem]">
+            <div className="relative overflow-hidden rounded-r-[1.25rem]">
               <Image
                 src="/images/work-flow-20260522.png"
                 alt="Project planning workspace for web development delivery"
-                width={1536}
-                height={1024}
-                className="aspect-[4/3] w-full object-cover object-center"
-                sizes="(min-width: 1024px) 42vw, 100vw"
+                width={1530}
+                height={1020}
+                className="aspect-[16/10] pl-8 w-full object-cover object-center"
+                // Matches the rendered width above, so the browser downloads a
+                // smaller variant instead of a near-full-width one.
+                sizes="(min-width: 1024px) 28rem, 80vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent" />
             </div>
@@ -159,14 +161,14 @@ export default function WebDevelopmentWorkflowSection() {
         </motion.div>
 
         <motion.div variants={itemVariants} className="relative">
-          <div className="absolute bottom-8 left-6 top-8 hidden w-px bg-[#005BFF]/14 dark:bg-[#12B7FF]/14 sm:block lg:-left-8">
+          <div className="absolute bottom-8 left-7 top-8 hidden w-px bg-[#005BFF]/14 dark:bg-[#12B7FF]/14 sm:block lg:-left-2">
             <motion.span
-              className="block h-full origin-top bg-gradient-to-b from-[#005BFF] via-[#12B7FF] to-[#12B7FF]/25"
+              className=" block h-full origin-top bg-gradient-to-b from-[#005BFF] via-[#12B7FF] to-[#12B7FF]/25"
               style={{ scaleY: lineScale }}
             />
           </div>
 
-          <div className="space-y-6 sm:pl-16 lg:pl-12">
+          <div className="space-y-4 sm:pl-16 lg:pl-14">
             {workflowSteps.map((step, index) => {
               const Icon = step.icon;
               const isActive = activeStep === index;
@@ -178,14 +180,14 @@ export default function WebDevelopmentWorkflowSection() {
                   onMouseEnter={() => setActiveStep(index)}
                   whileHover={{ y: -4 }}
                   transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                  className={`group relative rounded-[1.35rem] border bg-white/82 p-5 shadow-[0_18px_50px_rgba(7,24,216,0.07)] backdrop-blur-xl transition-all duration-300 dark:bg-[#0B1830]/72 dark:shadow-black/20 sm:p-6 ${
+                  className={`group relative rounded-[1.1rem] border bg-white/82 p-4 shadow-[0_18px_50px_rgba(7,24,216,0.07)] backdrop-blur-xl transition-all duration-300 dark:bg-[#0B1830]/72 dark:shadow-black/20 sm:p-5 ${
                     isActive
                       ? "border-[#12B7FF]/55 shadow-[0_24px_70px_rgba(18,183,255,0.24)] dark:border-[#12B7FF]/48 dark:shadow-[#12B7FF]/14"
                       : "border-[#005BFF]/10 hover:border-[#12B7FF]/32 dark:border-[#12B7FF]/14"
                   }`}
                 >
                   <div
-                    className={`absolute -left-[3.25rem] top-8 hidden size-11 items-center justify-center rounded-full border text-sm font-bold transition-all duration-300 sm:flex lg:-left-[5.3rem] ${
+                    className={`absolute -left-[3.25rem] top-6 hidden size-11 items-center justify-center rounded-full border text-sm font-bold transition-all duration-300 sm:flex lg:-left-[5.3rem] ${
                       isActive
                         ? "scale-110 border-[#12B7FF]/80 bg-gradient-to-br from-[#005BFF] to-[#12B7FF] text-white shadow-[0_0_0_6px_rgba(18,183,255,0.12),0_0_34px_rgba(18,183,255,0.55)]"
                         : "border-[#005BFF]/16 bg-background text-muted-foreground shadow-sm group-hover:scale-105 group-hover:border-[#12B7FF]/70 group-hover:bg-gradient-to-br group-hover:from-[#005BFF] group-hover:to-[#12B7FF] group-hover:text-white group-hover:shadow-[0_0_0_6px_rgba(18,183,255,0.1),0_0_28px_rgba(18,183,255,0.42)] dark:border-[#12B7FF]/18"
@@ -194,14 +196,11 @@ export default function WebDevelopmentWorkflowSection() {
                     {String(index + 1).padStart(2, "0")}
                   </div>
 
-                  <div className="grid gap-4 sm:grid-cols-[6rem_1fr] sm:items-center">
+                  <div className="grid gap-3 sm:grid-cols-[3.5rem_1fr] sm:items-center">
                     <div
-                      className={`flex size-20 items-center justify-center rounded-2xl bg-gradient-to-br ${step.accent} ring-1 ring-[#005BFF]/8 transition-transform duration-300 group-hover:scale-105 dark:ring-[#12B7FF]/12`}
+                      className={`flex size-14 items-center justify-center rounded-xl bg-gradient-to-br ${step.accent} ring-1 ring-[#005BFF]/8 transition-transform duration-300 group-hover:scale-105 dark:ring-[#12B7FF]/12`}
                     >
-                      <Icon
-                        className="size-10 stroke-[1.8]"
-                        aria-hidden="true"
-                      />
+                      <Icon className="size-7 stroke-[1.8]" aria-hidden="true" />
                     </div>
                     <div>
                       <div className="mb-2 flex items-center gap-3 sm:hidden">
@@ -216,10 +215,10 @@ export default function WebDevelopmentWorkflowSection() {
                         </span>
                         <span className="h-px flex-1 bg-[#005BFF]/12 dark:bg-[#12B7FF]/12" />
                       </div>
-                      <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
+                      <h3 className="text-base font-semibold text-foreground sm:text-lg">
                         {step.title}
                       </h3>
-                      <p className="mt-3 text-sm leading-7 text-muted-foreground sm:text-base">
+                      <p className="mt-2 text-sm leading-6 text-muted-foreground">
                         {step.description}
                       </p>
                     </div>

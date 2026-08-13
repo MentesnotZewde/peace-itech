@@ -13,23 +13,29 @@ import {
 // The navbar, homepage service cards, footer links, and service page template all reuse this same data.
 export const services = [
   {
-    title: "Web Development",
+    title: "Web & App Development",
     slug: "web-development",
+    // Portfolio projects saved before this service was renamed still carry the
+    // old category, so the public page matches on both.
+    legacyTitles: ["Web Development"],
     eyebrow: "Digital Experience",
     description:
-      "Premium websites, ecommerce experiences, admin dashboards, and SaaS interfaces built to convert visitors and support real business operations.",
+      "Premium websites, mobile apps, ecommerce experiences, admin dashboards, and SaaS interfaces built to convert visitors and support real business operations.",
     icon: Code2,
     accent: "from-[#005BFF]/20 via-[#12B7FF]/20 to-[#12B7FF]/20",
     outcomes: [
       "Responsive websites",
+      "iOS and Android apps",
       "SaaS UI systems",
       "Ecommerce storefronts",
     ],
     overview:
-      "We design and build fast, responsive web platforms with clean interfaces, strong technical foundations, and a user experience that feels polished on every screen.",
+      "We design and build fast, responsive web and mobile platforms with clean interfaces, strong technical foundations, and a user experience that feels polished on every screen.",
     technologies: [
       "Next.js",
       "React",
+      "React Native",
+      "Flutter",
       "Tailwind CSS",
       "Node.js",
       "Vercel",
@@ -40,20 +46,20 @@ export const services = [
     process: [
       "Discovery and content strategy",
       "UX/UI wireframes",
-      "Frontend and backend build",
-      "SEO, QA, and launch",
+      "Web, app, and backend build",
+      "SEO, QA, app store release",
     ],
-    showcaseTitle: "Web experiences that look premium and work hard.",
+    showcaseTitle: "Web and app experiences that look premium and work hard.",
     showcaseItems: [
       "Corporate website system",
-      "Mobile responsive product pages",
+      "iOS and Android mobile app",
       "Admin dashboard and analytics",
       "Ecommerce checkout experience",
       "SaaS subscription interface",
     ],
     workflowVisual: [
       "Landing page",
-      "Product catalog",
+      "Mobile app",
       "Checkout",
       "Admin panel",
     ],

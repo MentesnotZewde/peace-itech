@@ -70,6 +70,12 @@ export async function uploadProjectFile(file, { folder, kind = "image" }) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
+  // The browser-supplied MIME type is just a claim, so check the bytes. Images
+  // are re-encoded by Cloudinary, but raw files are stored exactly as sent.
+  if (!isImage && buffer.subarray(0, 5).toString("latin1") !== "%PDF-") {
+    throw new Error("That file is not a valid PDF");
+  }
+
   const result = await new Promise((resolve, reject) => {
     cloudinary.uploader
       .upload_stream(

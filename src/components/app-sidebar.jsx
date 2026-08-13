@@ -13,7 +13,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { PieChartIcon, MapIcon } from "lucide-react";
+import { CalendarClock, PieChartIcon, MapIcon } from "lucide-react";
 import { FaUsersCog } from "react-icons/fa";
 import { AiOutlineSolution } from "react-icons/ai";
 import { GrProjects } from "react-icons/gr";
@@ -56,29 +56,19 @@ const data = {
         },
       ],
     },
+    ,
     {
-      title: "Services",
+      title: "Appointments",
       url: "#",
-      icon: <AiOutlineSolution className="text-sidebar-primary" />,
-      isActive: true,
+      icon: <CalendarClock className="text-sidebar-primary" />,
       items: [
         {
-          title: "Manage Services",
-          url: "/dashboard/services",
+          title: "Bookings",
+          url: "/dashboard/appointments",
         },
       ],
     },
-    // {
-    //   title: "Settings",
-    //   url: "#",
-    //   icon: <Settings2Icon className="text-sidebar-primary" />,
-    //   items: [
-    //     {
-    //       title: "General",
-    //       url: "/dashboard/settings",
-    //     },
-    //   ],
-    // },
+
     ,
   ],
   // Every media category opens the same unified admin page, pre-filtered.

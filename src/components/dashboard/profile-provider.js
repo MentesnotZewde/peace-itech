@@ -81,8 +81,11 @@ export function ProfileProvider({ children }) {
     [profile],
   );
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    // Clear the local token first so nothing can fire another request with it,
+    // then drop the httpOnly cookie server-side.
     clearSession();
+    await auth.logout();
     router.replace("/login");
   }, [router]);
 

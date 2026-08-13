@@ -1,4 +1,7 @@
 import { z } from "zod";
+
+// Kept re-exported so the project routes keep one import site.
+export { parseFormBody as parseProjectBody } from "@/lib/validation/form-body";
 import { ALL_STATUSES } from "@/lib/project-progress";
 
 const text = (max = 200) => z.string().trim().max(max);
@@ -17,6 +20,11 @@ const shape = {
   // so anything a client sends for it is ignored.
   agreedprice: text(60),
   deliverydate: text(40),
+  // Accepts a real boolean from JSON and the string a multipart form sends.
+  portfolioApproved: z.union([
+    z.boolean(),
+    z.enum(["true", "false"]).transform((v) => v === "true"),
+  ]),
 };
 
 // Both forms that write projects (the delivery table and the portfolio grid)
@@ -30,35 +38,3 @@ export const createProjectSchema = z
   });
 
 export const updateProjectSchema = z.object(shape).partial();
-
-/**
- * Reads a project body as JSON or multipart/form-data.
- * Returns { data, files } where files holds the uploaded image / PDF.
- */
-export async function parseProjectBody(request) {
-  const contentType = request.headers.get("content-type") || "";
-
-  if (!contentType.includes("multipart/form-data")) {
-    try {
-      return { data: await request.json(), files: {} };
-    } catch {
-      return { data: {}, files: {} };
-    }
-  }
-
-  const form = await request.formData();
-  const data = {};
-  const files = {};
-
-  for (const [key, value] of form.entries()) {
-    if (typeof value !== "string") {
-      if (value.size > 0) files[key] = value;
-      continue;
-    }
-    // Skip blanks so an untouched form field reads as "not provided".
-    if (value.trim() === "") continue;
-    data[key] = value;
-  }
-
-  return { data, files };
-}

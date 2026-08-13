@@ -34,12 +34,12 @@ export async function GET(request, { params }) {
   }
 }
 
-// PATCH /api/projects/:id — any signed-in user. Replacing an attachment
-// destroys the one it supersedes.
+// PATCH /api/projects/:id — Admin only. Replacing an attachment destroys the
+// one it supersedes.
 export async function PATCH(request, { params }) {
   try {
     const { id } = await params;
-    const { response } = await requireAuth(request);
+    const { response } = await requireAuth(request, ["Admin"]);
     if (response) return response;
 
     if (!isValidId(id)) return jsonError("Invalid project id", 400);
@@ -92,7 +92,8 @@ export async function PATCH(request, { params }) {
       return jsonError(error.message, 422);
     }
     console.error("PATCH /api/projects/[id]", error);
-    return jsonError(error.message || "Something went wrong", 500);
+    // Detail stays in the log; clients get nothing about internals.
+    return jsonError("Something went wrong", 500);
   }
 }
 

@@ -154,7 +154,8 @@ export async function PATCH(request, { params }) {
       return jsonError(error.message, 422);
     }
     console.error("PATCH /api/users/[id]", error);
-    return jsonError(error.message || "Something went wrong", 500);
+    // Detail stays in the log; clients get nothing about internals.
+    return jsonError("Something went wrong", 500);
   }
 }
 

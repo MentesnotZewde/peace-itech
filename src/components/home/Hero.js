@@ -19,8 +19,7 @@ const metrics = [
   { value: "24/7", label: "Support mindset", type: "support" },
 ];
 
-const heroHeadingWords =
-  "Modern technology systems for ambitious businesses.".split(" ");
+const heroHeadingWords = "Powering Business with Modern Technology.".split(" ");
 
 function AnimatedMetric({ metric }) {
   const [displayValue, setDisplayValue] = useState(
@@ -78,12 +77,13 @@ export default function Hero() {
           <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.72fr] lg:items-center">
             <div className="flex w-full max-w-none flex-col justify-center px-4 sm:px-0 lg:max-w-3xl">
               <h1
-                className="font-heading w-full max-w-none whitespace-normal break-normal text-4xl font-semibold leading-tight tracking-normal text-foreground sm:text-5xl lg:max-w-4xl lg:text-6xl"
-                aria-label="Modern technology systems for ambitious businesses."
+                className="font-heading w-full max-w-none whitespace-normal break-normal text-3xl font-semibold leading-tight tracking-normal text-foreground sm:text-4xl lg:max-w-4xl lg:text-5xl"
+                aria-label="Powering Business with Modern Technology."
               >
                 {heroHeadingWords.map((word, index) => {
-                  const isAccentWord = ["technology", "ambitious"].includes(
-                    word,
+                  const normalizedWord = word.replace(/[.,!?]+$/, "");
+                  const isAccentWord = ["Business", "Technology"].includes(
+                    normalizedWord,
                   );
 
                   return (
@@ -102,20 +102,21 @@ export default function Hero() {
                 })}
               </h1>
 
-              <p className="mt-6 w-full max-w-none text-base leading-7 text-muted-foreground sm:text-lg lg:max-w-2xl">
-                Peace iTech Inc helps businesses grow with thoughtful websites,
-                ERP systems, automation, cybersecurity, digital marketing, IT
-                support, cloud services, and practical AI-powered workflows.
+              <p className="mt-6 w-full max-w-none text-base leading-7 text-muted-foreground sm:text-md lg:max-w-2xl">
+                Peace iTech Inc helps businesses grow with technology that
+                actually works. From modern websites and mobile apps to ERP
+                systems, automation, digital marketing, and IT support, we build
+                simple, reliable solutions that make everyday business easier.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button
                   size="lg"
                   asChild
-                  className="h-12 rounded-full bg-[#005BFF] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#071B8F] hover:shadow-[#12B7FF]/20"
+                  className="h-12 rounded-md bg-[#397dfc] px-6 text-white shadow-xl shadow-[#005BFF]/20 hover:-translate-y-0.5 hover:bg-[#3d59f6] hover:shadow-[#12B7FF]/20"
                 >
-                  <Link href="#contact">
-                    Start a project
+                  <Link href="contact">
+                    Contact our team
                     <ArrowRight className="size-4" aria-hidden="true" />
                   </Link>
                 </Button>
@@ -123,7 +124,7 @@ export default function Hero() {
                   size="lg"
                   variant="outline"
                   asChild
-                  className="h-12 rounded-full bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5"
+                  className="h-12 rounded-md bg-background/70 px-6 backdrop-blur hover:-translate-y-0.5"
                 >
                   <Link href="#services">Explore services</Link>
                 </Button>

@@ -1,16 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
 import PageShell from "@/components/layout/PageShell";
 import { auth, getToken, saveSession } from "@/lib/api-client";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  // Middleware appends ?next=… when it turns away an unauthenticated request.
+  const nextPath = searchParams.get("next") || "/dashboard";
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,8 +21,8 @@ export default function LoginPage() {
 
   // Already signed in? Skip the form.
   useEffect(() => {
-    if (getToken()) router.replace("/dashboard");
-  }, [router]);
+    if (getToken()) router.replace(nextPath);
+  }, [router, nextPath]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,7 +36,7 @@ export default function LoginPage() {
       }).unwrap();
 
       saveSession(session);
-      router.replace("/dashboard");
+      router.replace(nextPath);
     } catch {
       // toast.promise already surfaced the reason.
       setSubmitting(false);
@@ -45,6 +48,14 @@ export default function LoginPage() {
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden shadow-xl bg-card">
         {/* Left: form */}
         <div className="flex flex-col justify-center px-8 py-12 sm:px-20">
+          <Link
+            href="/"
+            className="mb-8 inline-flex w-fit items-center gap-1.5 text-sm text-neutral-500 transition hover:text-neutral-800 dark:hover:text-neutral-200"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            Back to home
+          </Link>
+
           <div className="flex items-center gap-2 mb-10">
             <Image
               src="/logo-icon.png"
@@ -170,5 +181,13 @@ function GoogleIcon() {
         d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
       />
     </svg>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }
