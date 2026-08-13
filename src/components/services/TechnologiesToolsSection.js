@@ -24,12 +24,15 @@ const defaultTools = [
   { name: "WordPress", logo: "/images/tools/wordpress.svg" },
 ];
 
-function useCompactMotion() {
-  const [isCompact, setIsCompact] = useState(false);
+// The marquee runs at every width. The one case it must not run is a visitor
+// who has asked the OS for less motion — they get the same row as a plain
+// horizontal scroller they can swipe themselves.
+function usePrefersReducedMotion() {
+  const [prefersReduced, setPrefersReduced] = useState(false);
 
   useEffect(() => {
-    const query = window.matchMedia("(max-width: 1023px)");
-    const update = () => setIsCompact(query.matches);
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setPrefersReduced(query.matches);
 
     update();
     query.addEventListener("change", update);
@@ -37,7 +40,7 @@ function useCompactMotion() {
     return () => query.removeEventListener("change", update);
   }, []);
 
-  return isCompact;
+  return prefersReduced;
 }
 
 const sectionReveal = {
@@ -85,23 +88,25 @@ function LogoCard({ tool }) {
   );
 }
 
-function StaticLogoGrid({ items }) {
+// Swipeable row for reduced-motion visitors: same cards, no self-scrolling.
+function StaticLogoRow({ items }) {
   return (
-    <div className="-mx-4 flex gap-3 overflow-x-auto px-4 py-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0">
+    <div className="-mx-4 flex gap-4 overflow-x-auto px-4 py-2 sm:mx-0 sm:px-0">
       {items.map((tool) => (
-        <div key={tool.name} className="flex-shrink-0 sm:flex-shrink">
-          <LogoCard tool={tool} />
-        </div>
+        <LogoCard key={tool.name} tool={tool} />
       ))}
     </div>
   );
 }
 
-function LogoCarousel({ items, reverse = false, isCompact = false }) {
-  if (isCompact) {
-    return <StaticLogoGrid items={items} />;
+function LogoCarousel({ items, reverse = false, paused = false }) {
+  if (paused) {
+    return <StaticLogoRow items={items} />;
   }
 
+  // Three copies, translated by exactly one third: when the first copy has
+  // scrolled fully out the second is in the identical position, so the loop
+  // restarts with nothing visibly jumping.
   const repeatedItems = [...items, ...items, ...items];
 
   return (
@@ -138,7 +143,7 @@ export default function TechnologiesToolsSection({
   accentTitle = "reliable digital systems.",
   description = "We use trusted technologies to design, build, automate, and support scalable business solutions.",
 }) {
-  const isCompact = useCompactMotion();
+  const prefersReducedMotion = usePrefersReducedMotion();
   const splitIndex = Math.ceil(tools.length / 2);
   const topRow = tools.slice(0, splitIndex);
   const bottomRow = tools.slice(splitIndex);
@@ -183,8 +188,12 @@ export default function TechnologiesToolsSection({
           </div>
 
           <motion.div className="mt-14 space-y-4" variants={headingReveal}>
-            <LogoCarousel items={topRow} isCompact={isCompact} />
-            <LogoCarousel items={bottomRow} reverse isCompact={isCompact} />
+            <LogoCarousel items={topRow} paused={prefersReducedMotion} />
+            <LogoCarousel
+              items={bottomRow}
+              reverse
+              paused={prefersReducedMotion}
+            />
           </motion.div>
         </div>
       </div>

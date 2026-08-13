@@ -449,7 +449,10 @@ export default function ItSupportPage({ service, projects }) {
 
           {/* No card surface: just the image with its text below, so the two
               modes read as plain content rather than panels. */}
-          <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-12">
+          {/* grid-cols-1 for the same reason as the portfolio grid: without an
+              explicit column, the implicit one is auto-sized to the image's
+              intrinsic 1448px and overflows the phone viewport. */}
+          <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12">
             {supportModes.map((mode, index) => {
               const Icon = mode.icon;
 

@@ -95,7 +95,12 @@ export default function ServicePortfolioSection({ service, projects }) {
           </div>
         </ScrollReveal>
 
-        <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {/* `grid-cols-1` is load-bearing, not decoration: with no explicit
+            column below `md`, the implicit column is auto-sized to max-content,
+            which is the preview image's intrinsic 1200px — so the cards grew
+            past the viewport and the section's overflow-hidden clipped them.
+            `grid-cols-1` is repeat(1, minmax(0,1fr)), which stays bounded. */}
+        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, index) => (
             <ScrollReveal key={project.id} delay={120 + index * 120}>
               {project.liveUrl ? (
