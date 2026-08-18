@@ -9,7 +9,6 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import WebDevelopmentPricingSection from "@/components/pricing/Webdevpricing";
 
 const workflowSteps = [
   {
@@ -229,7 +228,6 @@ export default function WebDevelopmentWorkflowSection() {
           </div>
         </motion.div>
       </div>
-      <WebDevelopmentPricingSection />
     </motion.section>
   );
 }

@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   BarChart3,
-  Check,
   CheckCircle2,
   Clock3,
   FileSearch,
@@ -13,9 +12,7 @@ import {
   Rocket,
   SearchCheck,
   Share2,
-  Sparkles,
   Target,
-  Trophy,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -425,61 +422,6 @@ const digitalMarketingTools = [
   { name: "Ahrefs", logo: AhrefsLogo },
 ];
 
-const digitalMarketingPricingPlans = [
-  {
-    name: "Starter",
-    subtitle: "For small businesses just getting started",
-    price: "$199",
-    icon: Rocket,
-    noteIcon: Sparkles,
-    note: "Perfect for startups & local businesses.",
-    features: [
-      "Social Media Management",
-      "8 Posts per Month",
-      "Basic SEO (On-Page)",
-      "Google Business Profile Setup",
-      "Monthly Performance Report",
-      "Email Support",
-    ],
-  },
-  {
-    name: "Growth",
-    subtitle: "For businesses ready to grow faster",
-    price: "$399",
-    icon: BarChart3,
-    noteIcon: Target,
-    popular: true,
-    note: "Best value for growing businesses.",
-    features: [
-      "Everything in Starter",
-      "Social Media (12 Posts per Month)",
-      "Advanced SEO (On-Page + Technical)",
-      "Google Ads Management ($300 Ad Spend)",
-      "Content Creation (2 Blog Posts)",
-      "Monthly Strategy Call",
-      "Detailed Performance Report",
-    ],
-  },
-  {
-    name: "Pro",
-    subtitle: "For businesses that want maximum results",
-    price: "$799",
-    icon: Trophy,
-    noteIcon: Rocket,
-    note: "For businesses serious about scaling.",
-    features: [
-      "Everything in Growth",
-      "Social Media (20+ Posts per Month)",
-      "Advanced SEO (Full Strategy)",
-      "Google Ads Management ($800 Ad Spend)",
-      "Content Creation (4 Blog Posts + Videos)",
-      "Conversion Rate Optimization",
-      "Dedicated Account Manager",
-      "Weekly Performance Reports",
-    ],
-  },
-];
-
 const digitalMarketingCtaHighlights = [
   {
     title: "Growth audit",
@@ -673,120 +615,6 @@ function DigitalMarketingToolsSection() {
   );
 }
 
-function DigitalMarketingPricingSection() {
-  return (
-    <section className="relative isolate overflow-hidden px-4 py-16 transition-colors sm:px-6 sm:py-20 lg:px-8">
-      <div className="absolute right-10 top-8 -z-10 hidden grid-cols-8 gap-2 opacity-30 lg:grid">
-        {Array.from({ length: 64 }).map((_, index) => (
-          <span key={index} className="size-1 rounded-full bg-[#005BFF]/28" />
-        ))}
-      </div>
-
-      {/* Header and cards mirror the web development pricing section, so the
-          two service pages read as one system. */}
-      <div className="mx-auto max-w-7xl">
-        <ScrollReveal>
-          <div className="mx-auto mb-12 max-w-3xl text-center">
-            <div className="mb-5 flex items-center justify-center gap-3">
-              <span className="h-[2px] w-8 bg-sky-500" />
-              <span className="text-sm font-semibold tracking-[0.3em] text-sky-500">
-                PRICING
-              </span>
-            </div>
-
-            <h2 className="font-heading text-3xl leading-tight text-foreground sm:text-4xl md:text-5xl">
-              Affordable pricing,
-              <br />
-              <span className="font-heading italic text-sky-500">
-                real results.
-              </span>
-            </h2>
-
-            <p className="mt-6 text-base leading-7 text-muted-foreground sm:leading-8">
-              Simple, transparent plans designed to fit your business and
-              deliver measurable growth.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        <div className="mx-auto grid max-w-sm gap-5 md:max-w-none md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {digitalMarketingPricingPlans.map((plan, index) => {
-            const NoteIcon = plan.noteIcon;
-
-            return (
-              <ScrollReveal key={plan.name} delay={100 + index * 100}>
-                <article
-                  className={`group relative flex h-full flex-col rounded-[1.25rem] border bg-white p-5 shadow-[0_18px_50px_rgba(7,24,216,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-[#12B7FF]/45 hover:shadow-[0_28px_64px_rgba(18,183,255,0.18)] dark:bg-[#0B1830] dark:shadow-black/20 dark:hover:shadow-[#12B7FF]/12 sm:p-6 ${
-                    plan.popular
-                      ? "border-[#12B7FF]/65 ring-1 ring-[#12B7FF]/20"
-                      : "border-[#005BFF]/12 dark:border-[#12B7FF]/14"
-                  }`}
-                >
-                  {plan.popular ? (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-to-r from-[#005BFF] to-[#12B7FF] px-4 py-1.5 text-xs font-semibold tracking-wide text-white shadow-lg shadow-[#12B7FF]/25">
-                      Most Popular
-                    </span>
-                  ) : null}
-
-                  <h3 className="font-serif text-xl text-foreground">
-                    {plan.name}
-                  </h3>
-
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {plan.subtitle}
-                  </p>
-
-                  <div className="mt-5 flex items-end gap-1.5">
-                    <span className="font-serif text-3xl text-foreground sm:text-4xl">
-                      {plan.price}
-                    </span>
-                    <span className="pb-1.5 text-xs text-muted-foreground">
-                      /month
-                    </span>
-                  </div>
-
-                  <ul className="mt-5 space-y-2.5">
-                    {plan.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-start gap-2.5 text-sm leading-6 text-muted-foreground"
-                      >
-                        <Check
-                          size={16}
-                          className="mt-1 shrink-0 text-sky-500"
-                          aria-hidden="true"
-                        />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-auto pt-7">
-                    <Button
-                      asChild
-                      className="h-auto w-full rounded-md border border-[#005BFF]/20 bg-background px-5 py-2.5 text-sm font-semibold text-foreground shadow-none transition-all duration-300 hover:border-[#12B7FF] hover:bg-gradient-to-r hover:from-[#005BFF] hover:to-[#12B7FF] hover:text-white hover:shadow-lg hover:shadow-[#12B7FF]/25 dark:border-[#12B7FF]/25 dark:bg-[#07111F] dark:hover:border-[#12B7FF]"
-                    >
-                      <Link href="/book-appointment">Get Started</Link>
-                    </Button>
-
-                    <p className="mt-3 flex items-center justify-center gap-2 text-center text-xs text-muted-foreground">
-                      <NoteIcon
-                        className="size-3.5 shrink-0 text-sky-500"
-                        aria-hidden="true"
-                      />
-                      {plan.note}
-                    </p>
-                  </div>
-                </article>
-              </ScrollReveal>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // No panel, matching the web development page: the closing pitch sits directly
 // on the page with a hairline rule carrying the supporting points beneath it.
 function DigitalMarketingFinalCTA() {
@@ -888,7 +716,6 @@ export default function DigitalMarketingPage({ service, projects }) {
       <DigitalMarketingServicesSection />
       <DigitalMarketingProcessSection />
       <DigitalMarketingToolsSection />
-      <DigitalMarketingPricingSection />
       <ServicePortfolioSection service={service} projects={projects} />
       <DigitalMarketingFinalCTA />
     </main>

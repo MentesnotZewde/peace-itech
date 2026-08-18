@@ -192,7 +192,7 @@ export default function Footer() {
               </div>
               <span className="flex items-center gap-2">
                 <MapPin className="size-4 text-[#005BFF]" aria-hidden="true" />
-                Canada
+                Canada , Ethiopia
               </span>
             </div>
           </div>
