@@ -49,15 +49,30 @@ const nextConfig = {
       { source: "/:path*", headers: securityHeaders },
       {
         // Admin pages and API responses should never be cached by a proxy.
+        // These are client components, so they can't export `robots` metadata —
+        // the header is what keeps them out of search results.
         source: "/dashboard/:path*",
         headers: [
           { key: "Cache-Control", value: "no-store, must-revalidate" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
+      },
+      {
+        source: "/dashboard",
+        headers: [
+          { key: "Cache-Control", value: "no-store, must-revalidate" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/login",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
       },
       {
         source: "/api/:path*",
         headers: [
           { key: "Cache-Control", value: "no-store, must-revalidate" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
     ];

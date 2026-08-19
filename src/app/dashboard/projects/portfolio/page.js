@@ -46,8 +46,13 @@ function PortfolioCard({
 
   return (
     <Card className="overflow-hidden py-0">
-      <div className="flex items-center justify-between gap-2 p-4 pb-3">
-        <div className="flex items-center gap-2.5 min-w-0">
+      {/*
+        flex-wrap + a basis on the title group is what keeps the status badge
+        clear of the buttons: the badge can't shrink, so on a narrow card the
+        actions wrap to their own line instead of being overlapped by it.
+      */}
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-2 p-4 pb-3">
+        <div className="flex min-w-0 grow basis-48 items-center gap-2.5">
           <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-sidebar-primary/10 text-sm font-semibold text-sidebar-primary">
             {String(index + 1).padStart(2, "0")}
           </span>
@@ -62,7 +67,7 @@ function PortfolioCard({
             {approved ? "Published" : "Pending approval"}
           </span>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           {project.liveUrl && (
             <Button variant="outline" size="icon-sm" asChild>
               <a
@@ -311,7 +316,7 @@ export default function PortfolioPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
           {filtered.map((project, index) => (
             <PortfolioCard
               key={project._id}

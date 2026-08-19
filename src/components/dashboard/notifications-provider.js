@@ -4,36 +4,25 @@ import { createContext, useCallback, useContext, useState } from "react";
 
 const NotificationsContext = createContext(null);
 
-const INITIAL_NOTIFICATIONS = [
-  {
-    id: 1,
-    title: "Welcome to PeaceItech Admin",
-    description: "This is your dashboard notification center.",
-    time: "Just now",
-    read: false,
-  },
-  {
-    id: 2,
-    title: "Project delivery reminder",
-    description: "Acme Corp's project is due soon — check the Projects tab.",
-    time: "2h ago",
-    read: false,
-  },
-  {
-    id: 3,
-    title: "Weekly summary ready",
-    description: "Your team's activity summary for last week is available.",
-    time: "1d ago",
-    read: true,
-  },
-];
+// Ids only need to be unique within one session. Date.now() alone collides
+// when two actions land in the same millisecond, which breaks React keys.
+let nextId = 0;
 
 export function NotificationsProvider({ children }) {
-  const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS);
+  // Starts empty on purpose: the bell only ever shows things that actually
+  // happened in this session, raised by addNotification from real actions.
+  const [notifications, setNotifications] = useState([]);
 
   const addNotification = useCallback((notification) => {
     setNotifications((prev) => [
-      { id: Date.now(), time: "Just now", read: false, ...notification },
+      {
+        ...notification,
+        // Set after the spread so a caller can't supply a stale id or an
+        // already-read flag.
+        id: `${Date.now()}-${(nextId += 1)}`,
+        createdAt: Date.now(),
+        read: false,
+      },
       ...prev,
     ]);
   }, []);

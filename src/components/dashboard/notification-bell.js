@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,10 +9,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useNotifications } from "@/components/dashboard/notifications-provider";
+import { formatRelativeTime } from "@/lib/relative-time";
 
 export function NotificationBell() {
   const { notifications, unreadCount, markAllRead, markRead } =
     useNotifications();
+
+  // The relative labels below are derived from a stored timestamp, so they need
+  // a nudge to stay accurate while the dashboard sits open. Only ticks while
+  // there is something to re-label.
+  const [now, setNow] = useState(() => Date.now());
+
+  useEffect(() => {
+    if (notifications.length === 0) return;
+
+    const id = setInterval(() => setNow(Date.now()), 60_000);
+    return () => clearInterval(id);
+  }, [notifications.length]);
 
   return (
     <DropdownMenu>
@@ -68,7 +82,7 @@ export function NotificationBell() {
                     {n.description}
                   </p>
                   <p className="mt-1 text-[11px] text-muted-foreground">
-                    {n.time}
+                    {formatRelativeTime(n.createdAt, now)}
                   </p>
                 </div>
               </button>

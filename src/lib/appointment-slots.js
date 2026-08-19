@@ -173,3 +173,20 @@ export function formatSlotLabel(time) {
   const hour12 = hours % 12 || 12;
   return `${hour12}:${String(minutes).padStart(2, "0")} ${period}`;
 }
+
+/**
+ * "2026-08-19" → "Wed, 19 Aug 2026", for display only.
+ *
+ * Read in UTC against a midnight timestamp so the weekday can't slip a day for
+ * a viewer west of Greenwich — the stored date is a wall-clock day, not an
+ * instant.
+ */
+export function formatSlotDay(date) {
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-GB", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}

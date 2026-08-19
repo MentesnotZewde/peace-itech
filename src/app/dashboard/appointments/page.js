@@ -39,8 +39,13 @@ import {
 } from "@/components/ui/table";
 import { DeleteAlertDialog } from "@/components/dashboard/users/delete-alert-dialog";
 import { appointmentsApi } from "@/lib/api-client";
+import {
+  appointmentConfirmationDraft,
+  buildMailtoUrl,
+} from "@/lib/appointment-email";
 import { APPOINTMENT_STATUSES } from "@/lib/appointment-status";
 import {
+  formatSlotDay,
   formatSlotLabel,
   todayInBusinessTimezone,
 } from "@/lib/appointment-slots";
@@ -57,15 +62,6 @@ const STATUS_STYLES = {
   Cancelled:
     "bg-muted text-muted-foreground border-border line-through decoration-1",
 };
-
-const formatDay = (date) =>
-  new Date(`${date}T00:00:00Z`).toLocaleDateString("en-GB", {
-    weekday: "short",
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
 
 export default function AppointmentsPage() {
   const [items, setItems] = useState([]);
@@ -126,6 +122,28 @@ export default function AppointmentsPage() {
     };
   }, [items, today]);
 
+  /**
+   * Hands a pre-filled confirmation over to the staff member's own mail client
+   * in a new window. Nothing is sent from here — they review and send it, so
+   * the visitor's reply lands in a real mailbox.
+   */
+  function openConfirmationEmail(item) {
+    const url = buildMailtoUrl(appointmentConfirmationDraft(item));
+    const opened = window.open(url, "_blank", "noopener,noreferrer");
+
+    // Popup blockers can refuse a window opened after an await. The draft is
+    // still one click away rather than silently lost.
+    if (!opened) {
+      toast("Confirmation email ready", {
+        description: `Your browser blocked the new window. Open the draft for ${item.email}.`,
+        action: {
+          label: "Open",
+          onClick: () => window.open(url, "_blank", "noopener,noreferrer"),
+        },
+      });
+    }
+  }
+
   async function changeStatus(item, next) {
     setSavingId(item._id);
     try {
@@ -134,6 +152,10 @@ export default function AppointmentsPage() {
         current.map((row) => (row._id === updated._id ? updated : row)),
       );
       toast.success(`Marked ${next.toLowerCase()}`);
+
+      // Confirming is the point where the visitor is owed a reply, so the
+      // draft opens off the back of the save that succeeded.
+      if (next === "Confirmed") openConfirmationEmail(updated);
     } catch (error) {
       toast.error(error.message || "Could not update the appointment");
     } finally {
@@ -236,7 +258,7 @@ export default function AppointmentsPage() {
                   {items.map((item) => (
                     <TableRow key={item._id}>
                       <TableCell className="whitespace-nowrap align-top">
-                        <p className="font-medium">{formatDay(item.date)}</p>
+                        <p className="font-medium">{formatSlotDay(item.date)}</p>
                         <p className="text-sm text-muted-foreground">
                           {formatSlotLabel(item.time)} · {item.durationMinutes}{" "}
                           min

@@ -29,40 +29,29 @@ const strengths = [
 
 const teamMembers = [
   {
-    name: "Muste",
+    name: "Mustefa Wado",
     role: "CEO & Founder",
     initials: "MO",
     photo: "/images/muste_2.png",
   },
   {
-    name: "Minte",
+    name: "Mentsinot Zewdie",
     role: "Chief Technology Officer",
     initials: "MT",
     photo: "/images/minte_1.png",
   },
   {
-    name: "Melke",
+    name: "Melkamu Abraraw",
     role: "Lead Software Engineer",
     initials: "MK",
-    photo: "/images/melke_3.png",
+    photo: "/images/melke.png",
   },
-  {
-    name: "Operations Team",
-    role: "Operations Manager",
-    initials: "OM",
-    photo: "/images/Operations Manager.png",
-  },
+
   {
     name: "Marketing Team",
     role: "Marketing Manager",
     initials: "SE",
-    photo: "/images/Marketing Manager.png",
-  },
-  {
-    name: "Client Success Team",
-    role: "Client Success Manager",
-    initials: "CS",
-    photo: "/images/Client Success Manager.png",
+    photo: "/images/kunew.png",
   },
 ];
 
