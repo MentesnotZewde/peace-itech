@@ -27,14 +27,14 @@ const phoneNumbers = [
 const socialLinks = [
   {
     label: "Facebook",
-    href: "#",
+    href: "https://www.facebook.com/share/1YbgCpHT7b/?mibextid=wwXIfr",
     icon: (
       <path d="M14.5 8.1h2.2V4.3a28.4 28.4 0 0 0-3.2-.2c-3.2 0-5.4 2-5.4 5.6v3.1H4.5V17h3.6v8.9h4.5V17h3.5l.6-4.2h-4.1v-2.7c0-1.2.3-2 1.9-2Z" />
     ),
   },
   {
     label: "Instagram",
-    href: "#",
+    href: "https://www.instagram.com/peaceitech?igsi=cmI3djd3Y2ZwOWV2",
     icon: (
       <>
         <rect x="5" y="5" width="18" height="18" rx="5" />
@@ -45,7 +45,7 @@ const socialLinks = [
   },
   {
     label: "LinkedIn",
-    href: "#",
+    href: "https://www.linkedin.com/company/peaceitech/",
     icon: (
       <>
         <path d="M6.2 11h4v12h-4zM8.2 5a2.3 2.3 0 1 1 0 4.6 2.3 2.3 0 0 1 0-4.6Z" />
@@ -55,7 +55,7 @@ const socialLinks = [
   },
   {
     label: "TikTok",
-    href: "#",
+    href: "https://www.tiktok.com/@peaceitech",
     icon: (
       <path d="M19 6.2c1.1 1.3 2.5 2.1 4.1 2.2v4.1a8.1 8.1 0 0 1-4-1v6.2a6.7 6.7 0 1 1-6.7-6.7c.4 0 .7 0 1.1.1v4.2a2.5 2.5 0 1 0 1.6 2.4V3.9H19z" />
     ),

@@ -72,7 +72,8 @@ export const metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
+    // The tab icon comes from the app/favicon.ico file convention, so it is
+    // deliberately not listed here — Next emits that link (with sizes) itself.
     apple: "/logo-icon.png",
   },
   category: "technology",
