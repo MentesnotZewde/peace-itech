@@ -24,7 +24,7 @@ const data = {
   teams: [
     {
       name: "PeaceItech Inc",
-      logo: "/logo-icon.png",
+      logo: "/peaceitech_logo.png",
       plan: "Enterprise",
     },
   ],

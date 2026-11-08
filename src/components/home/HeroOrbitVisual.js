@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import {
   Bot,
   Cloud,
@@ -51,10 +51,8 @@ export default function HeroOrbitVisual() {
       <div className="relative z-10 flex size-36 items-center justify-center rounded-full border border-[#12B7FF]/30 bg-background/80 shadow-2xl shadow-[#005BFF]/20 backdrop-blur-xl sm:size-44">
         <div className="absolute inset-3 rounded-full bg-gradient-to-br from-[#EAF8FF]/80 via-[#12B7FF]/20 to-[#005BFF]/20 dark:from-[#07111F] dark:via-[#071B8F]/35 dark:to-[#12B7FF]/20" />
         <div className="absolute inset-7 rounded-full border border-background/70 bg-background/90 shadow-inner dark:bg-[#07111F]/90" />
-        <div className="relative flex size-24 items-center justify-center overflow-hidden rounded-full bg-white shadow-lg shadow-[#005BFF]/10 ring-1 ring-[#12B7FF]/20 sm:size-28">
-          {/* Place your current icon at public/logo-icon.png. It is served here as /logo-icon.png. */}
-          <Image
-            src="/logo-icon.png"
+        <div className="relative flex size-24 items-center justify-center overflow-hidden rounded-full bg-white dark:bg-[#07111F] shadow-lg shadow-[#005BFF]/10 ring-1 ring-[#12B7FF]/20 sm:size-28">
+          <BrandLogo
             alt="Peace iTech Inc logo icon"
             fill
             sizes="112px"

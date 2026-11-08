@@ -159,7 +159,7 @@ export function organizationSchema() {
     url: siteUrl,
     logo: {
       "@type": "ImageObject",
-      url: absoluteUrl("/logo-icon.png"),
+      url: absoluteUrl("/peaceitech_logo.png"),
     },
     description: defaultDescription,
     email: contact.email,
@@ -209,7 +209,7 @@ export function localBusinessSchemas() {
     name: office.name,
     parentOrganization: { "@id": ORG_ID },
     url: absoluteUrl("/contact"),
-    image: absoluteUrl("/logo-icon.png"),
+    image: absoluteUrl("/peaceitech_logo.png"),
     telephone: office.phone,
     email: contact.email,
     address: {

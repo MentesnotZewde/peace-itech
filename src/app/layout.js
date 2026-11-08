@@ -74,7 +74,7 @@ export const metadata = {
   icons: {
     // The tab icon comes from the app/favicon.ico file convention, so it is
     // deliberately not listed here — Next emits that link (with sizes) itself.
-    apple: "/logo-icon.png",
+    apple: "/peaceitech_logo.png",
   },
   category: "technology",
   // Stops iOS Safari from turning phone-number-like strings into links.

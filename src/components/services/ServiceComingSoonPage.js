@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import Link from "next/link";
 import { ArrowRight, Clock3 } from "lucide-react";
 
@@ -14,8 +14,7 @@ export default function ServiceComingSoonPage({ service }) {
 
         <ScrollReveal className="relative z-10 mx-auto w-full max-w-4xl text-center">
           <div className="mx-auto flex size-28 items-center justify-center rounded-[2rem] border border-[#005BFF]/12 bg-white/82 shadow-[0_24px_70px_rgba(0,91,255,0.1)] backdrop-blur-xl dark:border-[#12B7FF]/22 dark:bg-[#07111F]/78 dark:shadow-[#12B7FF]/10">
-            <Image
-              src="/logo-icon.png"
+            <BrandLogo
               alt="Peace iTech logo"
               width={72}
               height={72}

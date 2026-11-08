@@ -16,39 +16,39 @@ const testimonials = [
   },
   {
     brand: "H2H Express",
-    name: "Minte",
+    name: "Happy",
     role: "Operations Lead",
     company: "H2H Express Delivery",
     quote:
       "The team helped us simplify daily operations and reduce manual follow-up. The result is easier for our staff to use and stronger for the customers we serve.",
-    avatar: "/images/minte_1.png",
+    avatar: "/images/teams/happy.jpg",
   },
   {
     brand: "Greenfox",
-    name: "Melke",
+    name: "Samuel Tamireweld",
     role: "Technical Lead",
     company: "Greenfox",
     quote:
       "They brought structure, technical clarity, and a modern delivery process. Peace iTech made the project feel focused from planning through final review.",
-    avatar: "/images/melke_3.png",
+    avatar: "/images/greenfox_testimonial.png",
   },
   {
     brand: "Buzu Clean",
-    name: "Bethel",
+    name: "Bizualew",
     role: "Business Manager",
     company: "Buzu Cleaning Service",
     quote:
       "Our digital presence now feels trustworthy and professional. Peace iTech understood the business quickly and helped us present our services with confidence.",
-    avatar: "/images/Operations Manager.png",
+    avatar: "/images/buzu_testimonial.png",
   },
   {
     brand: "Madina",
-    name: "Mariam",
+    name: "Aman Niguse",
     role: "Founder",
     company: "Madina Elemo Agency",
     quote:
       "The final website looks polished and communicates our services clearly. The process was smooth, responsive, and easy to follow.",
-    avatar: "/images/Client Success Manager.png",
+    avatar: "/images/madina_testimonial.png",
   },
 ];
 

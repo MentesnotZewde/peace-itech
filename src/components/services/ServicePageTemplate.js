@@ -101,9 +101,9 @@ const webOverviewCards = [
   },
   {
     number: "04",
-    title: "Ecommerce Storefronts",
+    title: "Shopify & Ecommerce Stores",
     description:
-      "Clean online stores designed for products, payments, and customer trust.",
+      "Shopify stores set up, customized, and launched for products, payments, and customer trust.",
     icon: ShoppingCart,
   },
 ];

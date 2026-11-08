@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
@@ -57,8 +58,7 @@ function LoginForm() {
           </Link>
 
           <div className="flex items-center gap-2 mb-10">
-            <Image
-              src="/logo-icon.png"
+            <BrandLogo
               alt="Peace iTech Inc logo"
               width={32}
               height={32}

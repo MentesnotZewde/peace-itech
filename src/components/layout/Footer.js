@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 
@@ -90,8 +90,7 @@ export default function Footer() {
               aria-label="Peace iTech Inc home"
             >
               <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-muted/50">
-                <Image
-                  src="/logo-icon.png"
+                <BrandLogo
                   alt="Peace iTech Inc logo"
                   width={56}
                   height={56}
