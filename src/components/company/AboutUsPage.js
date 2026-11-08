@@ -30,21 +30,45 @@ const strengths = [
 const teamMembers = [
   {
     name: "Mustefa Wado",
-    role: "CEO & Founder",
+    role: "Director",
     initials: "MO",
-    photo: "/images/muste_2.png",
+    photo: "/images/teams/Muste_Profile.jpeg",
+    bio: [
+      "Director at Peace iTech, with 10+ years in IT, including over five years as an IT Engineer at Amazon. I specialize in cybersecurity, IT support, and business automation.",
+      "I studied Computer Science at Jimma University, IT Infrastructure at Humber College, and tax specialization at Seneca College.",
+      "Outside work, I enjoy working out and discovering new restaurants.",
+    ],
   },
   {
-    name: "Mentsinot Zewdie",
-    role: "Chief Technology Officer",
+    name: "Noah",
+    role: "Manager",
+    initials: "NO",
+    photo: "/images/teams/noah.jpeg",
+    bio: [
+      "Manager at Peace iTech, with 12+ years in Finance, including over seven years as a Risk and Fraud Analyst. I specialize in investigation and internal controls.",
+      "I studied Risk Management and Communication at Djibouti University, and Business Management.",
+      "Outside work, I enjoy working out and reading.",
+    ],
+  },
+  {
+    name: "Mentesnot Zewde Mitku",
+    role: "CTO | Web Developer | Automation Enthusiast",
     initials: "MT",
-    photo: "/images/minte_1.png",
+    photo: "/images/teams/minte photo.png",
+    bio: [
+      "Mentesnot is an Information Technology graduate with over 3 years of professional experience in the IT industry. He specializes in web development, workflow automation, and building innovative technology driven solutions that simplify processes and improve efficiency.",
+      "Outside of work, he enjoys watching football, exploring new interests, and spending quality time with friends.",
+    ],
   },
   {
     name: "Melkamu Abraraw",
-    role: "Lead Software Engineer",
+    role: "Fullstack Developer",
     initials: "MK",
-    photo: "/images/melke.png",
+    photo: "/images/teams/avator_melke_white.png",
+    bio: [
+      "Software Engineering graduate with 2+ years of experience in software development.",
+      "Outside of work, enjoys playing football and is a coffee enthusiast.",
+    ],
   },
 
   {
@@ -52,6 +76,17 @@ const teamMembers = [
     role: "Marketing Manager",
     initials: "SE",
     photo: "/images/kunew.png",
+  },
+  {
+    name: "Hanna Tesfamariam",
+    role: "Graphic Designer",
+    initials: "HT",
+    photo: "/images/teams/avator_hana_white.png",
+    bio: [
+      "I'm Hanna Tesfamariam, a second year graphic design student based in Toronto. I focus on brand identity, visual systems, and storytelling through design.",
+      "I enjoy turning ideas into clear, meaningful visuals, and I'm excited to learn from the team and share my skills.",
+      "Outside of design, I love doodling and making art.",
+    ],
   },
 ];
 
@@ -278,28 +313,42 @@ export default function AboutUsPage() {
             </p>
           </ScrollReveal>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-sm gap-x-10 gap-y-5 sm:max-w-2xl sm:grid-cols-2 lg:max-w-5xl lg:grid-cols-3">
             {teamMembers.map((member, index) => (
               <ScrollReveal key={member.name} delay={index * 0.04}>
-                <article className="group relative min-h-[26rem] overflow-hidden rounded-[1rem] border border-[#12B7FF]/42 bg-[#030817] shadow-[0_18px_48px_rgba(0,91,255,0.18)] ring-1 ring-[#005BFF]/18 transition duration-300 hover:-translate-y-1 hover:border-[#12B7FF]/80 hover:shadow-[0_26px_62px_rgba(0,91,255,0.26)] sm:min-h-[28rem] lg:min-h-[27rem]">
+                <article tabIndex={member.bio ? 0 : undefined} className="group relative min-h-[19rem] overflow-hidden rounded-[1rem] border border-[#12B7FF]/42 bg-[#030817] shadow-[0_18px_48px_rgba(0,91,255,0.18)] ring-1 ring-[#005BFF]/18 transition duration-300 hover:-translate-y-1 hover:border-[#12B7FF]/80 hover:shadow-[0_26px_62px_rgba(0,91,255,0.26)]">
                   <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(18,183,255,0.34),transparent_34%),linear-gradient(180deg,rgba(0,91,255,0.58),rgba(3,8,23,0.96)_72%)]" />
                   <div className="absolute inset-0 opacity-[0.16] [background-image:linear-gradient(rgba(255,255,255,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.18)_1px,transparent_1px)] [background-size:22px_22px]" />
                   <Image
                     src={member.photo}
                     alt={`${member.name}, ${member.role}`}
                     fill
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
-                    className="object-cover object-[center_18%] opacity-95 transition duration-500 group-hover:scale-105"
+                    sizes="(min-width: 1024px) 315px, (min-width: 640px) 320px, 384px"
+                    className="object-cover object-[center_18%] transition duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,23,0)_46%,rgba(0,91,255,0.22)_68%,rgba(3,8,23,0.98)_100%)]" />
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <div className="absolute bottom-0 left-0 right-0 p-4 [text-shadow:0_1px_2px_rgba(0,0,0,0.95),0_0_10px_rgba(0,0,0,0.85)]">
                     <h3 className="text-sm font-semibold leading-tight text-white">
                       {member.name}
                     </h3>
-                    <p className="mt-1 text-[0.65rem] font-medium leading-4 text-white/68">
+                    <p className="mt-1 text-[0.65rem] font-medium leading-4 text-white">
                       {member.role}
                     </p>
                   </div>
+                  {member.bio ? (
+                    <div className="absolute inset-0 flex flex-col justify-center overflow-y-auto bg-[#030817]/70 p-5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus:opacity-100">
+                      <p className="text-sm font-semibold leading-tight text-white">
+                        {member.name}
+                      </p>
+                      <p className="mt-1 text-xs font-medium text-[#12B7FF]">
+                        {member.role}
+                      </p>
+                      <div className="mt-3 space-y-2 text-xs leading-5 text-white">
+                        {member.bio.map((paragraph) => (
+                          <p key={paragraph}>{paragraph}</p>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
                 </article>
               </ScrollReveal>
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import Link from "next/link";
 
 import {
@@ -23,8 +23,7 @@ export function TeamSwitcher({ teams }) {
         <SidebarMenuButton size="lg" asChild>
           <Link href="/dashboard">
             <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-sidebar-primary-foreground">
-              <Image
-                src="/logo-icon.png"
+              <BrandLogo
                 alt={activeTeam.name}
                 width={50}
                 height={50}

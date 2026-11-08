@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Menu, Moon, Sun, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -69,8 +69,7 @@ export default function Navbar() {
             aria-label="Peace iTech Inc home"
           >
             <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden">
-              <Image
-                src="/logo-icon.png"
+              <BrandLogo
                 alt="Peace iTech Inc logo"
                 width={56}
                 height={56}

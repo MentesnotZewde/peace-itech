@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 import { useEffect, useState } from "react";
 
 import InteractiveHeroBackground from "@/components/home/InteractiveHeroBackground";
@@ -56,8 +56,7 @@ export default function PageLoader() {
 
         <div className="page-loader__logo-shell relative grid size-28 place-items-center sm:size-32">
           <span className="page-loader__logo-glow absolute inset-0 rounded-full" />
-          <Image
-            src="/logo-icon.png"
+          <BrandLogo
             alt=""
             width={140}
             height={140}
