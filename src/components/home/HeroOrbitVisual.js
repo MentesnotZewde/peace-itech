@@ -52,11 +52,13 @@ export default function HeroOrbitVisual() {
         <div className="absolute inset-3 rounded-full bg-gradient-to-br from-[#EAF8FF]/80 via-[#12B7FF]/20 to-[#005BFF]/20 dark:from-[#07111F] dark:via-[#071B8F]/35 dark:to-[#12B7FF]/20" />
         <div className="absolute inset-7 rounded-full border border-background/70 bg-background/90 shadow-inner dark:bg-[#07111F]/90" />
         <div className="relative flex size-24 items-center justify-center overflow-hidden rounded-full bg-white dark:bg-[#07111F] shadow-lg shadow-[#005BFF]/10 ring-1 ring-[#12B7FF]/20 sm:size-28">
+          {/* The mark's mass sits up and left of its image box, so it is nudged
+              to look centred in the circle and scaled to keep its corners inside. */}
           <BrandLogo
             alt="Peace iTech Inc logo icon"
             fill
             sizes="112px"
-            className="scale-110 object-cover"
+            className="translate-x-[4.5%] translate-y-[3%] scale-90 object-cover"
             priority
           />
         </div>

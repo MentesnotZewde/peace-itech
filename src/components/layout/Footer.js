@@ -89,7 +89,7 @@ export default function Footer() {
               className="group flex items-center gap-3 font-semibold"
               aria-label="Peace iTech Inc home"
             >
-              <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-muted/50">
+              <span className="flex size-12 shrink-0 items-center justify-center">
                 <BrandLogo
                   alt="Peace iTech Inc logo"
                   width={56}
